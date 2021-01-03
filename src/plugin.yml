@@ -1,0 +1,5 @@
+name: EzTools
+main: org.eztools.EzTools
+authors: [SpigotMC-DeeChael, McBBS-DeeChael]
+version: 1.1.0
+api-version: 1.13
