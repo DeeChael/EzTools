@@ -39,7 +39,7 @@ public class ItemCommand extends Command {
             list.add("unbreakable");
         } else if (args.length >= 2) {
             if (args[0].equalsIgnoreCase("name")) {
-                list.add("<物品名称>");
+                list.add(EzTools.getLanguageCommand().getString("eztools.args_2.item.name.<itemName>"));
             } else if (args[0].equalsIgnoreCase("enchant")) {
                 if (args.length == 2) {
                     for (Enchantment enchantment : Enchantment.values()) {
@@ -47,7 +47,7 @@ public class ItemCommand extends Command {
                         list.add(StringUtils.lowerCase(name));
                     }
                 } else if (args.length == 3) {
-                    list.add("<附魔等级>");
+                    list.add(EzTools.getLanguageCommand().getString("eztools.args_3.item.enchant.<enchantLevel>"));
                 } else {
                     list.add(" ");
                 }
@@ -68,7 +68,7 @@ public class ItemCommand extends Command {
                     list.add("remove");
                 } else if (args.length == 5) {
                     if (!args[3].equalsIgnoreCase("remove")) {
-                        list.add("<属性数值>");
+                        list.add(EzTools.getLanguageCommand().getString("eztools.args_5.item.attribute.<attributeAmount>"));
                     } else {
                         list.add(" ");
                     }
@@ -96,36 +96,36 @@ public class ItemCommand extends Command {
                         ItemMeta itemMetaOfItemInPlayerMainHand = itemInPlayerMainHand.getItemMeta();
                         itemMetaOfItemInPlayerMainHand.setUnbreakable(!itemMetaOfItemInPlayerMainHand.isUnbreakable());
                         itemInPlayerMainHand.setItemMeta(itemMetaOfItemInPlayerMainHand);
-                        s.sendMessage("§a已切换物品是否不可损坏");
+                        s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("item.unbreakable.switch")));
                     } else if (args[0].equalsIgnoreCase("lore")) {
                         ItemStack itemInPlayerMainHand = ((Player) s).getInventory().getItemInMainHand();
                         ItemMeta itemMetaOfItemInPlayerMainHand = itemInPlayerMainHand.getItemMeta();
                         itemMetaOfItemInPlayerMainHand.setLore(new ArrayList<>());
                         itemInPlayerMainHand.setItemMeta(itemMetaOfItemInPlayerMainHand);
-                        s.sendMessage("§a已清除物品介绍");
+                        s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("item.lore.clear")));
                     } else {
-                        s.sendMessage("§c错误的指令用法");
+                        s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.wrong_usage")));
                     }
                 } else if (args.length >= 2) {
                     if (args[0].equalsIgnoreCase("name")) {
                         String itemName = "";
                         for (int i = 1; i < args.length; i++) {
                             String string = args[i];
-                            itemName += (string + " ").replace("&", "§");
+                            itemName += EzTools.replaceColorCode((string + " "));
                         }
                         itemName = itemName.substring(0, itemName.length() - 1);
                         ItemStack itemInPlayerMainHand = ((Player) s).getInventory().getItemInMainHand();
                         ItemMeta itemMetaOfItemInPlayerMainHand = itemInPlayerMainHand.getItemMeta();
                         itemMetaOfItemInPlayerMainHand.setDisplayName(itemName);
                         itemInPlayerMainHand.setItemMeta(itemMetaOfItemInPlayerMainHand);
-                        s.sendMessage("§a已将物品名称设置为 " + itemName);
+                        s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("item.name.success")).replace("%item_name%", itemName));
                     } else if (args[0].equalsIgnoreCase("lore")) {
                         ItemStack itemInPlayerMainHand = ((Player) s).getInventory().getItemInMainHand();
                         ItemMeta itemMetaOfItemInPlayerMainHand = itemInPlayerMainHand.getItemMeta();
                         String loreJson = "";
                         for (int i = 1; i < args.length; i++) {
                             String string = args[i];
-                            loreJson += (string + " ").replace("&", "§");
+                            loreJson += EzTools.replaceColorCode((string + " "));
                         }
                         loreJson = loreJson.substring(0, loreJson.length() - 1);
                         List<String> lore = new ArrayList<>();
@@ -134,7 +134,7 @@ public class ItemCommand extends Command {
                         }
                         itemMetaOfItemInPlayerMainHand.setLore(lore);
                         itemInPlayerMainHand.setItemMeta(itemMetaOfItemInPlayerMainHand);
-                        s.sendMessage("§a已添加物品介绍");
+                        s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("item.lore.success")));
                     } else if (args[0].equalsIgnoreCase("enchant")) {
                         if (args.length == 3) {
                             Enchantment enchantment = Enchantment.valueOf(StringUtils.upperCase(args[1]));
@@ -144,25 +144,25 @@ public class ItemCommand extends Command {
                                 try {
                                     level = Integer.valueOf(args[2]);
                                 } catch (NumberFormatException e) {
-                                    s.sendMessage("§c输入的附魔等级不是一个正确的数字");
+                                    s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.integer")));
                                     return true;
                                 }
                                 if (level != 0) {
                                     ItemMeta itemMetaOfItemInPlayerMainHand = itemInPlayerMainHand.getItemMeta();
                                     itemMetaOfItemInPlayerMainHand.addEnchant(enchantment.getEnchantment(), level, true);
                                     itemInPlayerMainHand.setItemMeta(itemMetaOfItemInPlayerMainHand);
-                                    s.sendMessage("§a已附魔 §e" + args[1] + " §a等级为 §e" + level);
+                                    s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("item.enchant.success")).replace("%enchant_name%", args[1]).replace("%level%", level + ""));
                                 } else {
                                     ItemMeta itemMetaOfItemInPlayerMainHand = itemInPlayerMainHand.getItemMeta();
                                     itemMetaOfItemInPlayerMainHand.removeEnchant(enchantment.getEnchantment());
                                     itemInPlayerMainHand.setItemMeta(itemMetaOfItemInPlayerMainHand);
-                                    s.sendMessage("§a已删除附魔 §e" + args[1]);
+                                    s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("item.enchant.remove")).replace("%enchant_name%", args[1]));
                                 }
                             } else {
-                                s.sendMessage("§c错误的附魔名称");
+                                s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.wrong_usage")));
                             }
                         } else {
-                            s.sendMessage("§c主手持物品 输入/item enchant <附魔名称> <附魔等级> 来添加附魔");
+                            s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.wrong_usage")));
                         }
                     } else if (args[0].equalsIgnoreCase("attribute")) {
                         if (args.length == 4) {
@@ -175,32 +175,35 @@ public class ItemCommand extends Command {
                                         ItemMeta itemMetaOfItemInPlayerMainHand = itemInPlayerMainHand.getItemMeta();
                                         itemMetaOfItemInPlayerMainHand.removeAttributeModifier(attribute);
                                         itemInPlayerMainHand.setItemMeta(itemMetaOfItemInPlayerMainHand);
-                                        s.sendMessage("§a已删除属性 §e" + args[1] + "§a 在栏位 §e" + args[2] + " §a时的属性");
+                                        s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("item.attribute.remove")).replace("%attribute%", args[1]).replace("%slot%", args[2]));
                                     } else {
-                                        s.sendMessage("§c错误的指令用法");
+                                        s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.wrong_usage")));
                                     }
                                 } else {
-                                    s.sendMessage("§c错误的栏位");
+                                    s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.wrong_usage")));
                                 }
                             } else {
-                                s.sendMessage("§c错误的属性名称");
+                                s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.wrong_usage")));
                             }
                         } else if (args.length == 5) {
                             Attribute attribute = Attribute.valueOf(StringUtils.upperCase(args[1]));
                             if (attribute != null) {
                                 EquipmentSlot equipmentSlot = EquipmentSlot.valueOf(StringUtils.upperCase(args[2]));
                                 if (equipmentSlot != null) {
-                                    int number = 1;
+                                    double number = 1;
                                     try {
-                                        number = Integer.valueOf(args[4]);
+                                        number = Double.valueOf(args[4]);
                                     } catch (NumberFormatException e) {
-                                        s.sendMessage("§c输入的属性数值不是一个正确的数字");
+                                        s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.integer")));
                                         return true;
                                     }
                                     if (args[3].equalsIgnoreCase("add")) {
                                         double num = 0;
+                                        double addedInt = 0.0;
+                                        double finalInt = 0.0;
                                         if (attribute.equals(Attribute.GENERIC_KNOCKBACK_RESISTANCE)) {
                                             double doub = number / 10;
+                                            addedInt = doub;
                                             ItemStack itemInPlayerMainHand = ((Player) s).getInventory().getItemInMainHand();
                                             ItemMeta itemMetaOfItemInPlayerMainHand = itemInPlayerMainHand.getItemMeta();
                                             for (AttributeModifier attributeModifier : itemMetaOfItemInPlayerMainHand.getAttributeModifiers(attribute)) {
@@ -210,7 +213,9 @@ public class ItemCommand extends Command {
                                             AttributeModifier attributeModifier = new AttributeModifier(UUID.randomUUID(), "eztools", (doub + num), AttributeModifier.Operation.ADD_NUMBER, equipmentSlot);
                                             itemMetaOfItemInPlayerMainHand.addAttributeModifier(attribute, attributeModifier);
                                             itemInPlayerMainHand.setItemMeta(itemMetaOfItemInPlayerMainHand);
+                                            finalInt = doub + num;
                                         } else {
+                                            addedInt = number;
                                             ItemStack itemInPlayerMainHand = ((Player) s).getInventory().getItemInMainHand();
                                             ItemMeta itemMetaOfItemInPlayerMainHand = itemInPlayerMainHand.getItemMeta();
                                             for (AttributeModifier attributeModifier : itemMetaOfItemInPlayerMainHand.getAttributeModifiers(attribute)) {
@@ -220,11 +225,14 @@ public class ItemCommand extends Command {
                                             AttributeModifier attributeModifier = new AttributeModifier(UUID.randomUUID(), "eztools", (number + num), AttributeModifier.Operation.ADD_NUMBER, equipmentSlot);
                                             itemMetaOfItemInPlayerMainHand.addAttributeModifier(attribute, attributeModifier);
                                             itemInPlayerMainHand.setItemMeta(itemMetaOfItemInPlayerMainHand);
+                                            finalInt = number + num;
                                         }
-                                        s.sendMessage("§a使属性 §e" + args[1] + "§a 在栏位 §e" + args[2] + " §a时属性的为 §e" + (num + number) + "§a(增加了 " + number + ")");
+                                        s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("item.attribute.add")).replace("%attribute%", args[1]).replace("%slot%", args[2]).replace("%final%", finalInt + "").replace("%added%", addedInt + ""));
                                     } else if (args[3].equalsIgnoreCase("set")) {
+                                        double finalInt = 0.0;
                                         if (attribute.equals(Attribute.GENERIC_KNOCKBACK_RESISTANCE)) {
                                             double doub = number / 10;
+                                            finalInt = doub;
                                             AttributeModifier attributeModifier = new AttributeModifier(UUID.randomUUID(), "eztools", doub, AttributeModifier.Operation.ADD_NUMBER, equipmentSlot);
                                             ItemStack itemInPlayerMainHand = ((Player) s).getInventory().getItemInMainHand();
                                             ItemMeta itemMetaOfItemInPlayerMainHand = itemInPlayerMainHand.getItemMeta();
@@ -232,6 +240,7 @@ public class ItemCommand extends Command {
                                             itemMetaOfItemInPlayerMainHand.addAttributeModifier(attribute, attributeModifier);
                                             itemInPlayerMainHand.setItemMeta(itemMetaOfItemInPlayerMainHand);
                                         } else {
+                                            finalInt = number;
                                             AttributeModifier attributeModifier = new AttributeModifier(UUID.randomUUID(), "eztools", number, AttributeModifier.Operation.ADD_NUMBER, equipmentSlot);
                                             ItemStack itemInPlayerMainHand = ((Player) s).getInventory().getItemInMainHand();
                                             ItemMeta itemMetaOfItemInPlayerMainHand = itemInPlayerMainHand.getItemMeta();
@@ -239,28 +248,28 @@ public class ItemCommand extends Command {
                                             itemMetaOfItemInPlayerMainHand.addAttributeModifier(attribute, attributeModifier);
                                             itemInPlayerMainHand.setItemMeta(itemMetaOfItemInPlayerMainHand);
                                         }
-                                        s.sendMessage("§a已设置属性 §e" + args[1] + "§a 在栏位 §e" + args[2] + " §a时属性增加 §e" + number);
+                                        s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("item.attribute.add")).replace("%attribute%", args[1]).replace("%slot%", args[2]).replace("%final%", finalInt + ""));
                                     } else {
-                                        s.sendMessage("§c错误的指令用法");
+                                        s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.wrong_usage")));
                                     }
                                 } else {
-                                    s.sendMessage("§c错误的栏位");
+                                    s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.wrong_usage")));
                                 }
                             } else {
-                                s.sendMessage("§c错误的属性名称");
+                                s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.wrong_usage")));
                             }
                         } else {
-                            s.sendMessage("§c主手持物品 输入/item attribute <属性名称> <栏位> <操作> <属性数值> 来更改物品名称");
+                            s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.wrong_usage")));
                         }
                     }
                 } else {
-                    s.sendMessage("§c错误的指令用法");
+                    s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.wrong_usage")));
                 }
             } else {
-                s.sendMessage("§c请手持物品使用此指令");
+                s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.hold_item")));
             }
         } else {
-            s.sendMessage("§c你必须是个玩家!");
+            s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.must_be_a_player")));
         }
         return true;
     }

@@ -32,7 +32,6 @@ public class EntityCommand extends Command {
         if (args.length == 1) {
             list.add("select");
             list.add("item");
-            list.add("maxair");
             list.add("chance");
             list.add("attribute");
             list.add("name");
@@ -44,8 +43,6 @@ public class EntityCommand extends Command {
                     for (EquipmentSlot equipmentSlot : EquipmentSlot.values()) {
                         list.add(StringUtils.lowerCase(equipmentSlot.name()));
                     }
-                } else if (args[0].equalsIgnoreCase("maxair")) {
-                    list.add("<最大氧气值>");
                 } else if (args[0].equalsIgnoreCase("chance")) {
                     for (EquipmentSlot equipmentSlot : EquipmentSlot.values()) {
                         list.add(StringUtils.lowerCase(equipmentSlot.name()));
@@ -55,7 +52,7 @@ public class EntityCommand extends Command {
                         list.add(StringUtils.lowerCase(attribute.name()));
                     }
                 } else if (args[0].equalsIgnoreCase("name")) {
-                    list.add("<实体名称>");
+                    list.add(EzTools.getLanguageCommand().getString("eztools.args_2.entity.name.<entityName>"));
                 } else {
                     list.add(" ");
                 }
@@ -66,18 +63,18 @@ public class EntityCommand extends Command {
                     list.add("50");
                     list.add("75");
                     list.add("100");
-                    list.add("<掉落几率 百分比>");
+                    list.add(EzTools.getLanguageCommand().getString("eztools.args_3.entity.chance.<dropChance>"));
                 } else if (args[0].equalsIgnoreCase("attribute")) {
-                    list.add("<属性数值>");
+                    list.add(EzTools.getLanguageCommand().getString("eztools.args_3.entity.attribute.<attributeAmount>"));
                 } else if (args[0].equalsIgnoreCase("name")) {
-                    list.add("<实体名称>");
+                    list.add(EzTools.getLanguageCommand().getString("eztools.args_2.entity.name.<entityName>"));
                 } else {
                     list.add(" ");
                 }
             }
         } else {
             if (args[0].equalsIgnoreCase("name")) {
-                list.add("<实体名称>");
+                list.add(EzTools.getLanguageCommand().getString("eztools.args_2.entity.name.<entityName>"));
             }else {
                 list.add(" ");
             }
@@ -94,26 +91,26 @@ public class EntityCommand extends Command {
                     if (entity != null) {
                         if (EzTools.getSelectedEntities().containsKey((Player) s)) {
                             EzTools.getSelectedEntities().remove((Player) s);
-                            s.sendMessage("§a已取消选择上一个已选择的实体");
+                            s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("entity.select.cancel_last")));
                         }
                         EzTools.getSelectedEntities().put((Player) s, entity);
-                        s.sendMessage("§a已选择实体！");
+                        s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("entity.select.success")));
                     } else {
-                        s.sendMessage("§c请看着一个实体使用此指令");
+                        s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.look_at_an_entity")));
                     }
                 } else if(args[0].equalsIgnoreCase("loot")) {
-                    if (EzTools.getSelectedEntities().containsKey((Player) s)) {
-                        Entity entity = EzTools.getSelectedEntities().get((Player) s);
+                    if (EzTools.getSelectedEntities().containsKey(s)) {
+                        Entity entity = EzTools.getSelectedEntities().get(s);
                         if (entity instanceof Mob) {
                             Mob mob = (Mob) entity;
                         } else {
-                            s.sendMessage("§c你不能对你选中的实体进行操作");
+                            s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.cannot_edit_select_entity")));
                         }
                     } else {
-                        s.sendMessage("§c请先选择实体");
+                        s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.select_an_entity")));
                     }
                 } else {
-                    s.sendMessage("§c未知的指令用法");
+                    s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.wrong_usage")));
                 }
             } else if (args.length >= 2) {
                 if (args.length == 2) {
@@ -139,7 +136,7 @@ public class EntityCommand extends Command {
                                         } else if (slot.equals(EquipmentSlot.FEET)) {
                                             mob.getEquipment().setBoots(itemStack);
                                         }
-                                        s.sendMessage("§a已将生物 §e" + mob.getName() + " §a的 §e" + args[1] + " §a栏位设置为 §r" + itemStack.getItemMeta().getDisplayName());
+                                        s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("entity.item.success")).replace("%entity_name%", mob.getName()).replace("%slot%", args[1]).replace("%item_name%", itemStack.getItemMeta().getDisplayName()));
                                     } else {
                                         ItemStack air = new ItemStack(Material.AIR);
                                         if (slot.equals(EquipmentSlot.HAND)) {
@@ -155,46 +152,27 @@ public class EntityCommand extends Command {
                                         } else if (slot.equals(EquipmentSlot.FEET)) {
                                             mob.getEquipment().setBoots(air);
                                         }
-                                        s.sendMessage("§a已将生物 §e" + mob.getName() + " §a的 §e" + args[1] + " §a栏位设置为 §rAIR");
+                                        s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("entity.item.success")).replace("%entity_name%", mob.getName()).replace("%slot%", args[1]).replace("%item_name%", "§eAIR"));
                                     }
                                 } else {
-                                    s.sendMessage("§c你不能对你选中的实体进行操作");
+                                    s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.cannot_edit_select_entity")));
                                 }
                             } else {
-                                s.sendMessage("§c错误的栏位");
+                                s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.wrong_usage")));
                             }
                         } else {
-                            s.sendMessage("§c请先选择实体");
+                            s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.select_an_entity")));
                         }
                     } else if (args[0].equalsIgnoreCase("select")) {
                         if (args[1].equalsIgnoreCase("cancel")) {
                             if (EzTools.getSelectedEntities().containsKey((Player) s)) {
                                 EzTools.getSelectedEntities().remove((Player) s);
-                                s.sendMessage("§a已取消选择实体");
+                                s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("entity.select.cancel")));
                             } else {
-                                s.sendMessage("§c你没有选择实体");
+                                s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.select_an_entity")));
                             }
                         } else {
-                            s.sendMessage("§c未知的指令用法");
-                        }
-                    } else if (args[0].equalsIgnoreCase("maxair")) {
-                        if (EzTools.getSelectedEntities().containsKey((Player) s)) {
-                            Entity entity = EzTools.getSelectedEntities().get((Player) s);
-                            if (entity instanceof Mob) {
-                                Mob mob = (Mob) entity;
-                                int number = 1;
-                                try {
-                                    number = Integer.valueOf(args[1]);
-                                } catch (NumberFormatException e) {
-                                    s.sendMessage("§c输入的最大空气值不是一个正确的数字");
-                                    return true;
-                                }
-                                mob.setMaximumAir(number);
-                            } else {
-                                s.sendMessage("§c你不能对你选中的实体进行操作");
-                            }
-                        } else {
-                            s.sendMessage("§c请先选择实体");
+                            s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.wrong_usage")));
                         }
                     } else if (args[0].equalsIgnoreCase("name")) {
 
@@ -205,20 +183,20 @@ public class EntityCommand extends Command {
                                 String entityName = "";
                                 for (int i = 1 ; i < args.length ; i++) {
                                     String string = args[i];
-                                    entityName += (string + " ").replace("&", "§");
+                                    entityName += EzTools.replaceColorCode((string + " "));
                                 }
                                 entityName = entityName.substring(0, entityName.length() - 1);
                                 mob.setCustomNameVisible(true);
                                 mob.setCustomName(entityName);
-                                s.sendMessage("§a已将实体的名称设置为 " + entityName);
+                                s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.wrong_usage")).replace("%entity_name%", entityName));
                             } else {
-                                s.sendMessage("§c你不能对你选中的实体进行操作");
+                                s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.cannot_edit_select_entity")));
                             }
                         } else {
-                            s.sendMessage("§c请先选择实体");
+                            s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.select_an_entity")));
                         }
                     } else {
-                        s.sendMessage("§c未知的指令用法");
+                        s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.wrong_usage")));
                     }
                 } else if (args.length == 3) {
                     if (args[0].equalsIgnoreCase("chance")) {
@@ -230,7 +208,7 @@ public class EntityCommand extends Command {
                                 try {
                                     number = Integer.valueOf(args[2]);
                                 } catch (NumberFormatException e) {
-                                    s.sendMessage("§c输入的掉落几率不是一个正确的百分比");
+                                    s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.integer")));
                                     return true;
                                 }
                                 if (number >= 100) {
@@ -254,18 +232,16 @@ public class EntityCommand extends Command {
                                         mob.getEquipment().setLeggingsDropChance(chance);
                                     } else if (slot.equals(EquipmentSlot.FEET)) {
                                         mob.getEquipment().setBootsDropChance(chance);
-
                                     }
-                                    s.sendMessage("§a已将生物 §e" + mob.getName() + " §a的 §e" + args[1] + " §a栏位的物品掉落几率设置为 §e" + number + "%");
+                                    s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("entity.chance.success")).replace("%entity_name%", mob.getName()).replace("%slot%", args[1]).replace("%chance%", number + ""));
                                 } else {
-                                    s.sendMessage("§c你不能对你选中的实体进行操作");
+                                    s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.cannot_edit_select_entity")));
                                 }
                             } else {
-                                s.sendMessage("§c错误的栏位");
+                                s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.wrong_usage")));
                             }
-
                         } else {
-                            s.sendMessage("§c请先选择实体");
+                            s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.select_an_entity")));
                         }
                     } else if (args[0].equalsIgnoreCase("attribute")) {
                         if (EzTools.getSelectedEntities().containsKey((Player) s)) {
@@ -278,19 +254,19 @@ public class EntityCommand extends Command {
                                     try {
                                         number = Integer.valueOf(args[2]);
                                     } catch (NumberFormatException e) {
-                                        s.sendMessage("§c输入的属性数值不是一个正确的数字");
+                                        s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.integer")));
                                         return true;
                                     }
                                     mob.getAttribute(attribute).setBaseValue(number);
-                                    s.sendMessage("§a已将生物的 §e" +  args[1] + " §a属性设置为 §e" + args[2]);
+                                    s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("entity.attribute.success")).replace("%attribute%", args[1]).replace("%amount%", args[2]));
                                 } else {
-                                    s.sendMessage("§c请输入正确的属性名称");
+                                    s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.wrong_usage")));
                                 }
                             } else {
-                                s.sendMessage("§c你不能对你选中的实体进行操作");
+                                s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.cannot_edit_select_entity")));
                             }
                         } else {
-                            s.sendMessage("§c请先选择实体");
+                            s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.select_an_entity")));
                         }
                     } else if (args[0].equalsIgnoreCase("name")) {
 
@@ -301,20 +277,20 @@ public class EntityCommand extends Command {
                                 String entityName = "";
                                 for (int i = 1 ; i < args.length ; i++) {
                                     String string = args[i];
-                                    entityName += (string + " ").replace("&", "§");
+                                    entityName += EzTools.replaceColorCode((string + " "));
                                 }
                                 entityName = entityName.substring(0, entityName.length() - 1);
                                 mob.setCustomNameVisible(true);
                                 mob.setCustomName(entityName);
-                                s.sendMessage("§a已将实体的名称设置为 " + entityName);
+                                s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.wrong_usage")).replace("%entity_name%", entityName));
                             } else {
-                                s.sendMessage("§c你不能对你选中的实体进行操作");
+                                s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.cannot_edit_select_entity")));
                             }
                         } else {
-                            s.sendMessage("§c请先选择实体");
+                            s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.select_an_entity")));
                         }
                     } else {
-                        s.sendMessage("§c未知的指令用法");
+                        s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.wrong_usage")));
                     }
                 } else {
                     if (args[0].equalsIgnoreCase("name")) {
@@ -326,25 +302,25 @@ public class EntityCommand extends Command {
                                 String entityName = "";
                                 for (int i = 1 ; i < args.length ; i++) {
                                     String string = args[i];
-                                    entityName += (string + " ").replace("&", "§");
+                                    entityName += EzTools.replaceColorCode((string + " "));
                                 }
                                 entityName = entityName.substring(0, entityName.length() - 1);
                                 mob.setCustomNameVisible(true);
                                 mob.setCustomName(entityName);
-                                s.sendMessage("§a已将实体的名称设置为 " + entityName);
+                                s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.wrong_usage")).replace("%entity_name%", entityName));
                             } else {
-                                s.sendMessage("§c你不能对你选中的实体进行操作");
+                                s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.cannot_edit_select_entity")));
                             }
                         } else {
-                            s.sendMessage("§c请先选择实体");
+                            s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.select_an_entity")));
                         }
                     } else {
-                        s.sendMessage("§c未知的指令用法");
+                        s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.wrong_usage")));
                     }
                 }
             }
         } else {
-            s.sendMessage("§c你必须是个玩家!");
+            s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.must_be_a_player")));
         }
         return true;
     }

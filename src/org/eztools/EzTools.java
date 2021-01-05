@@ -9,7 +9,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.eztools.command.*;
 import org.eztools.listener.EntityEventListener;
 import org.eztools.listener.GuiListener;
+import org.eztools.util.JsonConfiguration;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -22,6 +24,9 @@ public final class EzTools extends JavaPlugin {
     private static GuiHandler guiHandler;
     private static ItemHandler itemHandler;
 
+    private static JsonConfiguration lang_message;
+    private static JsonConfiguration lang_command;
+
     private static Map<Player, Entity> selectedEntities;
     private static Map<Player, ItemStack> editingItem;
 
@@ -32,6 +37,20 @@ public final class EzTools extends JavaPlugin {
         itemHandler = new ItemHandler(this);
         selectedEntities = new HashMap<>();
         editingItem = new HashMap<>();
+        if (!new File("plugins/EzTools/config.yml").exists()) {
+            this.saveDefaultConfig();
+        }
+        this.saveResource("message/zh_CN.json", true);
+        this.saveResource("command/zh_CN.json", true);
+        this.saveResource("message/en_US.json", true);
+        this.saveResource("command/en_US.json", true);
+        if (new File("plugins/EzTools/message" + this.getConfig().getString("Setting.Language") + ".json").exists() && new File("plugins/EzTools/command" + this.getConfig().getString("Setting.Language") + ".json").exists()) {
+            lang_message = new JsonConfiguration(new File("plugins/EzTools/message" + this.getConfig().getString("Setting.Language") + ".json"));
+            lang_command = new JsonConfiguration(new File("plugins/EzTools/command" + this.getConfig().getString("Setting.Language") + ".json"));
+        } else {
+            lang_message = new JsonConfiguration(new File("plugins/EzTools/message/en_US.json"));
+            lang_command = new JsonConfiguration(new File("plugins/EzTools/command/en_US.json"));
+        }
         final Class<?> c = Bukkit.getServer().getClass();
         for (final Method method : c.getDeclaredMethods()) {
             if (method.getName().equals("getCommandMap")) {
@@ -48,11 +67,35 @@ public final class EzTools extends JavaPlugin {
         new EzToolsCommand();
         new ItemCommand();
         new NbtCommand();
-        this.getServer().getConsoleSender().sendMessage("§aEzTools已开启");
-        this.getServer().getConsoleSender().sendMessage("§aEzTools - 中文版");
-        this.getServer().getConsoleSender().sendMessage("§aEzTools作者: SpigotMC-DeeChael, McBBS-DeeChael (同一个人)");
-        this.getServer().getConsoleSender().sendMessage("§aSpigot主页: https://www.spigotmc.org/members/deechael.883670/");
-        this.getServer().getConsoleSender().sendMessage("§aMcBBS主页: https://www.mcbbs.net/?2536446");
+        this.getServer().getConsoleSender().sendMessage("§aEzTools has been enabled");
+        this.getServer().getConsoleSender().sendMessage("§aEzTools - More language supported!");
+        this.getServer().getConsoleSender().sendMessage("§aAuthors: SpigotMC-DeeChael, McBBS-DeeChael");
+        this.getServer().getConsoleSender().sendMessage("§aMy Spigot Page: https://www.spigotmc.org/members/deechael.883670/");
+        this.getServer().getConsoleSender().sendMessage("§aMy McBBS Page: https://www.mcbbs.net/?2536446");
+        this.getServer().getConsoleSender().sendMessage("§aGithub Source-code: https://github.com/DeeChael/EzTools");
+    }
+
+    public static void reload() {
+        getEzTools().reloadConfig();
+        getEzTools().saveResource("message/zh_CN.json", true);
+        getEzTools().saveResource("command/zh_CN.json", true);
+        getEzTools().saveResource("message/en_US.json", true);
+        getEzTools().saveResource("command/en_US.json", true);
+        if (new File("plugins/EzTools/message" + getEzTools().getConfig().getString("Setting.Language") + ".json").exists() && new File("plugins/EzTools/command" + getEzTools().getConfig().getString("Setting.Language") + ".json").exists()) {
+            lang_message = new JsonConfiguration(new File("plugins/EzTools/message" + getEzTools().getConfig().getString("Setting.Language") + ".yml"));
+            lang_command = new JsonConfiguration(new File("plugins/EzTools/command" + getEzTools().getConfig().getString("Setting.Language") + ".yml"));
+        } else {
+            lang_message = new JsonConfiguration(new File("plugins/EzTools/message/en_US.json"));
+            lang_command = new JsonConfiguration(new File("plugins/EzTools/command/en_US.json"));
+        }
+    }
+
+    public static JsonConfiguration getLanguageMessage() {
+        return lang_message;
+    }
+
+    public static JsonConfiguration getLanguageCommand() {
+        return lang_command;
     }
 
     public static EzTools getEzTools() {
@@ -77,6 +120,16 @@ public final class EzTools extends JavaPlugin {
 
     public static Map<Player, ItemStack> getEditingItem() {
         return editingItem;
+    }
+
+    public static String replaceColorCode(String string) {
+        String[] keys = new String[] {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "k", "l", "m", "n", "o", "r"};
+        String newString = string;
+        for (String key : keys) {
+            newString = newString.replace("&" + key, "§" + key);
+        }
+        return newString;
+        //return string.replace("&0", "§0").replace("&1", "§1").replace("&2", "§2").replace("&3", "§3").replace("&4", "§4").replace("&5", "§5").replace("&6", "§6").replace("&7", "§7").replace("&8", "§8".replace("&9", "§9").replace("&a", "§a").replace("&b", "§b").replace("&c", "§c").replace("&d", "§d").replace("&e", "§e").replace("&f", "§f").replace("&k", "§k").replace("&l", "§l").replace("&m", "§m").replace("&n", "§n").replace("&o", "§o").replace("&r", "§r");
     }
 
     private static void unknownMethod() {

@@ -19,7 +19,7 @@ public class EntityEventListener implements Listener {
                 }
             }
             EzTools.getSelectedEntities().remove(player);
-            player.sendMessage("§c你选择的实体已死亡");
+            player.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("entity.select.dead")));
         }
     }
 

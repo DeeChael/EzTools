@@ -52,7 +52,7 @@ public class GuiListener implements Listener {
             if (e.getRawSlot() == 0) {
                 e.setCancelled(true);
             }
-        } else if (e.getView().getTitle().equalsIgnoreCase("开发者工具")) {
+        } else if (e.getView().getTitle().equalsIgnoreCase("Developer Tool")) {
             e.setCancelled(true);
         }
     }

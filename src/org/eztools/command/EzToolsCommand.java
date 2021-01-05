@@ -27,7 +27,7 @@ public class EzToolsCommand extends Command {
         if (args.length == 1) {
             list.add("info");
             list.add("reload");
-            list.add("author_tool");
+            list.add("developer");
         } else {
             list.add(" ");
         }
@@ -39,29 +39,35 @@ public class EzToolsCommand extends Command {
         if (args.length == 1) {
             if (args[0].equalsIgnoreCase("info")) {
                 s.sendMessage("§a==============================");
-                s.sendMessage("§b插件名: §dEzTools");
-                s.sendMessage("§b作者: §dSpigotMC-DeeChael,");
+                s.sendMessage("§bPlugin name: §dEzTools");
+                s.sendMessage("§bAuthors: §dSpigotMC-DeeChael,");
                 s.sendMessage("§d      McBBS-DeeChael");
-                s.sendMessage("§b版本: §d1.0.0");
+                s.sendMessage("§bVersion: §d1.2.0");
                 s.sendMessage("§a==============================");
             } else if (args[0].equalsIgnoreCase("reload")) {
-                s.sendMessage("§c抱歉呢~ 本插件暂时没有功能需要重载~");
-            } else if (args[0].equalsIgnoreCase("author_tool")) {
-                Inventory inventory = Bukkit.createInventory(null, 54, "开发者工具");
-                for (int i = 0; i < inventory.getSize(); i++) {
-                    ItemStack itemStack = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
-                    ItemMeta meta = itemStack.getItemMeta();
-                    meta.setDisplayName("栏位: " + i);
-                    itemStack.setItemMeta(meta);
-                    inventory.setItem(i, itemStack);
+                EzTools.reload();
+                s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("eztools.reload")));
+            } else if (args[0].equalsIgnoreCase("developer")) {
+                if (s instanceof Player) {
+                    Inventory inventory = Bukkit.createInventory(null, 54, "Developer Tool");
+                    for (int i = 0; i < inventory.getSize(); i++) {
+                        ItemStack itemStack = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
+                        ItemMeta meta = itemStack.getItemMeta();
+                        meta.setDisplayName("Slot: " + i);
+                        itemStack.setItemMeta(meta);
+                        inventory.setItem(i, itemStack);
+                    }
+                    ((Player) s).openInventory(inventory);
+                } else {
+                    s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.must_be_a_player")));
                 }
-                ((Player) s).openInventory(inventory);
             } else {
-                s.sendMessage("§c未知的指令用法");
+                s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.wrong_usage")));
             }
         } else {
-            s.sendMessage("§c未知的指令用法");
+            s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.wrong_usage")));
         }
         return true;
     }
+
 }
