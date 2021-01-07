@@ -1,11 +1,13 @@
 package org.eztools;
 
+import net.deechael.plugin.bukkit.anvilapi.DAnvil;
+import net.deechael.plugin.bukkit.anvilapi.DAnvilClickEvent;
+import net.deechael.plugin.bukkit.anvilapi.DAnvilClickEventListener;
+import net.deechael.plugin.bukkit.anvilapi.DAnvilSlot;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -75,9 +77,29 @@ public class GuiHandler {
             ItemMeta paperMeta = paper.getItemMeta();
             paperMeta.setDisplayName("请输入要更改的物品名称");
             paper.setItemMeta(paperMeta);
+            /*
+            DAnvil dAnvil = new DAnvil(player, new DAnvilClickEventListener() {
+
+                @Override
+                public void onAnvilClick(DAnvilClickEvent e) {
+                    e.setCancelled(true);
+                    if (e.getSlot().equals(DAnvilSlot.OUTPUT)) {
+                        String string = " ";
+                        string = e.getItemStack().getItemMeta().getDisplayName();
+                        ItemStack itemStack1 = EzTools.getEditingItem().get(e.getPlayer());
+                        ItemMeta meta = itemStack1.getItemMeta();
+                        meta.setDisplayName(string);
+                        itemStack1.setItemMeta(meta);
+                        e.setWillClose(true);
+                        e.setWillDestroy(true);
+                    }
+                }
+            });
+            dAnvil.setSlot(DAnvilSlot.INPUT_LEFT, paper);
+            dAnvil.open();
+            */
             Inventory inventory = Bukkit.createInventory(null, org.bukkit.event.inventory.InventoryType.ANVIL, "§c§l编辑名称");
-            //inventory.setItem(0, paper);
-            inventory.addItem(paper);
+            inventory.setItem(0, paper);
 
             player.openInventory(inventory);
             if (!EzTools.getEditingItem().containsKey(player)) {

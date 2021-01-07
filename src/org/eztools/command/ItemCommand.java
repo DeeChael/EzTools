@@ -32,6 +32,8 @@ public class ItemCommand extends Command {
         List<String> list = new ArrayList<>();
         if (args.length == 1) {
             list.add("gui");
+            list.add("save");
+            list.add("load");
             list.add("name");
             list.add("lore");
             list.add("enchant");
@@ -75,6 +77,12 @@ public class ItemCommand extends Command {
                 } else {
                     list.add(" ");
                 }
+            } else if (args[0].equalsIgnoreCase("save")) {
+                list.add(EzTools.getLanguageCommand().getString("eztools.args_5.item.save.<localName>"));
+            } else if (args[0].equalsIgnoreCase("load")) {
+                for (String string : EzTools.getConfigHandler().getItemStacksStringList()) {
+                    list.add(string);
+                }
             } else {
                 list.add(" ");
             }
@@ -90,6 +98,7 @@ public class ItemCommand extends Command {
             if (((Player) s).getInventory().getItemInMainHand() != null) {
                 if (args.length == 1) {
                     if (args[0].equalsIgnoreCase("gui")) {
+                        s.sendMessage("§cGui menu hasn't been finished yet!");
                         EzTools.getGuiHandler().openInventory((Player) s, GuiHandler.InventoryType.ITEM_MAIN, ((Player) s).getInventory().getItemInMainHand());
                     } else if (args[0].equalsIgnoreCase("unbreakable")) {
                         ItemStack itemInPlayerMainHand = ((Player) s).getInventory().getItemInMainHand();
@@ -135,6 +144,27 @@ public class ItemCommand extends Command {
                         itemMetaOfItemInPlayerMainHand.setLore(lore);
                         itemInPlayerMainHand.setItemMeta(itemMetaOfItemInPlayerMainHand);
                         s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("item.lore.success")));
+                    } else if (args[0].equals("save")) {
+                        if (args.length == 2) {
+                            String key = args[1];
+                            EzTools.getConfigHandler().setItemStack(key, ((Player) s).getInventory().getItemInMainHand());
+                            s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("item.save.success").replace("%local_name%", key)));
+                        } else {
+                            s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.wrong_usage")));
+                        }
+                    } else if (args[0].equals("load")) {
+                        if (args.length == 2) {
+                            String key = args[1];
+                            if (EzTools.getConfigHandler().containsItemStack(key)) {
+                                ItemStack got = EzTools.getConfigHandler().getItemStack(key);
+                                ((Player) s).getInventory().addItem(got);
+                                s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("item.load.success").replace("%local_name%", key)));
+                            } else {
+                                s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("item.load.not_exist").replace("%local_name%", key)));
+                            }
+                        } else {
+                            s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.wrong_usage")));
+                        }
                     } else if (args[0].equalsIgnoreCase("enchant")) {
                         if (args.length == 3) {
                             Enchantment enchantment = Enchantment.valueOf(StringUtils.upperCase(args[1]));

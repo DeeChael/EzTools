@@ -4,5 +4,6 @@
   "eztools.args_5.item.attribute.<attributeAmount>": "<属性数值>",
   "eztools.args_2.entity.name.<entityName>": "<实体名称>",
   "eztools.args_3.entity.chance.<dropChance>": "<掉落几率 百分比>",
-  "eztools.args_3.entity.attribute.<attributeAmount>": "<属性数值>"
+  "eztools.args_3.entity.attribute.<attributeAmount>": "<属性数值>",
+  "eztools.args_5.item.save.<localName>": "<本地名称>"
 }

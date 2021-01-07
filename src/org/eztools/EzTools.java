@@ -12,6 +12,7 @@ import org.eztools.listener.GuiListener;
 import org.eztools.util.JsonConfiguration;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -23,6 +24,7 @@ public final class EzTools extends JavaPlugin {
     private static CommandMap commandMap;
     private static GuiHandler guiHandler;
     private static ItemHandler itemHandler;
+    private static ConfigHandler configHandler;
 
     private static JsonConfiguration lang_message;
     private static JsonConfiguration lang_command;
@@ -35,11 +37,26 @@ public final class EzTools extends JavaPlugin {
         ezTools = this;
         guiHandler = new GuiHandler(this);
         itemHandler = new ItemHandler(this);
+        configHandler = new ConfigHandler(this);
         selectedEntities = new HashMap<>();
         editingItem = new HashMap<>();
         if (!new File("plugins/EzTools/config.yml").exists()) {
             this.saveDefaultConfig();
         }
+        if (!new File("plugins/EzTools/item.yml").exists()) {
+            try {
+                new File("plugins/EzTools/item.yml").createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        /*if (!new File("plugins/EzTools/entity.yml").exists()) {
+            try {
+                new File("plugins/EzTools/entity.yml").createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }*/
         this.saveResource("message/zh_CN.json", true);
         this.saveResource("command/zh_CN.json", true);
         this.saveResource("message/en_US.json", true);
@@ -108,6 +125,10 @@ public final class EzTools extends JavaPlugin {
 
     public static ItemHandler getItemHandler() {
         return itemHandler;
+    }
+
+    public static ConfigHandler getConfigHandler() {
+        return configHandler;
     }
 
     public static CommandMap getCommandMap() {

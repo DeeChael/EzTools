@@ -9,7 +9,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.eztools.EzTools;
@@ -49,19 +48,15 @@ public class GuiListener implements Listener {
                 ((Player) e.getView().getPlayer()).playSound(e.getView().getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.AMBIENT, 1f, 1f);
             }
         } else if (e.getView().getTitle().equalsIgnoreCase("§c§l编辑名称")) {
-            if (e.getRawSlot() == 0) {
+            if (e.getRawSlot() == 0 || e.getRawSlot() == 1) {
                 e.setCancelled(true);
+            } else if (e.getRawSlot() == 2) {
+                e.setCancelled(true);
+                EzTools.getItemHandler().setName(EzTools.getEditingItem().get(e.getView().getPlayer()), e.getView().getTopInventory().getItem(2).getItemMeta().getDisplayName());
+                e.getView().getPlayer().closeInventory();
             }
         } else if (e.getView().getTitle().equalsIgnoreCase("Developer Tool")) {
             e.setCancelled(true);
-        }
-    }
-
-    @EventHandler
-    public void onRename(PrepareAnvilEvent e) {
-        if (e.getView().getTitle().equalsIgnoreCase("§c§l编辑名称")) {
-            EzTools.getItemHandler().setName(EzTools.getEditingItem().get(e.getView().getPlayer()), e.getResult().getItemMeta().getDisplayName());
-            e.getView().getPlayer().closeInventory();
         }
     }
 
