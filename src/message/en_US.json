@@ -26,5 +26,9 @@
   "entity.name.success": "&aThe name of the entity has been changed to &e%entity_name%",
   "entity.item.success": "&aSet %entity_name%'s &aitem on &e%slot% &ato &e%item_name%",
   "entity.attribute.success": "&aMade the amount of attribute &e%attribute% &ato &e%amount%",
-  "entity.chance.success": "&aMade &e%entity_name%'s &aitem drop chance on &e%slot% &ato &e%chance%%"
+  "entity.chance.success": "&aMade &e%entity_name%'s &aitem drop chance on &e%slot% &ato &e%chance%%",
+  "entity.glowing.switch": "&aSwitched if entity is glowing",
+  "entity.save.success": "&aSaved local entity &e%local_name% &asuccessfully",
+  "entity.summon.success": "&aLoaded local entity &e%local_name% &esuccessfully",
+  "entity.summon.not_exist": "&cLocal entity &6%local_name% &cis not exist"
 }

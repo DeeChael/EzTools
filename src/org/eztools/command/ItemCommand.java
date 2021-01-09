@@ -31,7 +31,7 @@ public class ItemCommand extends Command {
     public List<String> tabComplete(CommandSender s, String label, String[] args) {
         List<String> list = new ArrayList<>();
         if (args.length == 1) {
-            list.add("gui");
+            //list.add("gui");
             list.add("save");
             list.add("load");
             list.add("name");
@@ -78,7 +78,7 @@ public class ItemCommand extends Command {
                     list.add(" ");
                 }
             } else if (args[0].equalsIgnoreCase("save")) {
-                list.add(EzTools.getLanguageCommand().getString("eztools.args_5.item.save.<localName>"));
+                list.add(EzTools.getLanguageCommand().getString("eztools.args_2.item.save.<localName>"));
             } else if (args[0].equalsIgnoreCase("load")) {
                 for (String string : EzTools.getConfigHandler().getItemStacksStringList()) {
                     list.add(string);
@@ -257,7 +257,7 @@ public class ItemCommand extends Command {
                                             itemInPlayerMainHand.setItemMeta(itemMetaOfItemInPlayerMainHand);
                                             finalInt = number + num;
                                         }
-                                        s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("item.attribute.add")).replace("%attribute%", args[1]).replace("%slot%", args[2]).replace("%final%", finalInt + "").replace("%added%", addedInt + ""));
+                                        s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("item.attribute.add").replace("%attribute%", args[1]).replace("%slot%", args[2]).replace("%final%", finalInt + "").replace("%added%", addedInt + "")));
                                     } else if (args[3].equalsIgnoreCase("set")) {
                                         double finalInt = 0.0;
                                         if (attribute.equals(Attribute.GENERIC_KNOCKBACK_RESISTANCE)) {
@@ -278,7 +278,7 @@ public class ItemCommand extends Command {
                                             itemMetaOfItemInPlayerMainHand.addAttributeModifier(attribute, attributeModifier);
                                             itemInPlayerMainHand.setItemMeta(itemMetaOfItemInPlayerMainHand);
                                         }
-                                        s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("item.attribute.add")).replace("%attribute%", args[1]).replace("%slot%", args[2]).replace("%final%", finalInt + ""));
+                                        s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("item.attribute.set")).replace("%attribute%", args[1]).replace("%slot%", args[2]).replace("%final%", finalInt + ""));
                                     } else {
                                         s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.wrong_usage")));
                                     }

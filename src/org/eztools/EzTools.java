@@ -50,22 +50,25 @@ public final class EzTools extends JavaPlugin {
                 e.printStackTrace();
             }
         }
-        /*if (!new File("plugins/EzTools/entity.yml").exists()) {
+        if (!new File("plugins/EzTools/entity.yml").exists()) {
             try {
                 new File("plugins/EzTools/entity.yml").createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }*/
+        }
         this.saveResource("message/zh_CN.json", true);
         this.saveResource("command/zh_CN.json", true);
         this.saveResource("message/en_US.json", true);
         this.saveResource("command/en_US.json", true);
-        if (new File("plugins/EzTools/message" + this.getConfig().getString("Setting.Language") + ".json").exists() && new File("plugins/EzTools/command" + this.getConfig().getString("Setting.Language") + ".json").exists()) {
-            lang_message = new JsonConfiguration(new File("plugins/EzTools/message" + this.getConfig().getString("Setting.Language") + ".json"));
-            lang_command = new JsonConfiguration(new File("plugins/EzTools/command" + this.getConfig().getString("Setting.Language") + ".json"));
+        if (new File("plugins/EzTools/message/" + this.getConfig().getString("Setting.Language") + ".json").exists()) {
+            lang_message = new JsonConfiguration(new File("plugins/EzTools/message/" + this.getConfig().getString("Setting.Language") + ".json"));
         } else {
             lang_message = new JsonConfiguration(new File("plugins/EzTools/message/en_US.json"));
+        }
+        if (new File("plugins/EzTools/command/" + this.getConfig().getString("Setting.Language") + ".json").exists()) {
+            lang_command = new JsonConfiguration(new File("plugins/EzTools/command/" + this.getConfig().getString("Setting.Language") + ".json"));
+        } else {
             lang_command = new JsonConfiguration(new File("plugins/EzTools/command/en_US.json"));
         }
         final Class<?> c = Bukkit.getServer().getClass();

@@ -16,7 +16,7 @@
   "item.attribute.add": "&a使属性 &e%attribute% &a在栏位 &e%slot% &a时属性的为 &e%final%&a(增加了 %added%)",
   "item.attribute.set": "&a已设置属性 &e%attribute% &a在栏位 &e%slot% &a时属性增加 &e%final%",
   "item.attribute.remove": "&a已删除属性 &e%attribute% &a在栏位 &e%slot% &a时的属性",
-  "item.save.success": "&a成功保存 &e%local_name% &a到本地",
+  "item.save.success": "&a成功保存本地实体 &e%local_name%",
   "item.load.success": "&a成功加载本地物品 &e%local_name%",
   "item.load.not_exist": "&c本地物品 &6%local_name% &c不存在",
   "entity.select.cancel_last": "&a已取消选择上一个已选择的实体",
@@ -26,5 +26,9 @@
   "entity.name.success": "&a已将实体的名称设置为 &e%entity_name%",
   "entity.item.success": "&a已将生物 %entity_name% &a的栏位 &e%slot% &a设置为 &e%item_name%",
   "entity.attribute.success": "&a已将生物的 &e%attribute% &a属性设置为 &e%amount%",
-  "entity.chance.success": "&a已将生物 &e%entity_name% &a的 &e%slot% &a栏位的物品掉落几率设置为 &e%chance%%"
+  "entity.chance.success": "&a已将生物 &e%entity_name% &a的 &e%slot% &a栏位的物品掉落几率设置为 &e%chance%%",
+  "entity.glowing.switch": "&a已切换生物是否发光",
+  "entity.save.success": "&a成功保存本地实体 &e%local_name%",
+  "entity.summon.success": "&a成功生成本地实体 &e%local_name%",
+  "entity.sumoon.not_exist": "&c本地实体 &6%local_name% &c不存在"
 }

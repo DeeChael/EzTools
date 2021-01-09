@@ -5,5 +5,6 @@
   "eztools.args_2.entity.name.<entityName>": "<Entity name>",
   "eztools.args_3.entity.chance.<dropChance>": "<Drop chance - percent>",
   "eztools.args_3.entity.attribute.<attributeAmount>": "<Attribute amount>",
-  "eztools.args_5.item.save.<localName>": "<Local name>"
+  "eztools.args_2.item.save.<localName>": "<Local name>",
+  "eztools.args_2.entity.save.<localName>": "<Local name>"
 }
