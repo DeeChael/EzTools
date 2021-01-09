@@ -10,7 +10,7 @@
   "item.unbreakable.switch": "&aThe item was switched if it is unbreakable",
   "item.lore.success": "&aAdded lore",
   "item.lore.clear": "&aCleaned lore",
-  "item.name.success": "&aThe name of item has been changed to %item_name%",
+  "item.name.success": "&aThe name of item has been changed to &e%item_name%",
   "item.enchant.success": "&aEnchanted &e%enchant_name% &alevel &e%level%",
   "item.enchant.remove": "&aRemoved enchantment &e%enchant_name%",
   "item.attribute.add": "&aMade the amount of attribute &e%attribute% &awhen is on &e%slot% &aadd &e%final%&a(Added %added%)",

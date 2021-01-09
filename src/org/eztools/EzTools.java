@@ -1,5 +1,6 @@
 package org.eztools;
 
+import net.deechael.plugin.bukkit.anvilapi.AnvilAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 import org.bukkit.entity.Entity;
@@ -28,6 +29,7 @@ public final class EzTools extends JavaPlugin {
 
     private static JsonConfiguration lang_message;
     private static JsonConfiguration lang_command;
+    private static JsonConfiguration lang_gui;
 
     private static Map<Player, Entity> selectedEntities;
     private static Map<Player, ItemStack> editingItem;
@@ -59,8 +61,10 @@ public final class EzTools extends JavaPlugin {
         }
         this.saveResource("message/zh_CN.json", true);
         this.saveResource("command/zh_CN.json", true);
+        this.saveResource("gui/zh_CN.json", true);
         this.saveResource("message/en_US.json", true);
         this.saveResource("command/en_US.json", true);
+        this.saveResource("gui/en_US.json", true);
         if (new File("plugins/EzTools/message/" + this.getConfig().getString("Setting.Language") + ".json").exists()) {
             lang_message = new JsonConfiguration(new File("plugins/EzTools/message/" + this.getConfig().getString("Setting.Language") + ".json"));
         } else {
@@ -70,6 +74,11 @@ public final class EzTools extends JavaPlugin {
             lang_command = new JsonConfiguration(new File("plugins/EzTools/command/" + this.getConfig().getString("Setting.Language") + ".json"));
         } else {
             lang_command = new JsonConfiguration(new File("plugins/EzTools/command/en_US.json"));
+        }
+        if (new File("plugins/EzTools/gui/" + this.getConfig().getString("Setting.Language") + ".json").exists()) {
+            lang_gui = new JsonConfiguration(new File("plugins/EzTools/gui/" + this.getConfig().getString("Setting.Language") + ".json"));
+        } else {
+            lang_gui = new JsonConfiguration(new File("plugins/EzTools/gui/en_US.json"));
         }
         final Class<?> c = Bukkit.getServer().getClass();
         for (final Method method : c.getDeclaredMethods()) {
@@ -86,6 +95,7 @@ public final class EzTools extends JavaPlugin {
         new EntityCommand();
         new EzToolsCommand();
         new ItemCommand();
+        new GuiTestCommand();
         new NbtCommand();
         this.getServer().getConsoleSender().sendMessage("§aEzTools has been enabled");
         this.getServer().getConsoleSender().sendMessage("§aEzTools - More language supported!");
@@ -93,20 +103,31 @@ public final class EzTools extends JavaPlugin {
         this.getServer().getConsoleSender().sendMessage("§aMy Spigot Page: https://www.spigotmc.org/members/deechael.883670/");
         this.getServer().getConsoleSender().sendMessage("§aMy McBBS Page: https://www.mcbbs.net/?2536446");
         this.getServer().getConsoleSender().sendMessage("§aGithub Source-code: https://github.com/DeeChael/EzTools");
+        AnvilAPI.enable();
     }
 
     public static void reload() {
         getEzTools().reloadConfig();
         getEzTools().saveResource("message/zh_CN.json", true);
         getEzTools().saveResource("command/zh_CN.json", true);
+        getEzTools().saveResource("gui/zh_CN.json", true);
         getEzTools().saveResource("message/en_US.json", true);
         getEzTools().saveResource("command/en_US.json", true);
-        if (new File("plugins/EzTools/message" + getEzTools().getConfig().getString("Setting.Language") + ".json").exists() && new File("plugins/EzTools/command" + getEzTools().getConfig().getString("Setting.Language") + ".json").exists()) {
-            lang_message = new JsonConfiguration(new File("plugins/EzTools/message" + getEzTools().getConfig().getString("Setting.Language") + ".yml"));
-            lang_command = new JsonConfiguration(new File("plugins/EzTools/command" + getEzTools().getConfig().getString("Setting.Language") + ".yml"));
+        getEzTools().saveResource("gui/en_US.json", true);
+        if (new File("plugins/EzTools/message/" + getEzTools().getConfig().getString("Setting.Language") + ".json").exists()) {
+            lang_message = new JsonConfiguration(new File("plugins/EzTools/message/" + getEzTools().getConfig().getString("Setting.Language") + ".json"));
         } else {
             lang_message = new JsonConfiguration(new File("plugins/EzTools/message/en_US.json"));
+        }
+        if (new File("plugins/EzTools/command/" + getEzTools().getConfig().getString("Setting.Language") + ".json").exists()) {
+            lang_command = new JsonConfiguration(new File("plugins/EzTools/command/" + getEzTools().getConfig().getString("Setting.Language") + ".json"));
+        } else {
             lang_command = new JsonConfiguration(new File("plugins/EzTools/command/en_US.json"));
+        }
+        if (new File("plugins/EzTools/gui/" + getEzTools().getConfig().getString("Setting.Language") + ".json").exists()) {
+            lang_gui = new JsonConfiguration(new File("plugins/EzTools/gui/" + getEzTools().getConfig().getString("Setting.Language") + ".json"));
+        } else {
+            lang_gui = new JsonConfiguration(new File("plugins/EzTools/gui/en_US.json"));
         }
     }
 
@@ -116,6 +137,10 @@ public final class EzTools extends JavaPlugin {
 
     public static JsonConfiguration getLanguageCommand() {
         return lang_command;
+    }
+
+    public static JsonConfiguration getLanguageGui() {
+        return lang_gui;
     }
 
     public static EzTools getEzTools() {
@@ -154,6 +179,11 @@ public final class EzTools extends JavaPlugin {
         }
         return newString;
         //return string.replace("&0", "§0").replace("&1", "§1").replace("&2", "§2").replace("&3", "§3").replace("&4", "§4").replace("&5", "§5").replace("&6", "§6").replace("&7", "§7").replace("&8", "§8".replace("&9", "§9").replace("&a", "§a").replace("&b", "§b").replace("&c", "§c").replace("&d", "§d").replace("&e", "§e").replace("&f", "§f").replace("&k", "§k").replace("&l", "§l").replace("&m", "§m").replace("&n", "§n").replace("&o", "§o").replace("&r", "§r");
+    }
+
+    private String getNMS() {
+        String version = Bukkit.getServer().getClass().getPackage().getName();
+        return version.substring(version.lastIndexOf('.') + 1);
     }
 
     private static void unknownMethod() {

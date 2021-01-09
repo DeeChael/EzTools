@@ -1,0 +1,93 @@
+{
+  "item.main.title": "&c&lItem Editor",
+  "item.main.button.rename": {
+    "display": "&b&lEdit name",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&aEdit the name of the item"
+      },
+      {
+        "text": "&eClick to edit"
+      }
+    ]
+  },
+  "item.main.button.lore": {
+    "display": "&9&lEdit lore",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&aEdit the lore of the item"
+      },
+      {
+        "text": "&eClick to edit"
+      }
+    ]
+  },
+  "item.main.button.enchant": {
+    "display": "&d&lEdit enchantment",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&aEdit the enchantments of the item"
+      },
+      {
+        "text": "&eClick to edit"
+      }
+    ]
+  },
+  "item.main.button.attribute": {
+    "display": "&a&lEdit attribute",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&aEdit the attributes of the item"
+      },
+      {
+        "text": "&eClick to edit"
+      }
+    ]
+  },
+  "item.main.button.unbreakable": {
+    "display": "&c&lUnbreakable",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&aSwitch whether item is unbreakable"
+      },
+      {
+        "text": "&aNow: &e%unbreakable%"
+      },
+      {
+        "text": "&eClick to switch"
+      }
+    ]
+  },
+  "item.rename.title": "&c&lEdit name",
+  "item.rename.input_left.display": "Please enter the name of the item",
+  "item.lore.title": "&c&lEdit lore",
+  "item.lore.button.new": {
+    "display": "&a&lCreate",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&aCreate a new line"
+      },
+      {
+        "text": "&eClick to create"
+      }
+    ]
+  }
+}

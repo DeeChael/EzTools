@@ -7,7 +7,9 @@ import com.google.gson.JsonObject;
 
 import java.io.*;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class JsonConfiguration {
@@ -112,19 +114,30 @@ public class JsonConfiguration {
         return this.jsonObject.get(key).getAsCharacter();
     }
 
+    public List<JsonConfiguration> getJsonObjectsInJsonArray(String key) {
+        JsonArray jsonArray = this.jsonObject.get(key).getAsJsonArray();
+        List<JsonConfiguration> list = new ArrayList<>();
+        for (JsonElement jsonElement : jsonArray) {
+            JsonObject jsonObject = jsonElement.getAsJsonObject();
+            JsonConfiguration jsonConfiguration = new JsonConfiguration(jsonObject);
+            list.add(jsonConfiguration);
+        }
+        return list;
+    }
+
     public JsonConfiguration subJson(String key, int witch) {
         return new JsonConfiguration(this.jsonObject.getAsJsonArray(key).get(witch).getAsJsonObject());
     }
 
-    public static Set<JsonConfiguration> asJsonArray(String jsonArray) {
+    public static List<JsonConfiguration> asJsonArray(String jsonArray) {
         JsonArray jsonArray1 = new Gson().fromJson(jsonArray, JsonArray.class);
-        Set<JsonConfiguration> set = new HashSet<>();
+        List<JsonConfiguration> list = new ArrayList<>();
         for (JsonElement jsonElement : jsonArray1) {
             JsonObject jsonObject = jsonElement.getAsJsonObject();
             JsonConfiguration jsonConfiguration = new JsonConfiguration(jsonObject);
-            set.add(jsonConfiguration);
+            list.add(jsonConfiguration);
         }
-        return set;
+        return list;
     }
 
 }

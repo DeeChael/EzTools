@@ -1,0 +1,93 @@
+{
+  "item.main.title": "&c&l物品编辑器",
+  "item.main.button.rename": {
+    "display": "&b&l编辑名称",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&a编辑物品名称"
+      },
+      {
+        "text": "&e点击编辑"
+      }
+    ]
+  },
+  "item.main.button.lore": {
+    "display": "&9&l编辑介绍",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&a编辑物品介绍"
+      },
+      {
+        "text": "&e点击编辑"
+      }
+    ]
+  },
+  "item.main.button.enchant": {
+    "display": "&d&l编辑附魔",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&a编辑物品附魔"
+      },
+      {
+        "text": "&e点击编辑"
+      }
+    ]
+  },
+  "item.main.button.attribute": {
+    "display": "&a&l编辑属性",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&a编辑物品属性"
+      },
+      {
+        "text": "&e点击编辑"
+      }
+    ]
+  },
+  "item.main.button.unbreakable": {
+    "display": "&c&l不可破坏",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&a切换物品是否不可切换"
+      },
+      {
+        "text": "&a当前状态: &e%unbreakable%"
+      },
+      {
+        "text": "&e点击切换"
+      }
+    ]
+  },
+  "item.rename.title": "&c&l编辑名称",
+  "item.rename.input_left.display": "请输入物品名称",
+  "item.lore.title": "&c&l编辑介绍",
+  "item.lore.button.new": {
+    "display": "&a&l新建一行",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&a新建一行介绍"
+      },
+      {
+        "text": "&e点击新建"
+      }
+    ]
+  }
+}

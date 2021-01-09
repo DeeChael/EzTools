@@ -31,7 +31,7 @@ public class ItemCommand extends Command {
     public List<String> tabComplete(CommandSender s, String label, String[] args) {
         List<String> list = new ArrayList<>();
         if (args.length == 1) {
-            //list.add("gui");
+            list.add("gui");
             list.add("save");
             list.add("load");
             list.add("name");

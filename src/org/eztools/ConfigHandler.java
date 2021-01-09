@@ -328,7 +328,7 @@ public class ConfigHandler {
             //item & chance
             //Fuck you! Drop chance can't use LivingEntity#getEquipmentSlot().setItemDropChance(EquipmentSlot, Float);! Why don't bukkit api make this method?
             for (EquipmentSlot equipmentSlot : EquipmentSlot.values()) {
-                if (mob.getEquipment().getItem(equipmentSlot) != null) {
+                if (mob.getEquipment().getItem(equipmentSlot) != null || mob.getEquipment().getItem(equipmentSlot).getType().equals(Material.AIR)) {
                     //this.saveEntityItemStack(key + ".item." + equipmentSlot.name() + ".item", mob.getEquipment().getItem(equipmentSlot));
                     config.set(key + ".item." + equipmentSlot.name() + ".item" + ".material", mob.getEquipment().getItem(equipmentSlot).getType().name());
                     if (mob.getEquipment().getItem(equipmentSlot).getItemMeta().hasDisplayName()) {

@@ -10,7 +10,7 @@
   "item.unbreakable.switch": "&a已切换物品是否不可损坏",
   "item.lore.success": "&a已添加物品介绍",
   "item.lore.clear": "&a已清除物品介绍",
-  "item.name.success": "&a已将物品名称设置为 %item_name%",
+  "item.name.success": "&a已将物品名称设置为 &e%item_name%",
   "item.enchant.success": "&a已附魔 &e%enchant_name% &a等级为 &e%level%",
   "item.enchant.remove": "&a已删除附魔 &e%enchant_name%",
   "item.attribute.add": "&a使属性 &e%attribute% &a在栏位 &e%slot% &a时属性的为 &e%final%&a(增加了 %added%)",
