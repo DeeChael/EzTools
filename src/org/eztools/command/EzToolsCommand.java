@@ -42,7 +42,7 @@ public class EzToolsCommand extends Command {
                 s.sendMessage("§bPlugin name: §dEzTools");
                 s.sendMessage("§bAuthors: §dSpigotMC-DeeChael,");
                 s.sendMessage("§d      McBBS-DeeChael");
-                s.sendMessage("§bVersion: §d1.4.1");
+                s.sendMessage("§bVersion: §d1.4.2");
                 s.sendMessage("§a==============================");
             } else if (args[0].equalsIgnoreCase("reload")) {
                 EzTools.reload();

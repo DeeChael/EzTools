@@ -8,6 +8,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.eztools.EzTools;
+import org.eztools.util.JsonConfiguration;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class NbtCommand extends Command {
 
@@ -18,6 +23,23 @@ public class NbtCommand extends Command {
     }
 
     @Override
+    public List<String> tabComplete(CommandSender s, String Label, String[] args) {
+        List<String> list = new ArrayList<>();
+        if (args.length == 1) {
+            list.add("skull");
+        } else if (args.length == 2) {
+            if (args[0].equalsIgnoreCase("skull")) {
+                list.add(EzTools.getLanguageCommand().getString("eztools.args_2.nbt.skull.<playerName>"));
+            } else {
+                list.add(" ");
+            }
+        } else {
+            list.add(" ");
+        }
+        return list;
+    }
+
+    @Override
     public boolean execute(CommandSender s, String Label, String[] args) {
         if (s instanceof Player) {
             if (args[0].equalsIgnoreCase("skull")) {
@@ -25,17 +47,19 @@ public class NbtCommand extends Command {
                     if (((Player) s).getInventory().getItemInMainHand().getType().equals(Material.PLAYER_HEAD)) {
                         ItemStack skull = ((Player) s).getInventory().getItemInMainHand();
                         SkullMeta meta = (SkullMeta) skull.getItemMeta();
-                        meta.setOwningPlayer(Bukkit.getOfflinePlayer(args[1]));
+                        JsonConfiguration jsonConfiguration = new JsonConfiguration("https://api.mojang.com/users/profiles/minecraft/" + args[1]);
+                        UUID uuid = UUID.fromString(jsonConfiguration.getString("id"));
+                        meta.setOwningPlayer(Bukkit.getOfflinePlayer(uuid));
                         skull.setItemMeta(meta);
                     } else {
-                        s.sendMessage("§c请拿着头颅使用此指令");
+                        s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.hold_skull")));
                     }
                 } else {
-                    s.sendMessage("§c错误的指令用法");
+                    s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.wrong_usage")));
                 }
             }
         } else {
-            s.sendMessage("§c你必须是个玩家!");
+            s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.must_be_a_player")));
         }
         return true;
     }

@@ -89,5 +89,7 @@
         "text": "&e点击新建"
       }
     ]
-  }
+  },
+  "item.lore_new_line.title": "&c&l新建一行介绍",
+  "item.lore_new_line.input_left.display": "请输入介绍"
 }

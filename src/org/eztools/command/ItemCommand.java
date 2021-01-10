@@ -1,6 +1,8 @@
 package org.eztools.command;
 
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.command.Command;
@@ -99,6 +101,7 @@ public class ItemCommand extends Command {
                 if (args.length == 1) {
                     if (args[0].equalsIgnoreCase("gui")) {
                         s.sendMessage("§cGui menu hasn't been finished yet!");
+                        ((Player) s).playSound(((Player) s).getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.AMBIENT, 1f, 1f);
                         EzTools.getGuiHandler().openInventory((Player) s, GuiHandler.InventoryType.ITEM_MAIN, ((Player) s).getInventory().getItemInMainHand());
                     } else if (args[0].equalsIgnoreCase("unbreakable")) {
                         ItemStack itemInPlayerMainHand = ((Player) s).getInventory().getItemInMainHand();

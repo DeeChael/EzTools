@@ -89,5 +89,7 @@
         "text": "&eClick to create"
       }
     ]
-  }
+  },
+  "item.lore_new_line.title": "&c&lCreate a new lore line",
+  "item.lore_new_line.input_left.display": "Please enter the text of this line"
 }

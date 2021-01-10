@@ -133,9 +133,44 @@ public class GuiHandler {
             inventory.setItem(52, background);
             inventory.setItem(53, background);
 
-            inventory.setItem(50, diamond);
+            inventory.setItem(49, diamond);
 
+            if (itemStack.getItemMeta().hasLore()) {
+                if (itemStack.getItemMeta().getLore().size() <= 28) {
+                    for (String string : itemStack.getItemMeta().getLore()) {
+                        ItemStack paper = new ItemStack(Material.PAPER);
+                        ItemMeta paperMeta = paper.getItemMeta();
+                        paperMeta.setDisplayName(string);
+                        paperMeta.setLore(Arrays.asList("EzTools Line Tips: " + itemStack.getItemMeta().getLore().indexOf(string)));
+                        paper.setItemMeta(paperMeta);
+                        inventory.addItem(paper);
+                    }
+                } else {
+                    for (int o = 0; o < 28; o++) {
+                        String string = itemStack.getItemMeta().getLore().get(o);
+                        ItemStack paper = new ItemStack(Material.PAPER);
+                        ItemMeta paperMeta = paper.getItemMeta();
+                        paperMeta.setDisplayName(string);
+                        paperMeta.setLore(Arrays.asList("EzTools Line Tips: " + o));
+                        paper.setItemMeta(paperMeta);
+                        inventory.addItem(paper);
+                    }
+                }
+            }
             player.openInventory(inventory);
+            if (!EzTools.getEditingItem().containsKey(player)) {
+                EzTools.getEditingItem().put(player, itemStack);
+            }
+        } else if (type == InventoryType.ITEM_LORE_NEW_LINE) {
+            ItemStack paper = new ItemStack(Material.PAPER);
+            ItemMeta paperMeta = paper.getItemMeta();
+            paperMeta.setDisplayName(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("item.lore_new_line.input_left.display")));
+            paper.setItemMeta(paperMeta);
+
+            DAnvil anvil = AnvilAPI.getAnvilAPI().getAnvil(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("item.lore_new_line.title")), player);
+            anvil.setItemStack(Slot.INPUT_LEFT, paper);
+            anvil.openInventory();
+
             if (!EzTools.getEditingItem().containsKey(player)) {
                 EzTools.getEditingItem().put(player, itemStack);
             }
@@ -164,6 +199,7 @@ public class GuiHandler {
         ITEM_MAIN,
         ITEM_RENAME,
         ITEM_LORE,
+        ITEM_LORE_NEW_LINE,
         ITEM_ENCHANT,
         ITEM_ATTRIBUTE,
         ITEM_LOAD,
