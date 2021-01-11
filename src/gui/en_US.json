@@ -80,10 +80,10 @@
   "item.lore.lore_item": {
     "lore": [
       {
-        "text": "&a左键点击编辑"
+        "text": "&aLeft click to edit"
       },
       {
-        "text": "&c右键点击删除"
+        "text": "&cRight click to remove"
       }
     ]
   },
