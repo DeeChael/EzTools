@@ -33,5 +33,8 @@
   "entity.summon.success": "&aLoaded local entity &e%local_name% &esuccessfully",
   "entity.summon.not_exist": "&cLocal entity &6%local_name% &cis not exist",
   "item.gui.lore_new_line.success": "&aCreated a new lore line",
-  "item.gui.lore_new_line.remove": "&aRemoved a lore line"
+  "item.gui.lore_edit.success": "&aEdited the line of the lore successfully",
+  "item.gui.lore_new_line.remove": "&aRemoved a lore line",
+  "item.gui.lore.error.no_previous": "&cThere is no previous page",
+  "item.gui.lore.error.no_next": "&cThere is no next page"
 }

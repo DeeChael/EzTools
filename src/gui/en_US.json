@@ -74,7 +74,19 @@
     ]
   },
   "item.rename.title": "&c&lEdit name",
-  "item.rename.input_left.display": "Please enter the name of the item",
+  "item.rename.input_left": {
+    "display": "Please enter the name of the item"
+  },
+  "item.lore.lore_item": {
+    "lore": [
+      {
+        "text": "&a左键点击编辑"
+      },
+      {
+        "text": "&c右键点击删除"
+      }
+    ]
+  },
   "item.lore.title": "&c&lEdit lore",
   "item.lore.button.new": {
     "display": "&a&lCreate",
@@ -90,6 +102,29 @@
       }
     ]
   },
+  "item.lore.button.previous": {
+    "display": "&b&lPrevious page",
+    "lore": [
+      {
+        "text": "&e&l%now_page%&7&l/&e&l%total_page%"
+      },
+      {
+        "text": "&eClick to turn to the previous page"
+      }
+    ]
+  },
+  "item.lore.button.next": {
+    "display": "&b&lNext page",
+    "lore": [
+      {
+        "text": "&e&l%now_page%&7&l/&e&l%total_page%"
+      },
+      {
+        "text": "&eClick to turn to the next page"
+      }
+    ]
+  },
   "item.lore_new_line.title": "&c&lCreate a new lore line",
-  "item.lore_new_line.input_left.display": "Please enter the text of this line"
+  "item.lore_new_line.input_left.display": "Please enter the text of this line",
+  "item.lore_edit.title": "&c&lEdit lore"
 }

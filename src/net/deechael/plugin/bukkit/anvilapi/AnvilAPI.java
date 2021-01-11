@@ -17,8 +17,13 @@ public final class AnvilAPI /* extends JavaPlugin */ /* Removed by EzTools */ {
         logger().sendMessage("§aDeeChael's AnvilAPI has been enabled");
     }
 
+    //Added by EzTools
     public static void enable() {
         new AnvilAPI().onEnable();
+    }
+
+    public void reload() {
+        //Nothing now
     }
 
     public static AnvilAPI getAnvilAPI() {

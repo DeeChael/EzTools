@@ -74,7 +74,19 @@
     ]
   },
   "item.rename.title": "&c&l编辑名称",
-  "item.rename.input_left.display": "请输入物品名称",
+  "item.rename.input_left": {
+    "display": "请输入物品名称"
+  },
+  "item.lore.lore_item": {
+    "lore": [
+      {
+        "text": "&a左键点击编辑"
+      },
+      {
+        "text": "&c右键点击删除"
+      }
+    ]
+  },
   "item.lore.title": "&c&l编辑介绍",
   "item.lore.button.new": {
     "display": "&a&l新建一行",
@@ -90,6 +102,29 @@
       }
     ]
   },
+  "item.lore.button.previous": {
+    "display": "&b&l上一页",
+    "lore": [
+      {
+        "text": "&e&l%now_page%&7&l/&e&l%total_page%"
+      },
+      {
+        "text": "&e点击前往上一页"
+      }
+    ]
+  },
+  "item.lore.button.next": {
+    "display": "&b&l下一页",
+    "lore": [
+      {
+        "text": "&e&l%now_page%&7&l/&e&l%total_page%"
+      },
+      {
+        "text": "&e点击前往下一页"
+      }
+    ]
+  },
   "item.lore_new_line.title": "&c&l新建一行介绍",
-  "item.lore_new_line.input_left.display": "请输入介绍"
+  "item.lore_new_line.input_left.display": "请输入介绍",
+  "item.lore_edit.title": "&c&l编辑介绍"
 }

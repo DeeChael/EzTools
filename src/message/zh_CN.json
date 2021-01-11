@@ -17,7 +17,7 @@
   "item.attribute.add": "&a使属性 &e%attribute% &a在栏位 &e%slot% &a时属性的为 &e%final%&a(增加了 %added%)",
   "item.attribute.set": "&a已设置属性 &e%attribute% &a在栏位 &e%slot% &a时属性增加 &e%final%",
   "item.attribute.remove": "&a已删除属性 &e%attribute% &a在栏位 &e%slot% &a时的属性",
-  "item.save.success": "&a成功保存本地实体 &e%local_name%",
+  "item.save.success": "&a成功保存本地物品 &e%local_name%",
   "item.load.success": "&a成功加载本地物品 &e%local_name%",
   "item.load.not_exist": "&c本地物品 &6%local_name% &c不存在",
   "entity.select.cancel_last": "&a已取消选择上一个已选择的实体",
@@ -33,5 +33,8 @@
   "entity.summon.success": "&a成功生成本地实体 &e%local_name%",
   "entity.sumoon.not_exist": "&c本地实体 &6%local_name% &c不存在",
   "item.gui.lore_new_line.success": "&a新建了一行介绍",
-  "item.gui.lore_new_line.remove": "&a删除了一行介绍"
+  "item.gui.lore_edit.success": "&a成功修改介绍",
+  "item.gui.lore_new_line.remove": "&a删除了一行介绍",
+  "item.gui.lore.error.no_previous": "&c没有上一页了",
+  "item.gui.lore.error.no_next": "&c没有下一页了"
 }

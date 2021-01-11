@@ -33,6 +33,8 @@ public final class EzTools extends JavaPlugin {
 
     private static Map<Player, Entity> selectedEntities;
     private static Map<Player, ItemStack> editingItem;
+    private static Map<Player, Integer> editingLore;
+    private static Map<Player, Integer> editingPage;
 
     @Override
     public void onEnable() {
@@ -42,6 +44,8 @@ public final class EzTools extends JavaPlugin {
         configHandler = new ConfigHandler(this);
         selectedEntities = new HashMap<>();
         editingItem = new HashMap<>();
+        editingLore = new HashMap<>();
+        editingPage = new HashMap<>();
         if (!new File("plugins/EzTools/config.yml").exists()) {
             this.saveDefaultConfig();
         }
@@ -97,12 +101,14 @@ public final class EzTools extends JavaPlugin {
         new ItemCommand();
         new GuiTestCommand();
         new NbtCommand();
+        this.getServer().getConsoleSender().sendMessage("§b================================");
         this.getServer().getConsoleSender().sendMessage("§aEzTools has been enabled");
         this.getServer().getConsoleSender().sendMessage("§aEzTools - More language supported!");
         this.getServer().getConsoleSender().sendMessage("§aAuthors: SpigotMC-DeeChael, McBBS-DeeChael");
         this.getServer().getConsoleSender().sendMessage("§aMy Spigot Page: https://www.spigotmc.org/members/deechael.883670/");
         this.getServer().getConsoleSender().sendMessage("§aMy McBBS Page: https://www.mcbbs.net/?2536446");
         this.getServer().getConsoleSender().sendMessage("§aGithub Source-code: https://github.com/DeeChael/EzTools");
+        this.getServer().getConsoleSender().sendMessage("§b================================");
         AnvilAPI.enable();
     }
 
@@ -129,6 +135,7 @@ public final class EzTools extends JavaPlugin {
         } else {
             lang_gui = new JsonConfiguration(new File("plugins/EzTools/gui/en_US.json"));
         }
+        AnvilAPI.getAnvilAPI().reload();
     }
 
     public static JsonConfiguration getLanguageMessage() {
@@ -169,6 +176,14 @@ public final class EzTools extends JavaPlugin {
 
     public static Map<Player, ItemStack> getEditingItem() {
         return editingItem;
+    }
+
+    public static Map<Player, Integer> getEditingLore() {
+        return editingLore;
+    }
+
+    public static Map<Player, Integer> getEditingPage() {
+        return editingPage;
     }
 
     public static String replaceColorCode(String string) {

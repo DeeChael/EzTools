@@ -60,4 +60,12 @@ public class ItemHandler {
         itemStack.setItemMeta(itemMeta);
     }
 
+    public void replaceLore(ItemStack itemStack, int i, String string) {
+        List<String> lore = itemStack.getItemMeta().getLore();
+        lore.set(i, string);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setLore(lore);
+        itemStack.setItemMeta(itemMeta);
+    }
+
 }
