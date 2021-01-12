@@ -102,7 +102,7 @@
       }
     ]
   },
-  "item.lore.button.previous": {
+  "item.button.previous": {
     "display": "&b&l上一页",
     "lore": [
       {
@@ -113,7 +113,7 @@
       }
     ]
   },
-  "item.lore.button.next": {
+  "item.button.next": {
     "display": "&b&l下一页",
     "lore": [
       {
@@ -126,5 +126,200 @@
   },
   "item.lore_new_line.title": "&c&l新建一行介绍",
   "item.lore_new_line.input_left.display": "请输入介绍",
-  "item.lore_edit.title": "&c&l编辑介绍"
+  "item.lore_edit.title": "&c&l编辑介绍",
+  "item.enchant.title": "&c&l编辑附魔",
+  "item.enchant.enchantment_item": {
+    "lore": [
+      {
+        "text": "&a等级: &e%level%"
+      },
+      {
+        "text": "&e点击编辑"
+      }
+    ]
+  },
+  "item.edit_enchantment.title": "&c&l正在编辑附魔",
+  "item.edit_enchantment.button.level.up_1":{
+    "display": "&a&l增加一级",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&a提升一级附魔的等级"
+      },
+      {
+        "text": "&e点击提升"
+      }
+    ]
+  },
+  "item.edit_enchantment.button.level.up_10":{
+    "display": "&a&l增加十级",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&a提升十级附魔的等级"
+      },
+      {
+        "text": "&e点击提升"
+      }
+    ]
+  },
+  "item.edit_enchantment.button.level.up_100":{
+    "display": "&a&l增加一百级",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&a提升一百级附魔的等级"
+      },
+      {
+        "text": "&e点击提升"
+      }
+    ]
+  },
+  "item.edit_enchantment.button.level.up_1k":{
+    "display": "&a&l增加一千级",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&a提升一千级附魔的等级"
+      },
+      {
+        "text": "&e点击提升"
+      }
+    ]
+  },
+  "item.edit_enchantment.button.level.up_10k":{
+    "display": "&a&l增加一万级",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&a提升一万级附魔的等级"
+      },
+      {
+        "text": "&e点击提升"
+      }
+    ]
+  },
+  "item.edit_enchantment.button.level.up_100k":{
+    "display": "&a&l增加十万级",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&a提升十万级附魔的等级"
+      },
+      {
+        "text": "&e点击提升"
+      }
+    ]
+  },
+  "item.edit_enchantment.button.level.down_1":{
+    "display": "&a&l减少一级",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&a降低一级附魔的等级"
+      },
+      {
+        "text": "&e点击降低"
+      }
+    ]
+  },
+  "item.edit_enchantment.button.level.down_10":{
+    "display": "&a&l减少十级",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&a降低十级附魔的等级"
+      },
+      {
+        "text": "&e点击降低"
+      }
+    ]
+  },
+  "item.edit_enchantment.button.level.down_100":{
+    "display": "&a&l减少一百级",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&a降低一百级附魔的等级"
+      },
+      {
+        "text": "&e点击降低"
+      }
+    ]
+  },
+  "item.edit_enchantment.button.level.down_1k":{
+    "display": "&a&l减少一千级",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&a降低一千级附魔的等级"
+      },
+      {
+        "text": "&e点击降低"
+      }
+    ]
+  },
+  "item.edit_enchantment.button.level.down_10k":{
+    "display": "&a&l减少一万级",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&a降低一万级附魔的等级"
+      },
+      {
+        "text": "&e点击降低"
+      }
+    ]
+  },
+  "item.edit_enchantment.button.level.down_100k":{
+    "display": "&a&l减少十万级",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&a降低十万级附魔的等级"
+      },
+      {
+        "text": "&e点击降低"
+      }
+    ]
+  },
+  "item.edit_enchantment.button.apply":{
+    "display": "&a&l确认应用",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&a将修改好的等级应用到物品上"
+      },
+      {
+        "text": "&e点击应用"
+      }
+    ]
+  },
+  "item.attribute.title": "&c&l编辑属性"
 }

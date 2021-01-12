@@ -102,7 +102,7 @@
       }
     ]
   },
-  "item.lore.button.previous": {
+  "item.button.previous": {
     "display": "&b&lPrevious page",
     "lore": [
       {
@@ -113,7 +113,7 @@
       }
     ]
   },
-  "item.lore.button.next": {
+  "item.button.next": {
     "display": "&b&lNext page",
     "lore": [
       {
@@ -126,5 +126,200 @@
   },
   "item.lore_new_line.title": "&c&lCreate a new lore line",
   "item.lore_new_line.input_left.display": "Please enter the text of this line",
-  "item.lore_edit.title": "&c&lEdit lore"
+  "item.lore_edit.title": "&c&lEdit lore",
+  "item.enchant.title": "&c&lEdit Enchantment",
+  "item.enchant.enchantment_item": {
+    "lore": [
+      {
+        "text": "&aLevel: &e%level%"
+      },
+      {
+        "text": "&eClick to edit"
+      }
+    ]
+  },
+  "item.edit_enchantment.title": "&c&lEditing enchantment",
+  "item.edit_enchantment.button.level.up_1":{
+    "display": "&a&lUp 1",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&aUp enchantment level by 1"
+      },
+      {
+        "text": "&eClick to up"
+      }
+    ]
+  },
+  "item.edit_enchantment.button.level.up_10":{
+    "display": "&a&lUp 10",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&aUp enchantment level by 10"
+      },
+      {
+        "text": "&eClick to up"
+      }
+    ]
+  },
+  "item.edit_enchantment.button.level.up_100":{
+    "display": "&a&lUp 100",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&aUp enchantment level by 100"
+      },
+      {
+        "text": "&eClick to up"
+      }
+    ]
+  },
+  "item.edit_enchantment.button.level.up_1k":{
+    "display": "&a&lUp 1k",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&aUp enchantment level by 1k"
+      },
+      {
+        "text": "&eClick to up"
+      }
+    ]
+  },
+  "item.edit_enchantment.button.level.up_10k":{
+    "display": "&a&lUp 10k",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&aUp enchantment level by 10k"
+      },
+      {
+        "text": "&eClick to up"
+      }
+    ]
+  },
+  "item.edit_enchantment.button.level.up_100k":{
+    "display": "&a&lUp 100k",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&aUp enchantment level by 100k"
+      },
+      {
+        "text": "&eClick to up"
+      }
+    ]
+  },
+  "item.edit_enchantment.button.level.down_1":{
+    "display": "&a&lDown 1",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&aDown enchantment level by 1"
+      },
+      {
+        "text": "&eClick to down"
+      }
+    ]
+  },
+  "item.edit_enchantment.button.level.down_10":{
+    "display": "&a&lDown 10",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&aDown enchantment level by 10"
+      },
+      {
+        "text": "&eClick to down"
+      }
+    ]
+  },
+  "item.edit_enchantment.button.level.down_100":{
+    "display": "&a&lDown 100",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&aDown enchantment level by 100"
+      },
+      {
+        "text": "&eClick to down"
+      }
+    ]
+  },
+  "item.edit_enchantment.button.level.down_1k":{
+    "display": "&a&lDown 1k",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&aDown enchantment level by 1k"
+      },
+      {
+        "text": "&eClick to down"
+      }
+    ]
+  },
+  "item.edit_enchantment.button.level.down_10k":{
+    "display": "&a&lDown 10k",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&aDown enchantment level by 10k"
+      },
+      {
+        "text": "&eClick to down"
+      }
+    ]
+  },
+  "item.edit_enchantment.button.level.down_100k":{
+    "display": "&a&lDown 100k",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&aDown enchantment level by 100k"
+      },
+      {
+        "text": "&eClick to down"
+      }
+    ]
+  },
+  "item.edit_enchantment.button.apply":{
+    "display": "&a&lApply",
+    "lore": [
+      {
+        "text": "&r"
+      },
+      {
+        "text": "&aApply enchantment on item"
+      },
+      {
+        "text": "&eClick to apply"
+      }
+    ]
+  },
+  "item.attribute.title": "&c&lEdit attribute"
 }

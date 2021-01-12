@@ -38,6 +38,8 @@ public final class EzTools extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        //Start enable EzTools
+
         ezTools = this;
         guiHandler = new GuiHandler(this);
         itemHandler = new ItemHandler(this);
@@ -46,9 +48,14 @@ public final class EzTools extends JavaPlugin {
         editingItem = new HashMap<>();
         editingLore = new HashMap<>();
         editingPage = new HashMap<>();
+        //Save Config
         if (!new File("plugins/EzTools/config.yml").exists()) {
             this.saveDefaultConfig();
+            this.reloadConfig();
         }
+        //Saver File Check
+        //If item.yml/entity.yml is not exist it will create new files
+        //Your local items and entities will save in these files
         if (!new File("plugins/EzTools/item.yml").exists()) {
             try {
                 new File("plugins/EzTools/item.yml").createNewFile();
@@ -63,12 +70,15 @@ public final class EzTools extends JavaPlugin {
                 e.printStackTrace();
             }
         }
+        //Save Language File
+        //Always replace to make sure new message will write into language file and it won't throw NullPointerException
         this.saveResource("message/zh_CN.json", true);
         this.saveResource("command/zh_CN.json", true);
         this.saveResource("gui/zh_CN.json", true);
         this.saveResource("message/en_US.json", true);
         this.saveResource("command/en_US.json", true);
         this.saveResource("gui/en_US.json", true);
+        //Load Language
         if (new File("plugins/EzTools/message/" + this.getConfig().getString("Setting.Language") + ".json").exists()) {
             lang_message = new JsonConfiguration(new File("plugins/EzTools/message/" + this.getConfig().getString("Setting.Language") + ".json"));
         } else {
@@ -84,6 +94,7 @@ public final class EzTools extends JavaPlugin {
         } else {
             lang_gui = new JsonConfiguration(new File("plugins/EzTools/gui/en_US.json"));
         }
+        //Get CommandMap with method in CraftServer 'getCommandMap'
         final Class<?> c = Bukkit.getServer().getClass();
         for (final Method method : c.getDeclaredMethods()) {
             if (method.getName().equals("getCommandMap")) {
@@ -94,13 +105,19 @@ public final class EzTools extends JavaPlugin {
                 }
             }
         }
+        //Register Events
         Bukkit.getPluginManager().registerEvents(new EntityEventListener(), this);
         Bukkit.getPluginManager().registerEvents(new GuiListener(), this);
+        //Register Commands
         new EntityCommand();
         new EzToolsCommand();
         new ItemCommand();
         new GuiTestCommand();
         new NbtCommand();
+
+        //Finish enable EzTools
+
+        //Enabled Message
         this.getServer().getConsoleSender().sendMessage("§b================================");
         this.getServer().getConsoleSender().sendMessage("§aEzTools has been enabled");
         this.getServer().getConsoleSender().sendMessage("§aEzTools - More language supported!");
@@ -109,6 +126,8 @@ public final class EzTools extends JavaPlugin {
         this.getServer().getConsoleSender().sendMessage("§aMy McBBS Page: https://www.mcbbs.net/?2536446");
         this.getServer().getConsoleSender().sendMessage("§aGithub Source-code: https://github.com/DeeChael/EzTools");
         this.getServer().getConsoleSender().sendMessage("§b================================");
+
+        //Start AnvilAPI...
         AnvilAPI.enable();
     }
 
@@ -197,8 +216,7 @@ public final class EzTools extends JavaPlugin {
     }
 
     private String getNMS() {
-        String version = Bukkit.getServer().getClass().getPackage().getName();
-        return version.substring(version.lastIndexOf('.') + 1);
+        return Bukkit.getServer().getClass().getPackage().getName().substring(Bukkit.getServer().getClass().getPackage().getName().lastIndexOf('.') + 1);
     }
 
     private static void unknownMethod() {

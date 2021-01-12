@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.eztools.EzTools;
 import org.eztools.GuiHandler;
+import org.eztools.enchantment.Enchantment;
 import org.eztools.util.JsonConfiguration;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class GuiListener implements Listener {
                 EzTools.getGuiHandler().openInventory((Player) e.getView().getPlayer(), GuiHandler.InventoryType.ITEM_LORE, EzTools.getEditingItem().get(e.getView().getPlayer()));
             } else if (e.getRawSlot() == 31) {
                 //Item Main -> Item Enchant
-
+                EzTools.getGuiHandler().openInventory((Player) e.getView().getPlayer(), GuiHandler.InventoryType.ITEM_ENCHANT, EzTools.getEditingItem().get(e.getView().getPlayer()));
             } else if (e.getRawSlot() == 32) {
                 //Item Main -> Item Attribute
 
@@ -113,7 +114,7 @@ public class GuiListener implements Listener {
                         EzTools.getGuiHandler().loreMenu((Player) e.getView().getPlayer(), itemStack, page);
                         ((Player) e.getView().getPlayer()).playSound(e.getView().getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.AMBIENT, 1f, 1f);
                     } else {
-                        e.getView().getPlayer().sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("item.gui.lore.error.no_previous")));
+                        e.getView().getPlayer().sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("item.gui.error.no_previous")));
                         ((Player) e.getView().getPlayer()).playSound(e.getView().getPlayer().getLocation(), Sound.ENTITY_VILLAGER_NO, SoundCategory.AMBIENT, 1f, 1f);
                     }
                 }
@@ -125,7 +126,7 @@ public class GuiListener implements Listener {
                     EzTools.getGuiHandler().loreMenu((Player) e.getView().getPlayer(), itemStack, page);
                     ((Player) e.getView().getPlayer()).playSound(e.getView().getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.AMBIENT, 1f, 1f);
                 } else {
-                    e.getView().getPlayer().sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("item.gui.lore.error.no_next")));
+                    e.getView().getPlayer().sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("item.gui.error.no_next")));
                     ((Player) e.getView().getPlayer()).playSound(e.getView().getPlayer().getLocation(), Sound.ENTITY_VILLAGER_NO, SoundCategory.AMBIENT, 1f, 1f);
                 }
             }
@@ -154,6 +155,127 @@ public class GuiListener implements Listener {
                 EzTools.getGuiHandler().openInventory((Player) e.getView().getPlayer(), GuiHandler.InventoryType.ITEM_LORE, itemStack);
                 EzTools.getEditingLore().remove(e.getView().getPlayer());
             }
+        } else if (e.getView().getTitle().equalsIgnoreCase(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("item.attribute.title")))) {
+            if (
+                    e.getRawSlot() >= 9
+                            && e.getRawSlot() <= 43
+                            && e.getRawSlot() != 17
+                            && e.getRawSlot() != 18
+                            && e.getRawSlot() != 26
+                            && e.getRawSlot() != 27
+                            && e.getRawSlot() != 35
+                            && e.getRawSlot() != 36
+                            && e.getView().getTopInventory().getItem(e.getRawSlot()).getType().equals(Material.BEACON)
+            ) {
+
+            }
+        } else if (e.getView().getTitle().equalsIgnoreCase(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("item.enchant.title")))) {
+            if (
+                    e.getRawSlot() >= 9
+                            && e.getRawSlot() <= 43
+                            && e.getRawSlot() != 17
+                            && e.getRawSlot() != 18
+                            && e.getRawSlot() != 26
+                            && e.getRawSlot() != 27
+                            && e.getRawSlot() != 35
+                            && e.getRawSlot() != 36
+                            && e.getView().getTopInventory().getItem(e.getRawSlot()).getType().equals(Material.BOOK)
+            ) {
+                Enchantment enchantment = Enchantment.valueOf(e.getView().getTopInventory().getItem(e.getRawSlot()).getItemMeta().getLore().get(0));
+                ItemStack itemStack = EzTools.getEditingItem().get(e.getView().getPlayer());
+                e.getView().getPlayer().closeInventory();
+                EzTools.getGuiHandler().editEnchant((Player) e.getView().getPlayer(), itemStack, enchantment);
+                ((Player) e.getView().getPlayer()).playSound(e.getView().getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.AMBIENT, 1f, 1f);
+            } else if (e.getRawSlot() == 45) {
+                if (EzTools.getEditingPage().get(e.getView().getPlayer()) != 1) {
+                    ItemStack itemStack = EzTools.getEditingItem().get(e.getView().getPlayer());
+                    int page = EzTools.getEditingPage().get(e.getView().getPlayer()) - 1;
+                    e.getView().getPlayer().closeInventory();
+                    EzTools.getGuiHandler().enchantMenu((Player) e.getView().getPlayer(), itemStack, page);
+                    ((Player) e.getView().getPlayer()).playSound(e.getView().getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.AMBIENT, 1f, 1f);
+                } else {
+                    e.getView().getPlayer().sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("item.gui.error.no_previous")));
+                    ((Player) e.getView().getPlayer()).playSound(e.getView().getPlayer().getLocation(), Sound.ENTITY_VILLAGER_NO, SoundCategory.AMBIENT, 1f, 1f);
+                }
+            } else if (e.getRawSlot() == 53) {
+                if (EzTools.getGuiHandler().hasNextPageEnchantment(EzTools.getEditingPage().get(e.getView().getPlayer()))) {
+                    ItemStack itemStack = EzTools.getEditingItem().get(e.getView().getPlayer());
+                    int page = EzTools.getEditingPage().get(e.getView().getPlayer()) + 1;
+                    e.getView().getPlayer().closeInventory();
+                    EzTools.getGuiHandler().enchantMenu((Player) e.getView().getPlayer(), itemStack, page);
+                    ((Player) e.getView().getPlayer()).playSound(e.getView().getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.AMBIENT, 1f, 1f);
+                } else {
+                    e.getView().getPlayer().sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("item.gui.error.no_next")));
+                    ((Player) e.getView().getPlayer()).playSound(e.getView().getPlayer().getLocation(), Sound.ENTITY_VILLAGER_NO, SoundCategory.AMBIENT, 1f, 1f);
+                }
+            }
+        } else if (e.getView().getTitle().equalsIgnoreCase(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("item.edit_enchantment.title")))) {
+            e.setCancelled(true);
+            ItemStack book = e.getView().getTopInventory().getItem(13);
+            Enchantment enchantment = Enchantment.valueOf(book.getItemMeta().getLore().get(0));
+            int i = 1;
+            try {
+                 i = Integer.valueOf(book.getItemMeta().getLore().get(1));
+            } catch (NumberFormatException e1) {
+            }
+            if (e.getRawSlot() == 10) {
+                //down 1
+                EzTools.getItemHandler().replaceLore(book, 1, "" + (i - 1));
+                ((Player) e.getView().getPlayer()).playSound(e.getView().getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.AMBIENT, 1f, 1f);
+            } else if (e.getRawSlot() == 11) {
+                //down 10
+                EzTools.getItemHandler().replaceLore(book, 1, "" + (i - 10));
+                ((Player) e.getView().getPlayer()).playSound(e.getView().getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.AMBIENT, 1f, 1f);
+            } else if (e.getRawSlot() == 12) {
+                //down 100
+                EzTools.getItemHandler().replaceLore(book, 1, "" + (i - 100));
+                ((Player) e.getView().getPlayer()).playSound(e.getView().getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.AMBIENT, 1f, 1f);
+            } else if (e.getRawSlot() == 19) {
+                //down 1k
+                EzTools.getItemHandler().replaceLore(book, 1, "" + (i - 1000));
+                ((Player) e.getView().getPlayer()).playSound(e.getView().getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.AMBIENT, 1f, 1f);
+            } else if (e.getRawSlot() == 20) {
+                //down 10k
+                EzTools.getItemHandler().replaceLore(book, 1, "" + (i - 10000));
+                ((Player) e.getView().getPlayer()).playSound(e.getView().getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.AMBIENT, 1f, 1f);
+            } else if (e.getRawSlot() == 21) {
+                //down 100k
+                EzTools.getItemHandler().replaceLore(book, 1, "" + (i - 100000));
+                ((Player) e.getView().getPlayer()).playSound(e.getView().getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.AMBIENT, 1f, 1f);
+            } else if (e.getRawSlot() == 14) {
+                //up 1
+                EzTools.getItemHandler().replaceLore(book, 1, "" + (i + 1));
+                ((Player) e.getView().getPlayer()).playSound(e.getView().getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.AMBIENT, 1f, 1f);
+            } else if (e.getRawSlot() == 15) {
+                //up 10
+                EzTools.getItemHandler().replaceLore(book, 1, "" + (i + 10));
+                ((Player) e.getView().getPlayer()).playSound(e.getView().getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.AMBIENT, 1f, 1f);
+            } else if (e.getRawSlot() == 16) {
+                //up 100
+                EzTools.getItemHandler().replaceLore(book, 1, "" + (i + 100));
+                ((Player) e.getView().getPlayer()).playSound(e.getView().getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.AMBIENT, 1f, 1f);
+            } else if (e.getRawSlot() == 23) {
+                //up 1k
+                EzTools.getItemHandler().replaceLore(book, 1, "" + (i + 1000));
+                ((Player) e.getView().getPlayer()).playSound(e.getView().getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.AMBIENT, 1f, 1f);
+            } else if (e.getRawSlot() == 24) {
+                //up 10k
+                EzTools.getItemHandler().replaceLore(book, 1, "" + (i + 10000));
+                ((Player) e.getView().getPlayer()).playSound(e.getView().getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.AMBIENT, 1f, 1f);
+            } else if (e.getRawSlot() == 25) {
+                //up 100k
+                EzTools.getItemHandler().replaceLore(book, 1, "" + (i + 100000));
+                ((Player) e.getView().getPlayer()).playSound(e.getView().getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.AMBIENT, 1f, 1f);
+            } else if (e.getRawSlot() == 22) {
+                //Apply button
+                ItemStack itemStack = EzTools.getEditingItem().get(e.getView().getPlayer());
+                ItemMeta itemMeta = itemStack.getItemMeta();
+                itemMeta.addEnchant(enchantment.getEnchantment(), i, true);
+                itemStack.setItemMeta(itemMeta);
+                e.getView().getPlayer().closeInventory();
+                EzTools.getGuiHandler().enchantMenu((Player) e.getView().getPlayer(), itemStack, 1);
+                ((Player) e.getView().getPlayer()).playSound(e.getView().getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.AMBIENT, 1f, 1f);
+            }
         } else if (e.getView().getTitle().equalsIgnoreCase("Developer Tool")) {
             e.setCancelled(true);
         }
@@ -166,10 +288,15 @@ public class GuiListener implements Listener {
                 || e.getView().getTitle().equalsIgnoreCase(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("item.rename.title")))
                 || e.getView().getTitle().equalsIgnoreCase(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("item.lore.title")))
                 || e.getView().getTitle().equalsIgnoreCase(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("item.lore_new_line.title")))
+                || e.getView().getTitle().equalsIgnoreCase(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("item.attribute.title")))
+                || e.getView().getTitle().equalsIgnoreCase(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("item.enchant.title")))
         ) {
             EzTools.getEditingItem().remove(e.getPlayer());
         }
-        if (e.getView().getTitle().equalsIgnoreCase(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("item.lore.title")))) {
+        if (
+                e.getView().getTitle().equalsIgnoreCase(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("item.lore.title")))
+                || e.getView().getTitle().equalsIgnoreCase(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("item.enchant.title")))
+        ) {
             EzTools.getEditingPage().remove(e.getPlayer());
         }
     }

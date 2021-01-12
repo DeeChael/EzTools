@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.eztools.EzTools;
 import org.eztools.util.JsonConfiguration;
 
@@ -46,11 +47,16 @@ public class NbtCommand extends Command {
                 if (args.length == 2) {
                     if (((Player) s).getInventory().getItemInMainHand().getType().equals(Material.PLAYER_HEAD)) {
                         ItemStack skull = ((Player) s).getInventory().getItemInMainHand();
-                        SkullMeta meta = (SkullMeta) skull.getItemMeta();
-                        JsonConfiguration jsonConfiguration = new JsonConfiguration("https://api.mojang.com/users/profiles/minecraft/" + args[1]);
-                        UUID uuid = UUID.fromString(jsonConfiguration.getString("id"));
-                        meta.setOwningPlayer(Bukkit.getOfflinePlayer(uuid));
-                        skull.setItemMeta(meta);
+                        new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                SkullMeta meta = (SkullMeta) skull.getItemMeta();
+                                JsonConfiguration jsonConfiguration = new JsonConfiguration("https://api.mojang.com/users/profiles/minecraft/" + args[1]);
+                                UUID uuid = UUID.fromString(jsonConfiguration.getString("id"));
+                                meta.setOwningPlayer(Bukkit.getOfflinePlayer(uuid));
+                                skull.setItemMeta(meta);
+                            }
+                        }.runTaskAsynchronously(EzTools.getEzTools());
                     } else {
                         s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.hold_skull")));
                     }

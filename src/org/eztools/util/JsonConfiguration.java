@@ -8,9 +8,7 @@ import com.google.gson.JsonObject;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class JsonConfiguration {
 
@@ -74,6 +72,24 @@ public class JsonConfiguration {
         return new JsonConfiguration(this.jsonObject.getAsJsonObject(key));
     }
 
+    public void set(String key, Object value) {
+        if (value instanceof String) {
+            this.jsonObject.addProperty(key, (String) value);
+        } else if (value instanceof Number) {
+            this.jsonObject.addProperty(key, (Number) value);
+        } else if (value instanceof Boolean) {
+            this.jsonObject.addProperty(key, (Boolean) value);
+        } else if (value instanceof Character) {
+            this.jsonObject.addProperty(key, (Character) value);
+        } else if (value instanceof JsonObject) {
+            this.jsonObject.add(key, (JsonObject) value);
+        } else if (value instanceof JsonArray) {
+            this.jsonObject.add(key, (JsonArray) value);
+        } else {
+            this.jsonObject.addProperty(key, value.toString());
+        }
+    }
+
     public Object get(String key) {
         return this.jsonObject.get(key);
     }
@@ -112,6 +128,21 @@ public class JsonConfiguration {
 
     public Character getCharacter(String key) {
         return this.jsonObject.get(key).getAsCharacter();
+    }
+
+    public void save(File file) {
+        String json = new Gson().toJson(this.jsonObject);
+        FileWriter fileWriter = null;
+        try {
+            fileWriter = new FileWriter(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            fileWriter.write(json);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public List<JsonConfiguration> getJsonObjectsInJsonArray(String key) {

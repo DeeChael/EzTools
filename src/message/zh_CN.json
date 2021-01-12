@@ -35,6 +35,6 @@
   "item.gui.lore_new_line.success": "&a新建了一行介绍",
   "item.gui.lore_edit.success": "&a成功修改介绍",
   "item.gui.lore_new_line.remove": "&a删除了一行介绍",
-  "item.gui.lore.error.no_previous": "&c没有上一页了",
-  "item.gui.lore.error.no_next": "&c没有下一页了"
+  "item.gui.error.no_previous": "&c没有上一页了",
+  "item.gui.error.no_next": "&c没有下一页了"
 }
