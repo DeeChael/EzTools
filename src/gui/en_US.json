@@ -321,5 +321,20 @@
       }
     ]
   },
-  "item.attribute.title": "&c&lEdit attribute"
+  "item.attribute_before.title": "&c&lSelect slot",
+  "item.attribute.title": "&c&lEdit attribute",
+  "item.attribute.attribute_item": {
+    "lore": [
+      {
+        "text": "&aAmount: &e%amount%"
+      },
+      {
+        "text": "&eClick to edit"
+      }
+    ]
+  },
+  "item.attribute_edit.title": "&c&lEdit attribute amount",
+  "item.attribute_edit.input_left": {
+    "display": "Please enter the amount of the attribute"
+  }
 }

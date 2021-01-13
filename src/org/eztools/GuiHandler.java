@@ -7,17 +7,16 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.eztools.enchantment.Enchantment;
 import org.eztools.util.JsonConfiguration;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class GuiHandler {
 
@@ -89,7 +88,7 @@ public class GuiHandler {
         } else if (type == InventoryType.ITEM_RENAME) {
             ItemStack paper = new ItemStack(Material.PAPER);
             ItemMeta paperMeta = paper.getItemMeta();
-            paperMeta.setDisplayName(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("item.rename.input_left.display")));
+            paperMeta.setDisplayName(this.getDisplay("item.rename.input_left"));
             paper.setItemMeta(paperMeta);
 
             DAnvil anvil = AnvilAPI.getAnvilAPI().getAnvil(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("item.rename.title")), player);
@@ -117,45 +116,53 @@ public class GuiHandler {
         } else if (type == InventoryType.ITEM_ENCHANT) {
             this.enchantMenu(player, itemStack, 1);
         } else if (type == InventoryType.ITEM_ATTRIBUTE) {
-            Inventory inventory = Bukkit.createInventory(null, 54, EzTools.replaceColorCode(EzTools.getLanguageGui().getString("item.attribute.title")));
-
-            //Paint a circle
-            inventory.setItem(0, background);
-            inventory.setItem(1, background);
-            inventory.setItem(2, background);
-            inventory.setItem(3, background);
-            inventory.setItem(4, background);
-            inventory.setItem(5, background);
-            inventory.setItem(6, background);
-            inventory.setItem(7, background);
-            inventory.setItem(8, background);
-            inventory.setItem(9, background);
-            inventory.setItem(17, background);
-            inventory.setItem(18, background);
-            inventory.setItem(26, background);
-            inventory.setItem(27, background);
-            inventory.setItem(35, background);
-            inventory.setItem(36, background);
-            inventory.setItem(44, background);
-            inventory.setItem(45, background);
-            inventory.setItem(46, background);
-            inventory.setItem(47, background);
-            inventory.setItem(48, background);
-            inventory.setItem(49, background);
-            inventory.setItem(50, background);
-            inventory.setItem(51, background);
-            inventory.setItem(52, background);
-            inventory.setItem(53, background);
-
-            int i = 0;
-
-            for (Attribute attribute : Attribute.values()) {
-                ItemStack beacon = new ItemStack(Material.BEACON);
-                ItemMeta beaconMeta = beacon.getItemMeta();
-                beaconMeta.setDisplayName(StringUtils.lowerCase(attribute.name()));
-                beacon.setItemMeta(beaconMeta);
-                i += 1;
+            Inventory inventory = Bukkit.createInventory(null, 27, EzTools.replaceColorCode(EzTools.getLanguageGui().getString("item.attribute_before.title")));
+            for (int i = 0; i < inventory.getSize(); i++) {
+                inventory.setItem(i, background);
             }
+            //Main Hand
+            ItemStack mainHandItem = new ItemStack(Material.DIAMOND_SWORD);
+            ItemMeta mainHandItemMeta = mainHandItem.getItemMeta();
+            mainHandItemMeta.setDisplayName(EquipmentSlot.HAND.name());
+            mainHandItemMeta.setLore(Arrays.asList(EquipmentSlot.HAND.name()));
+            mainHandItem.setItemMeta(mainHandItemMeta);
+            //Off Hand
+            ItemStack offHandItem = new ItemStack(Material.SHIELD);
+            ItemMeta offHandItemMeta = offHandItem.getItemMeta();
+            offHandItemMeta.setDisplayName(EquipmentSlot.OFF_HAND.name());
+            offHandItemMeta.setLore(Arrays.asList(EquipmentSlot.OFF_HAND.name()));
+            offHandItem.setItemMeta(offHandItemMeta);
+            //Helmet
+            ItemStack helmetItem = new ItemStack(Material.DIAMOND_HELMET);
+            ItemMeta helmetMeta = helmetItem.getItemMeta();
+            helmetMeta.setDisplayName(EquipmentSlot.HEAD.name());
+            helmetMeta.setLore(Arrays.asList(EquipmentSlot.HEAD.name()));
+            helmetItem.setItemMeta(helmetMeta);
+            //Chestplate
+            ItemStack chestplateItem = new ItemStack(Material.DIAMOND_CHESTPLATE);
+            ItemMeta chestplateMeta = chestplateItem.getItemMeta();
+            chestplateMeta.setDisplayName(EquipmentSlot.CHEST.name());
+            chestplateMeta.setLore(Arrays.asList(EquipmentSlot.CHEST.name()));
+            chestplateItem.setItemMeta(chestplateMeta);
+            //Leggings
+            ItemStack leggingsItem = new ItemStack(Material.DIAMOND_LEGGINGS);
+            ItemMeta leggingsMeta = leggingsItem.getItemMeta();
+            leggingsMeta.setDisplayName(EquipmentSlot.LEGS.name());
+            leggingsMeta.setLore(Arrays.asList(EquipmentSlot.LEGS.name()));
+            leggingsItem.setItemMeta(leggingsMeta);
+            //Boots
+            ItemStack bootsItem = new ItemStack(Material.DIAMOND_BOOTS);
+            ItemMeta bootsMeta = bootsItem.getItemMeta();
+            bootsMeta.setDisplayName(EquipmentSlot.FEET.name());
+            bootsMeta.setLore(Arrays.asList(EquipmentSlot.FEET.name()));
+            bootsItem.setItemMeta(bootsMeta);
+
+            inventory.setItem(10, mainHandItem);
+            inventory.setItem(11, offHandItem);
+            inventory.setItem(12, helmetItem);
+            inventory.setItem(14, chestplateItem);
+            inventory.setItem(15, leggingsItem);
+            inventory.setItem(16, bootsItem);
 
             player.openInventory(inventory);
             if (!EzTools.getEditingItem().containsKey(player)) {
@@ -568,8 +575,92 @@ public class GuiHandler {
         return true;
     }
 
-    public void attributeMenu(Player player, ItemStack itemStack, Attribute attribute) {
-        Inventory inventory = Bukkit.createInventory(null,45, "");
+    public void attributeMenu(Player player, ItemStack itemStack, EquipmentSlot equipmentSlot) {
+        ItemStack background = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
+        ItemMeta backgroundMeta = background.getItemMeta();
+        backgroundMeta.setDisplayName(" ");
+        background.setItemMeta(backgroundMeta);
+
+        Inventory inventory = Bukkit.createInventory(null, 54, EzTools.replaceColorCode(EzTools.getLanguageGui().getString("item.attribute.title")));
+
+        //Paint a circle
+        inventory.setItem(0, background);
+        inventory.setItem(1, background);
+        inventory.setItem(2, background);
+        inventory.setItem(3, background);
+        inventory.setItem(4, background);
+        inventory.setItem(5, background);
+        inventory.setItem(6, background);
+        inventory.setItem(7, background);
+        inventory.setItem(8, background);
+        inventory.setItem(9, background);
+        inventory.setItem(17, background);
+        inventory.setItem(18, background);
+        inventory.setItem(26, background);
+        inventory.setItem(27, background);
+        inventory.setItem(35, background);
+        inventory.setItem(36, background);
+        inventory.setItem(44, background);
+        inventory.setItem(45, background);
+        inventory.setItem(46, background);
+        inventory.setItem(47, background);
+        inventory.setItem(48, background);
+        inventory.setItem(49, background);
+        inventory.setItem(50, background);
+        inventory.setItem(51, background);
+        inventory.setItem(52, background);
+        inventory.setItem(53, background);
+
+        for (Attribute attribute : Attribute.values()) {
+            ItemStack beacon = new ItemStack(Material.BEACON);
+            ItemMeta beaconMeta = beacon.getItemMeta();
+            beaconMeta.setDisplayName(StringUtils.lowerCase(attribute.name()));
+            List<String> lore = new ArrayList<>();
+            lore.add(attribute.name());
+            lore.add(equipmentSlot.name());
+            double amount = 0.0;
+            if (itemStack.getItemMeta().hasAttributeModifiers()) {
+                if (itemStack.getItemMeta().getAttributeModifiers(attribute) != null) {
+                    if (itemStack.getItemMeta().getAttributeModifiers().size() > 0) {
+                        for (AttributeModifier attributeModifier : itemStack.getItemMeta().getAttributeModifiers(attribute)) {
+                            if (attributeModifier.getSlot().equals(equipmentSlot)) {
+                                amount += attributeModifier.getAmount();
+                            }
+                        }
+                    }
+                }
+            }
+            for (String string : this.getLore("item.attribute.attribute_item")) {
+                lore.add(string.replace("%amount%", amount + ""));
+            }
+            beaconMeta.setLore(lore);
+            beacon.setItemMeta(beaconMeta);
+            inventory.addItem(beacon);
+        }
+
+        player.openInventory(inventory);
+        if (!EzTools.getEditingItem().containsKey(player)) {
+            EzTools.getEditingItem().put(player, itemStack);
+        }
+        EzTools.getEditingEquipmentSlot().put(player, equipmentSlot);
+    }
+
+    public void editAttribute(Player player, ItemStack itemStack, Attribute attribute, EquipmentSlot equipmentSlot) {
+        DAnvil anvil = AnvilAPI.getAnvilAPI().getAnvil(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("item.attribute_edit.title")), player);
+
+        ItemStack paper = new ItemStack(Material.PAPER);
+        ItemMeta paperMeta = paper.getItemMeta();
+        paperMeta.setDisplayName(this.getDisplay("item.attribute_edit.input_left"));
+        paper.setItemMeta(paperMeta);
+
+        anvil.setItemStack(Slot.INPUT_LEFT, paper);
+
+        anvil.openInventory();
+        if (!EzTools.getEditingItem().containsKey(player)) {
+            EzTools.getEditingItem().put(player, itemStack);
+        }
+        EzTools.getEditingAttribute().put(player, attribute);
+        EzTools.getEditingEquipmentSlot().put(player, equipmentSlot);
     }
 
     private String getDisplay(String key) {

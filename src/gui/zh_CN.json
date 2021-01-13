@@ -321,5 +321,20 @@
       }
     ]
   },
-  "item.attribute.title": "&c&l编辑属性"
+  "item.attribute_before.title": "&c&l选择栏位",
+  "item.attribute.title": "&c&l编辑属性",
+  "item.attribute.attribute_item": {
+    "lore": [
+      {
+        "text": "&a数值: &e%amount%"
+      },
+      {
+        "text": "&e点击编辑"
+      }
+    ]
+  },
+  "item.attribute_edit.title": "&c&l编辑属性数值",
+  "item.attribute_edit.input_left": {
+    "display": "请输入属性的数值"
+  }
 }

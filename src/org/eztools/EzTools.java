@@ -2,9 +2,11 @@ package org.eztools;
 
 import net.deechael.plugin.bukkit.anvilapi.AnvilAPI;
 import org.bukkit.Bukkit;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.command.CommandMap;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.eztools.command.*;
@@ -35,6 +37,8 @@ public final class EzTools extends JavaPlugin {
     private static Map<Player, ItemStack> editingItem;
     private static Map<Player, Integer> editingLore;
     private static Map<Player, Integer> editingPage;
+    private static Map<Player, EquipmentSlot> editingEquipmentSlot;
+    private static Map<Player, Attribute> editingAttribute;
 
     @Override
     public void onEnable() {
@@ -48,6 +52,8 @@ public final class EzTools extends JavaPlugin {
         editingItem = new HashMap<>();
         editingLore = new HashMap<>();
         editingPage = new HashMap<>();
+        editingEquipmentSlot = new HashMap<>();
+        editingAttribute = new HashMap<>();
         //Save Config
         if (!new File("plugins/EzTools/config.yml").exists()) {
             this.saveDefaultConfig();
@@ -203,6 +209,14 @@ public final class EzTools extends JavaPlugin {
 
     public static Map<Player, Integer> getEditingPage() {
         return editingPage;
+    }
+
+    public static Map<Player, EquipmentSlot> getEditingEquipmentSlot() {
+        return editingEquipmentSlot;
+    }
+
+    public static Map<Player, Attribute> getEditingAttribute() {
+        return editingAttribute;
     }
 
     public static String replaceColorCode(String string) {

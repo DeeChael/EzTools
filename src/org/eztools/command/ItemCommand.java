@@ -100,7 +100,6 @@ public class ItemCommand extends Command {
             if (((Player) s).getInventory().getItemInMainHand() != null) {
                 if (args.length == 1) {
                     if (args[0].equalsIgnoreCase("gui")) {
-                        s.sendMessage("§cGui menu hasn't been finished yet!");
                         ((Player) s).playSound(((Player) s).getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.AMBIENT, 1f, 1f);
                         EzTools.getGuiHandler().openInventory((Player) s, GuiHandler.InventoryType.ITEM_MAIN, ((Player) s).getInventory().getItemInMainHand());
                     } else if (args[0].equalsIgnoreCase("unbreakable")) {
