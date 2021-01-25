@@ -42,8 +42,6 @@ public class NbtCommand extends Command {
             } else if (args[0].equalsIgnoreCase("potion")) {
                 list.add("add");
                 list.add("remove");
-                list.add("save");
-                list.add("load");
             } else {
                 list.add(" ");
             }
@@ -57,10 +55,6 @@ public class NbtCommand extends Command {
                     for (PotionEffectType potionEffectType : PotionEffectType.values()) {
                         list.add(StringUtils.lowerCase(potionEffectType.getName()));
                     }
-                } else if (args[1].equalsIgnoreCase("save")) {
-
-                } else if (args[1].equalsIgnoreCase("load")) {
-
                 } else {
                     list.add(" ");
                 }
@@ -71,6 +65,40 @@ public class NbtCommand extends Command {
             if (args[0].equalsIgnoreCase("potion")) {
                 if (args[1].equalsIgnoreCase("add")) {
                     list.add(EzTools.getLanguageCommand().getString("eztools.args_4.nbt.potion.<time>"));
+                } else {
+                    list.add(" ");
+                }
+            } else {
+                list.add(" ");
+            }
+        } else if (args.length == 5) {
+            if (args[0].equalsIgnoreCase("potion")) {
+                if (args[1].equalsIgnoreCase("add")) {
+                    list.add(EzTools.getLanguageCommand().getString("eztools.args_5.nbt.potion.<level>"));
+                } else {
+                    list.add(" ");
+                }
+            } else {
+                list.add(" ");
+            }
+        } else if (args.length == 6) {
+            if (args[0].equalsIgnoreCase("potion")) {
+                if (args[1].equalsIgnoreCase("add")) {
+                    list.add("true");
+                    list.add("false");
+                    list.add(EzTools.getLanguageCommand().getString("eztools.args_6.nbt.potion.particles"));
+                } else {
+                    list.add(" ");
+                }
+            } else {
+                list.add(" ");
+            }
+        } else if (args.length == 7) {
+            if (args[0].equalsIgnoreCase("potion")) {
+                if (args[1].equalsIgnoreCase("add")) {
+                    list.add("true");
+                    list.add("false");
+                    list.add(EzTools.getLanguageCommand().getString("eztools.args_7.nbt.potion.icon"));
                 } else {
                     list.add(" ");
                 }

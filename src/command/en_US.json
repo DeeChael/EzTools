@@ -7,5 +7,9 @@
   "eztools.args_3.entity.attribute.<attributeAmount>": "<Attribute amount>",
   "eztools.args_2.item.save.<localName>": "<Local name>",
   "eztools.args_2.entity.save.<localName>": "<Local name>",
-  "eztools.args_2.nbt.skull.<playerName>": "<Player name>"
+  "eztools.args_2.nbt.skull.<playerName>": "<Player name>",
+  "eztools.args_4.nbt.potion.<time>": "<Potion time>",
+  "eztools.args_5.nbt.potion.<level>": "<Potion level>",
+  "eztools.args_6.nbt.potion.particles": "<Show particles>",
+  "eztools.args_7.nbt.potion.icon": "<Show icon>"
 }

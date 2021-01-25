@@ -1,10 +1,13 @@
 {
   "error.wrong_usage": "&cWrong command usage",
-  "error.integer": "&cYou entered an argument than is not a number",
-  "error.hold_item": "&cPlease enter this command when you hold an item",
-  "error.hold_skull": "&cPlease enter this command when you hold a player head",
+  "error.integer": "&cYou typed an argument that is not a number",
+  "error.boolean": "&cYou typed an argument that is not a boolean",
+  "error.hold_item": "&cPlease type this command when you hold an item",
+  "error.hold_skull": "&cPlease type this command when you hold a player head",
+  "error.hold_potion": "&cPlease type this command when you hold a potion",
+  "error.cannot_be_zero": "&cInteger argument cannot be 0",
   "error.must_be_a_player": "&cYou must be a player",
-  "error.look_at_an_entity": "&cPlease enter this command when you look at an entity",
+  "error.look_at_an_entity": "&cPlease type this command when you look at an entity",
   "error.select_an_entity": "&cYou have not selected an entity",
   "error.cannot_edit_select_entity": "&cYou can not edit the entity you selected",
   "eztools.reload": "&aConfig has been reloaded",
@@ -36,5 +39,8 @@
   "item.gui.lore_edit.success": "&aEdited the line of the lore successfully",
   "item.gui.lore_new_line.remove": "&aRemoved a lore line",
   "item.gui.error.no_previous": "&cThere is no previous page",
-  "item.gui.error.no_next": "&cThere is no next page"
+  "item.gui.error.no_next": "&cThere is no next page",
+  "nbt.potion.add.success": "&aAdded a potion effect successfully",
+  "nbt.potion.remove.success": "&aRemoved a potion effect successfully",
+  "nbt.potion.remove.not_exist": "&cThis potion effect is not exist on this potion"
 }
