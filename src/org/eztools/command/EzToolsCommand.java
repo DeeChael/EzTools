@@ -41,7 +41,7 @@ public class EzToolsCommand extends Command {
                 s.sendMessage("§a==============================");
                 s.sendMessage("§bPlugin name: §dEzTools");
                 s.sendMessage("§bAuthors: §dDeeChael");
-                s.sendMessage("§bVersion: §d1.5.0");
+                s.sendMessage("§bVersion: §d1.5.1");
                 s.sendMessage("§a==============================");
             } else if (args[0].equalsIgnoreCase("reload")) {
                 EzTools.getEzTools().reload();
