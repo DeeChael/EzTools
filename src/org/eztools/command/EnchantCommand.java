@@ -1,13 +1,16 @@
 package org.eztools.command;
 
+import net.deechael.ged.library.enchant.GEnchantment;
+
 import org.apache.commons.lang.StringUtils;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
 import org.eztools.EzTools;
-import org.eztools.enchantment.Enchantment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +27,7 @@ public class EnchantCommand extends Command {
     public List<String> tabComplete(CommandSender s, String label, String[] args) {
         List<String> list = new ArrayList<>();
         if (args.length == 1) {
-            for (Enchantment enchantment : Enchantment.values()) {
+            for (GEnchantment enchantment : GEnchantment.values()) {
                 String name = enchantment.name();
                 list.add(StringUtils.lowerCase(name));
             }
@@ -40,7 +43,7 @@ public class EnchantCommand extends Command {
     public boolean execute(CommandSender s, String label, String[] args) {
         if (s instanceof Player) {
             if (args.length == 2) {
-                Enchantment enchantment = Enchantment.valueOf(StringUtils.upperCase(args[0]));
+                GEnchantment enchantment = GEnchantment.valueOf(StringUtils.upperCase(args[0]));
                 if (!(enchantment == null)) {
                     ItemStack itemInPlayerMainHand = ((Player) s).getInventory().getItemInMainHand();
                     int level = 1;
@@ -51,7 +54,7 @@ public class EnchantCommand extends Command {
                         return true;
                     }
                     ItemMeta itemMetaOfItemInPlayerMainHand = itemInPlayerMainHand.getItemMeta();
-                    itemMetaOfItemInPlayerMainHand.addEnchant(enchantment.getEnchantment(), level, true);
+                    itemMetaOfItemInPlayerMainHand.addEnchant(enchantment.getHandle(), level, true);
                     itemInPlayerMainHand.setItemMeta(itemMetaOfItemInPlayerMainHand);
                     s.sendMessage("§a已附魔 §e" + args[0] + " §a等级为 §e" + level);
                 } else {

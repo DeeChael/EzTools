@@ -12,7 +12,7 @@ public class SkinAPI {
         try {
             Object entityPlayer = player.getClass().getMethod("getHandle").invoke(player);
             String skinUUID = new JsonConfiguration("https://api.mojang.com/users/profiles/minecraft/" + name).getString("id");
-            JsonConfiguration json = new JsonConfiguration("https://sessionserver.mojang.com/session/minecraft/profile/" + skinUUID + "?unsigned=false").subJson("properties", 0);
+            JsonConfiguration json = new JsonConfiguration("https://sessionserver.mojang.com/session/minecraft/profile/" + skinUUID + "?unsigned=false").getJsonArray("properties", 0);
             String value = json.getString("value");
             String signature = json.getString("signature");
             GameProfile gameProfile = (GameProfile) entityPlayer.getClass().getMethod("getProfile").invoke(entityPlayer);
