@@ -1,5 +1,7 @@
 package org.eztools;
 
+import net.deechael.ged.library.configuration.JsonConfiguration;
+import net.deechael.ged.library.enchant.GEnchantment;
 import net.deechael.plugin.bukkit.anvilapi.AnvilAPI;
 import net.deechael.plugin.bukkit.anvilapi.Slot;
 import net.deechael.plugin.bukkit.anvilapi.inventory.DAnvil;
@@ -8,13 +10,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.eztools.enchantment.Enchantment;
-import org.eztools.util.JsonConfiguration;
 
 import java.util.*;
 
@@ -61,7 +62,7 @@ public class GuiHandler {
             ItemMeta barrierMeta = barrier.getItemMeta();
             barrierMeta.setDisplayName(this.getDisplay("item.main.button.unbreakable"));
             List<String> barrierLore = new ArrayList<>();
-            for (JsonConfiguration jsonConfiguration : EzTools.getLanguageGui().getJsonObject("item.main.button.unbreakable").getJsonObjectsInJsonArray("lore")) {
+            for (JsonConfiguration jsonConfiguration : EzTools.getLanguageGui().getJsonObject("item.main.button.unbreakable").getJsonArray("lore")) {
                 barrierLore.add(EzTools.replaceColorCode(jsonConfiguration.getString("text")).replace("%unbreakable%", StringUtils.upperCase(String.valueOf(itemStack.getItemMeta().isUnbreakable()))));
             }
             barrierMeta.setLore(barrierLore);
@@ -262,7 +263,7 @@ public class GuiHandler {
                 ItemMeta previousPageMeta = previousPage.getItemMeta();
                 previousPageMeta.setDisplayName(this.getDisplay("item.button.previous"));
                 List<String> previousPageLore = new ArrayList<>();
-                for (JsonConfiguration jsonConfiguration : EzTools.getLanguageGui().getJsonObject("item.button.previous").getJsonObjectsInJsonArray("lore")) {
+                for (JsonConfiguration jsonConfiguration : EzTools.getLanguageGui().getJsonObject("item.button.previous").getJsonArray("lore")) {
                     previousPageLore.add(EzTools.replaceColorCode(jsonConfiguration.getString("text").replace("%now_page%", page + "").replace("%total_page%", total + "")));
                 }
                 previousPageMeta.setLore(previousPageLore);
@@ -272,7 +273,7 @@ public class GuiHandler {
                 ItemMeta nextPageMeta = nextPage.getItemMeta();
                 nextPageMeta.setDisplayName(this.getDisplay("item.button.next"));
                 List<String> nextPageLore = new ArrayList<>();
-                for (JsonConfiguration jsonConfiguration : EzTools.getLanguageGui().getJsonObject("item.button.next").getJsonObjectsInJsonArray("lore")) {
+                for (JsonConfiguration jsonConfiguration : EzTools.getLanguageGui().getJsonObject("item.button.next").getJsonArray("lore")) {
                     nextPageLore.add(EzTools.replaceColorCode(jsonConfiguration.getString("text").replace("%now_page%", page + "").replace("%total_page%", total + "")));
                 }
                 nextPageMeta.setLore(nextPageLore);
@@ -328,16 +329,16 @@ public class GuiHandler {
         background.setItemMeta(backgroundMeta);
 
         int total = 1;
-        if ((Enchantment.values().length % 28) > 0) {
-            total = (Enchantment.values().length / 28) + 1;
+        if ((GEnchantment.values().length % 28) > 0) {
+            total = (GEnchantment.values().length / 28) + 1;
         } else {
-            total = Enchantment.values().length / 28;
+            total = GEnchantment.values().length / 28;
         }
         ItemStack previousPage = new ItemStack(Material.ARROW);
         ItemMeta previousPageMeta = previousPage.getItemMeta();
         previousPageMeta.setDisplayName(this.getDisplay("item.button.previous"));
         List<String> previousPageLore = new ArrayList<>();
-        for (JsonConfiguration jsonConfiguration : EzTools.getLanguageGui().getJsonObject("item.button.previous").getJsonObjectsInJsonArray("lore")) {
+        for (JsonConfiguration jsonConfiguration : EzTools.getLanguageGui().getJsonObject("item.button.previous").getJsonArray("lore")) {
             previousPageLore.add(EzTools.replaceColorCode(jsonConfiguration.getString("text").replace("%now_page%", page + "").replace("%total_page%", total + "")));
         }
         previousPageMeta.setLore(previousPageLore);
@@ -347,7 +348,7 @@ public class GuiHandler {
         ItemMeta nextPageMeta = nextPage.getItemMeta();
         nextPageMeta.setDisplayName(this.getDisplay("item.button.next"));
         List<String> nextPageLore = new ArrayList<>();
-        for (JsonConfiguration jsonConfiguration : EzTools.getLanguageGui().getJsonObject("item.button.next").getJsonObjectsInJsonArray("lore")) {
+        for (JsonConfiguration jsonConfiguration : EzTools.getLanguageGui().getJsonObject("item.button.next").getJsonArray("lore")) {
             nextPageLore.add(EzTools.replaceColorCode(jsonConfiguration.getString("text").replace("%now_page%", page + "").replace("%total_page%", total + "")));
         }
         nextPageMeta.setLore(nextPageLore);
@@ -386,42 +387,42 @@ public class GuiHandler {
         inventory.setItem(45, previousPage);
         inventory.setItem(53, nextPage);
 
-        Map<Enchantment, Integer> map = new HashMap<>();
-        for (Enchantment enchantment : Enchantment.values()) {
+        Map<GEnchantment, Integer> map = new HashMap<>();
+        for (GEnchantment enchantment : GEnchantment.values()) {
             map.put(enchantment, 0);
         }
         if (itemStack.getItemMeta().hasEnchants()) {
-            for (org.bukkit.enchantments.Enchantment enchantment : itemStack.getItemMeta().getEnchants().keySet()) {
-                map.put(Enchantment.fromEnchantment(enchantment), itemStack.getItemMeta().getEnchantLevel(enchantment));
+            for (Enchantment enchantment : itemStack.getItemMeta().getEnchants().keySet()) {
+                map.put(GEnchantment.valueOf(enchantment), itemStack.getItemMeta().getEnchantLevel(enchantment));
             }
         }
 
-        if (Enchantment.values().length >= (page * 28)) {
+        if (GEnchantment.values().length >= (page * 28)) {
             for (int o = ((page - 1) * 28); o < (page * 28); o++) {
                 ItemStack book = new ItemStack(Material.BOOK);
                 ItemMeta bookMeta = book.getItemMeta();
-                bookMeta.setDisplayName(Enchantment.values()[o].name());
+                bookMeta.setDisplayName(GEnchantment.values()[o].name());
                 List<String> lore = new ArrayList<>();
-                lore.add(Enchantment.values()[o].name());
+                lore.add(GEnchantment.values()[o].name());
                 for (String s : this.getLore("item.enchant.enchantment_item")) {
-                    lore.add(s.replace("%level%", ((int) map.get(Enchantment.values()[o]) + "")));
+                    lore.add(s.replace("%level%", ((int) map.get(GEnchantment.values()[o]) + "")));
                 }
-                bookMeta.addEnchant(Enchantment.values()[o].getEnchantment(), map.get(Enchantment.values()[o]), true);
+                bookMeta.addEnchant(GEnchantment.values()[o].getHandle(), map.get(GEnchantment.values()[o]), true);
                 bookMeta.setLore(lore);
                 book.setItemMeta(bookMeta);
                 inventory.addItem(book);
             }
         } else {
-            for (int o = ((page - 1) * 28); o < Enchantment.values().length; o++) {
+            for (int o = ((page - 1) * 28); o < GEnchantment.values().length; o++) {
                 ItemStack book = new ItemStack(Material.BOOK);
                 ItemMeta bookMeta = book.getItemMeta();
-                bookMeta.setDisplayName(Enchantment.values()[o].name());
+                bookMeta.setDisplayName(GEnchantment.values()[o].name());
                 List<String> lore = new ArrayList<>();
-                lore.add(Enchantment.values()[o].name());
+                lore.add(GEnchantment.values()[o].name());
                 for (String s : this.getLore("item.enchant.enchantment_item")) {
-                    lore.add(s.replace("%level%", ((int) map.get(Enchantment.values()[o]) + "")));
+                    lore.add(s.replace("%level%", ((int) map.get(GEnchantment.values()[o]) + "")));
                 }
-                bookMeta.addEnchant(Enchantment.values()[o].getEnchantment(), map.get(Enchantment.values()[o]), true);
+                bookMeta.addEnchant(GEnchantment.values()[o].getHandle(), map.get(GEnchantment.values()[o]), true);
                 bookMeta.setLore(lore);
                 book.setItemMeta(bookMeta);
                 inventory.addItem(book);
@@ -436,7 +437,7 @@ public class GuiHandler {
         EzTools.getEditingPage().put(player, page);
     }
 
-    public void editEnchant(Player player, ItemStack itemStack, Enchantment enchantment) {
+    public void editEnchant(Player player, ItemStack itemStack, GEnchantment enchantment) {
         ItemStack background = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
         ItemMeta backgroundMeta = background.getItemMeta();
         backgroundMeta.setDisplayName(" ");
@@ -530,9 +531,9 @@ public class GuiHandler {
         ItemMeta bookMeta = book.getItemMeta();
         List<String> lore = new ArrayList<>();
         lore.add(enchantment.name());
-        if (itemStack.getItemMeta().hasEnchant(enchantment.getEnchantment())) {
-            bookMeta.addEnchant(enchantment.getEnchantment(), itemStack.getItemMeta().getEnchantLevel(enchantment.getEnchantment()), true);
-            lore.add("" + itemStack.getItemMeta().getEnchantLevel(enchantment.getEnchantment()));
+        if (itemStack.getItemMeta().hasEnchant(enchantment.getHandle())) {
+            bookMeta.addEnchant(enchantment.getHandle(), itemStack.getItemMeta().getEnchantLevel(enchantment.getHandle()), true);
+            lore.add("" + itemStack.getItemMeta().getEnchantLevel(enchantment.getHandle()));
         } else {
             lore.add("" + 0);
         }
@@ -564,10 +565,10 @@ public class GuiHandler {
 
     public boolean hasNextPageEnchantment(int page) {
         int total = 1;
-        if ((Enchantment.values().length % 28) > 0) {
-            total = (Enchantment.values().length / 28) + 1;
+        if ((GEnchantment.values().length % 28) > 0) {
+            total = (GEnchantment.values().length / 28) + 1;
         } else {
-            total = Enchantment.values().length / 28;
+            total = GEnchantment.values().length / 28;
         }
         if (page == total) {
             return false;
@@ -669,7 +670,7 @@ public class GuiHandler {
 
     private List<String> getLore(String key) {
         List<String> list = new ArrayList<>();
-        for (JsonConfiguration jsonConfiguration : EzTools.getLanguageGui().getJsonObject(key).getJsonObjectsInJsonArray("lore")) {
+        for (JsonConfiguration jsonConfiguration : EzTools.getLanguageGui().getJsonObject(key).getJsonArray("lore")) {
             list.add(EzTools.replaceColorCode(jsonConfiguration.getString("text")));
         }
         return list;

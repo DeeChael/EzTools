@@ -1,4 +1,4 @@
-package org.eztools.util;
+package net.deechael.ged.library.configuration;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -6,9 +6,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class JsonConfiguration {
 
@@ -130,43 +132,67 @@ public class JsonConfiguration {
         return this.jsonObject.get(key).getAsCharacter();
     }
 
-    public void save(File file) {
-        String json = new Gson().toJson(this.jsonObject);
-        FileWriter fileWriter = null;
-        try {
-            fileWriter = new FileWriter(file);
-        } catch (IOException e) {
-            e.printStackTrace();
+    public JsonConfiguration getJsonArray(String key, int witch) {
+        return this.getJsonArray(key).get(0);
+    }
+
+    public List<JsonConfiguration> getJsonArray(String key) {
+        List<JsonConfiguration> jsonArrays = new ArrayList<>();
+        for (JsonElement jsonElement : this.jsonObject.get(key).getAsJsonArray()) {
+            jsonArrays.add(new JsonConfiguration(jsonElement.getAsJsonObject()));
         }
-        try {
+        return jsonArrays;
+    }
+
+    public void save(File file) {
+        String json = new Gson().toJson(jsonObject);
+        try (FileWriter fileWriter = new FileWriter(file)) {
             fileWriter.write(json);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public List<JsonConfiguration> getJsonObjectsInJsonArray(String key) {
-        JsonArray jsonArray = this.jsonObject.get(key).getAsJsonArray();
+    public static List<JsonConfiguration> fromJsonArray(String url) {
+        URL url1 = null;
+        try {
+            url1 = new URL(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        InputStream inputStream = null;
+        try {
+            inputStream = url1.openStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return fromJsonArray(inputStream);
+    }
+
+    public static List<JsonConfiguration> fromJsonArray(File file) {
+        FileInputStream fileInputStream = null;
+        try {
+            fileInputStream = new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return fromJsonArray(fileInputStream);
+    }
+
+    public static List<JsonConfiguration> fromJsonArray(InputStream inputStream) {
+        char[] cbuf = new char[10000];
+        InputStreamReader input = new InputStreamReader(inputStream);
+        int len = 0;
+        try {
+            len = input.read(cbuf);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String text = new String(cbuf, 0, len);
+        JsonArray jsonArray = new Gson().fromJson(text, JsonArray.class);
         List<JsonConfiguration> list = new ArrayList<>();
         for (JsonElement jsonElement : jsonArray) {
-            JsonObject jsonObject = jsonElement.getAsJsonObject();
-            JsonConfiguration jsonConfiguration = new JsonConfiguration(jsonObject);
-            list.add(jsonConfiguration);
-        }
-        return list;
-    }
-
-    public JsonConfiguration subJson(String key, int witch) {
-        return new JsonConfiguration(this.jsonObject.getAsJsonArray(key).get(witch).getAsJsonObject());
-    }
-
-    public static List<JsonConfiguration> asJsonArray(String jsonArray) {
-        JsonArray jsonArray1 = new Gson().fromJson(jsonArray, JsonArray.class);
-        List<JsonConfiguration> list = new ArrayList<>();
-        for (JsonElement jsonElement : jsonArray1) {
-            JsonObject jsonObject = jsonElement.getAsJsonObject();
-            JsonConfiguration jsonConfiguration = new JsonConfiguration(jsonObject);
-            list.add(jsonConfiguration);
+            list.add(new JsonConfiguration(jsonElement.getAsJsonObject()));
         }
         return list;
     }

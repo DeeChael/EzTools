@@ -1,5 +1,7 @@
 package org.eztools.listener;
 
+import net.deechael.ged.library.configuration.JsonConfiguration;
+import net.deechael.ged.library.enchant.GEnchantment;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -17,8 +19,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.eztools.EzTools;
 import org.eztools.GuiHandler;
-import org.eztools.enchantment.Enchantment;
-import org.eztools.util.JsonConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +58,7 @@ public class GuiListener implements Listener {
                 ItemMeta barrierMeta = barrier.getItemMeta();
                 barrierMeta.setDisplayName(this.getDisplay("item.main.button.unbreakable"));
                 List<String> barrierLore = new ArrayList<>();
-                for (JsonConfiguration jsonConfiguration : EzTools.getLanguageGui().getJsonObject("item.main.button.unbreakable").getJsonObjectsInJsonArray("lore")) {
+                for (JsonConfiguration jsonConfiguration : EzTools.getLanguageGui().getJsonObject("item.main.button.unbreakable").getJsonArray("lore")) {
                     barrierLore.add(EzTools.replaceColorCode(jsonConfiguration.getString("text")).replace("%unbreakable%", StringUtils.upperCase(String.valueOf(itemStack.getItemMeta().isUnbreakable()))));
                 }
                 barrierMeta.setLore(barrierLore);
@@ -197,7 +197,7 @@ public class GuiListener implements Listener {
                             && e.getRawSlot() != 36
                             && e.getView().getTopInventory().getItem(e.getRawSlot()).getType().equals(Material.BOOK)
             ) {
-                Enchantment enchantment = Enchantment.valueOf(e.getView().getTopInventory().getItem(e.getRawSlot()).getItemMeta().getLore().get(0));
+                GEnchantment enchantment = GEnchantment.valueOf(e.getView().getTopInventory().getItem(e.getRawSlot()).getItemMeta().getLore().get(0));
                 ItemStack itemStack = EzTools.getEditingItem().get(e.getView().getPlayer());
                 e.getView().getPlayer().closeInventory();
                 EzTools.getGuiHandler().editEnchant((Player) e.getView().getPlayer(), itemStack, enchantment);
@@ -228,7 +228,7 @@ public class GuiListener implements Listener {
         } else if (e.getView().getTitle().equalsIgnoreCase(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("item.edit_enchantment.title")))) {
             e.setCancelled(true);
             ItemStack book = e.getView().getTopInventory().getItem(13);
-            Enchantment enchantment = Enchantment.valueOf(book.getItemMeta().getLore().get(0));
+            GEnchantment enchantment = GEnchantment.valueOf(book.getItemMeta().getLore().get(0));
             int i = 1;
             try {
                  i = Integer.valueOf(book.getItemMeta().getLore().get(1));
@@ -286,7 +286,7 @@ public class GuiListener implements Listener {
                 //Apply button
                 ItemStack itemStack = EzTools.getEditingItem().get(e.getView().getPlayer());
                 ItemMeta itemMeta = itemStack.getItemMeta();
-                itemMeta.addEnchant(enchantment.getEnchantment(), i, true);
+                itemMeta.addEnchant(enchantment.getHandle(), i, true);
                 itemStack.setItemMeta(itemMeta);
                 e.getView().getPlayer().closeInventory();
                 EzTools.getGuiHandler().enchantMenu((Player) e.getView().getPlayer(), itemStack, 1);
@@ -359,7 +359,7 @@ public class GuiListener implements Listener {
 
     private List<String> getLore(String key) {
         List<String> list = new ArrayList<>();
-        for (JsonConfiguration jsonConfiguration : EzTools.getLanguageGui().getJsonObject(key).getJsonObjectsInJsonArray("lore")) {
+        for (JsonConfiguration jsonConfiguration : EzTools.getLanguageGui().getJsonObject(key).getJsonArray("lore")) {
             list.add(EzTools.replaceColorCode(jsonConfiguration.getString("text")));
         }
         return list;

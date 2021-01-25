@@ -10,7 +10,9 @@ public class FakeAnvil extends ContainerAnvil implements net.deechael.plugin.buk
     public FakeAnvil(String title, Player player) {
         super(((CraftPlayer) player).getHandle().inventory, ((CraftPlayer) player).getHandle().world, new BlockPosition(0, 0, 0), ((CraftPlayer) player).getHandle());
         this.checkReachable = false;
-        this.a(title);
+        if (title != null) {
+            this.a(title);
+        }
     }
 
     @Override

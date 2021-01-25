@@ -1,8 +1,11 @@
 {
   "error.wrong_usage": "&c错误的指令用法",
   "error.integer": "&c输入了一个不是数字的变量",
+  "error.boolean": "&c输入了一个不是布尔值的变量",
   "error.hold_item": "&c请手持物品使用此指令",
   "error.hold_skull": "&c请拿着头颅使用此指令",
+  "error.hold_potion": "&c请拿着药水使用此指令",
+  "error.cannot_be_zero": "&c数值不能为0",
   "error.must_be_a_player": "&c你必须是个玩家",
   "error.look_at_an_entity": "&c请看着一个实体使用此指令",
   "error.select_an_entity": "&c你没有选择实体",
@@ -36,5 +39,8 @@
   "item.gui.lore_edit.success": "&a成功修改介绍",
   "item.gui.lore_new_line.remove": "&a删除了一行介绍",
   "item.gui.error.no_previous": "&c没有上一页了",
-  "item.gui.error.no_next": "&c没有下一页了"
+  "item.gui.error.no_next": "&c没有下一页了",
+  "nbt.potion.add.success": "&a成功添加了一个药水效果",
+  "nbt.potion.remove.success": "&a成功删除了一个药水效果",
+  "nbt.potion.remove.not_exist": "&c这瓶药水上不存在此药水效果"
 }

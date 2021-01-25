@@ -1,5 +1,7 @@
 package org.eztools.command;
 
+import net.deechael.ged.library.configuration.JsonConfiguration;
+import net.deechael.ged.library.enchant.GEnchantment;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
@@ -13,8 +15,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.eztools.EzTools;
 import org.eztools.GuiHandler;
-import org.eztools.enchantment.Enchantment;
-import org.eztools.util.JsonConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +46,7 @@ public class ItemCommand extends Command {
                 list.add(EzTools.getLanguageCommand().getString("eztools.args_2.item.name.<itemName>"));
             } else if (args[0].equalsIgnoreCase("enchant")) {
                 if (args.length == 2) {
-                    for (Enchantment enchantment : Enchantment.values()) {
+                    for (GEnchantment enchantment : GEnchantment.values()) {
                         String name = enchantment.name();
                         list.add(StringUtils.lowerCase(name));
                     }
@@ -140,7 +140,7 @@ public class ItemCommand extends Command {
                         }
                         loreJson = loreJson.substring(0, loreJson.length() - 1);
                         List<String> lore = new ArrayList<>();
-                        for(JsonConfiguration json : JsonConfiguration.asJsonArray(loreJson)) {
+                        for(JsonConfiguration json : JsonConfiguration.fromJsonArray(loreJson)) {
                             lore.add(json.getString("text"));
                         }
                         itemMetaOfItemInPlayerMainHand.setLore(lore);
@@ -169,7 +169,7 @@ public class ItemCommand extends Command {
                         }
                     } else if (args[0].equalsIgnoreCase("enchant")) {
                         if (args.length == 3) {
-                            Enchantment enchantment = Enchantment.valueOf(StringUtils.upperCase(args[1]));
+                            GEnchantment enchantment = GEnchantment.valueOf(StringUtils.upperCase(args[1]));
                             if (!(enchantment == null)) {
                                 ItemStack itemInPlayerMainHand = ((Player) s).getInventory().getItemInMainHand();
                                 int level = 1;
@@ -181,12 +181,12 @@ public class ItemCommand extends Command {
                                 }
                                 if (level != 0) {
                                     ItemMeta itemMetaOfItemInPlayerMainHand = itemInPlayerMainHand.getItemMeta();
-                                    itemMetaOfItemInPlayerMainHand.addEnchant(enchantment.getEnchantment(), level, true);
+                                    itemMetaOfItemInPlayerMainHand.addEnchant(enchantment.getHandle(), level, true);
                                     itemInPlayerMainHand.setItemMeta(itemMetaOfItemInPlayerMainHand);
                                     s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("item.enchant.success")).replace("%enchant_name%", args[1]).replace("%level%", level + ""));
                                 } else {
                                     ItemMeta itemMetaOfItemInPlayerMainHand = itemInPlayerMainHand.getItemMeta();
-                                    itemMetaOfItemInPlayerMainHand.removeEnchant(enchantment.getEnchantment());
+                                    itemMetaOfItemInPlayerMainHand.removeEnchant(enchantment.getHandle());
                                     itemInPlayerMainHand.setItemMeta(itemMetaOfItemInPlayerMainHand);
                                     s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("item.enchant.remove")).replace("%enchant_name%", args[1]));
                                 }

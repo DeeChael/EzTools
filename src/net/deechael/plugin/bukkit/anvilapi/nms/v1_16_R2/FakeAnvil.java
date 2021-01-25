@@ -11,7 +11,9 @@ public class FakeAnvil extends ContainerAnvil implements net.deechael.plugin.buk
     public FakeAnvil(String title, Player player) {
         super(((CraftPlayer) player).getHandle().nextContainerCounter(), ((CraftPlayer) player).getHandle().inventory, ContainerAccess.at(((CraftWorld) player.getWorld()).getHandle(), new BlockPosition(0, 0, 0)));
         this.checkReachable = false;
-        this.setTitle(new ChatMessage(title));
+        if (title != null) {
+            this.setTitle(new ChatMessage(title));
+        }
     }
 
     @Override

@@ -1,13 +1,18 @@
 package org.eztools;
 
+//GedLibrary
+import net.deechael.ged.library.enchant.GEnchantment;
+import net.deechael.ged.library.inventory.GItem;
+
+//Bukkit API
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
@@ -15,10 +20,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.eztools.enchantment.Enchantment;
 
-import java.io.File;
-import java.io.IOException;
+//Java
+import java.io.*;
 import java.util.*;
 
 public class ConfigHandler {
@@ -31,6 +35,19 @@ public class ConfigHandler {
 
 
     public ItemStack getItemStack(String key) {
+        File file = new File("plugins/EzTools/items/" + key + ".eztool");
+        ItemStack itemStack = new ItemStack(Material.AIR);
+        try {
+            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(file));
+            Object object = objectInputStream.readObject();
+            if (object instanceof GItem) {
+                itemStack = ((GItem) object).getHandle();
+            }
+            objectInputStream.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        /*
         FileConfiguration config = YamlConfiguration.loadConfiguration(new File("plugins/EzTools/item.yml"));
         try {
             config.load(new File("plugins/EzTools/item.yml"));
@@ -70,7 +87,7 @@ public class ConfigHandler {
             if (cs3 != null) {
                 for (String k : cs3.getKeys(false)) {
                     if (Enchantment.valueOf(k) != null) {
-                        org.bukkit.enchantments.Enchantment enchantment = Enchantment.valueOf(k).getEnchantment();
+                        Enchantment enchantment = Enchantment.valueOf(k).getEnchantment();
                         int level = config.getInt(key + ".enchantment." + k + ".level");
                         itemMeta.addEnchant(enchantment, level, true);
                     }
@@ -78,10 +95,28 @@ public class ConfigHandler {
             }
         }
         itemStack.setItemMeta(itemMeta);
+        */
         return itemStack;
     }
 
     public void setItemStack(String key, ItemStack itemStack) {
+        File file = new File("plugins/EzTools/items/" + key + ".eztool");
+        if (file.exists()) {
+            file.delete();
+        }
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(file));
+            objectOutputStream.writeObject(new GItem(itemStack));
+            objectOutputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        /*
         FileConfiguration config = YamlConfiguration.loadConfiguration(new File("plugins/EzTools/item.yml"));
         try {
             config.load(new File("plugins/EzTools/item.yml"));
@@ -113,7 +148,7 @@ public class ConfigHandler {
             }
         }
         if (itemStack.getItemMeta().hasEnchants()) {
-            for (org.bukkit.enchantments.Enchantment enchantment : itemStack.getItemMeta().getEnchants().keySet()) {
+            for (Enchantment enchantment : itemStack.getItemMeta().getEnchants().keySet()) {
                 Enchantment ench = Enchantment.fromEnchantment(enchantment);
                 int level = itemStack.getItemMeta().getEnchantLevel(enchantment);
                 config.set(key + ".enchantment." + ench.name() + ".level", level);
@@ -124,9 +159,17 @@ public class ConfigHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        */
     }
 
     public boolean containsItemStack(String key) {
+        File items = new File("plugins/EzTools/items");
+        for (File item : items.listFiles()) {
+            if (item.getName().equals(key + ".eztool")) {
+                return true;
+            }
+        }
+        /*
         FileConfiguration config = YamlConfiguration.loadConfiguration(new File("plugins/EzTools/item.yml"));
         try {
             config.load(new File("plugins/EzTools/item.yml"));
@@ -138,11 +181,17 @@ public class ConfigHandler {
                 return true;
             }
         }
+        */
         return false;
     }
 
     public List<String> getItemStacksStringList() {
         List<String> list = new ArrayList<>();
+        File items = new File("plugins/EzTools/items");
+        for (File item : items.listFiles()) {
+            list.add(item.getName().replace(".eztool", ""));
+        }
+        /*
         FileConfiguration config = YamlConfiguration.loadConfiguration(new File("plugins/EzTools/item.yml"));
         try {
             config.load(new File("plugins/EzTools/item.yml"));
@@ -152,11 +201,26 @@ public class ConfigHandler {
         for (String key : config.getKeys(false)) {
             list.add(key);
         }
+        */
         return list;
     }
 
     public List<ItemStack> getItemStacks() {
         List<ItemStack> list = new ArrayList<>();
+        File items = new File("plugins/EzTools/items");
+        for (File item : items.listFiles()) {
+            try {
+                ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(item));
+                Object object = objectInputStream.readObject();
+                if (object instanceof GItem) {
+                    list.add(((GItem) object).getHandle());
+                    objectInputStream.close();
+                }
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        /*
         FileConfiguration config = YamlConfiguration.loadConfiguration(new File("plugins/EzTools/item.yml"));
         try {
             config.load(new File("plugins/EzTools/item.yml"));
@@ -166,6 +230,7 @@ public class ConfigHandler {
         for (String key : config.getKeys(false)) {
             list.add(this.getItemStack(key));
         }
+        */
         return list;
     }
 
@@ -254,7 +319,7 @@ public class ConfigHandler {
                     for (String k : cs3.getKeys(false)) {
                         if (Attribute.valueOf(k) != null) {
                             Attribute attribute = Attribute.valueOf(k);
-                            mob.getAttribute(attribute).addModifier(new AttributeModifier(UUID.randomUUID(), "eztools", config.getDouble(key + ".attribute." + k + ".amount"), AttributeModifier.Operation.ADD_NUMBER));
+                            mob.getAttribute(attribute).setBaseValue(config.getDouble(key + ".attribute." + k + ".amount"));
                         }
                     }
                 }
@@ -301,8 +366,8 @@ public class ConfigHandler {
             ConfigurationSection cs3 = config.getConfigurationSection(key + ".enchantment");
             if (cs3 != null) {
                 for (String k : cs3.getKeys(false)) {
-                    if (Enchantment.valueOf(k) != null) {
-                        org.bukkit.enchantments.Enchantment enchantment = Enchantment.valueOf(k).getEnchantment();
+                    if (GEnchantment.valueOf(k) != null) {
+                        Enchantment enchantment = GEnchantment.valueOf(k).getHandle();
                         int level = config.getInt(key + ".enchantment." + k + ".level");
                         itemMeta.addEnchant(enchantment, level, true);
                     }
@@ -328,7 +393,7 @@ public class ConfigHandler {
             //item & chance
             //Fuck you! Drop chance can't use LivingEntity#getEquipmentSlot().setItemDropChance(EquipmentSlot, Float);! Why don't bukkit api make this method?
             for (EquipmentSlot equipmentSlot : EquipmentSlot.values()) {
-                if (mob.getEquipment().getItem(equipmentSlot) != null || mob.getEquipment().getItem(equipmentSlot).getType().equals(Material.AIR)) {
+                if (!mob.getEquipment().getItem(equipmentSlot).getType().equals(Material.AIR)) {
                     //this.saveEntityItemStack(key + ".item." + equipmentSlot.name() + ".item", mob.getEquipment().getItem(equipmentSlot));
                     config.set(key + ".item." + equipmentSlot.name() + ".item" + ".material", mob.getEquipment().getItem(equipmentSlot).getType().name());
                     if (mob.getEquipment().getItem(equipmentSlot).getItemMeta().hasDisplayName()) {
@@ -355,8 +420,8 @@ public class ConfigHandler {
                         }
                     }
                     if (mob.getEquipment().getItem(equipmentSlot).getItemMeta().hasEnchants()) {
-                        for (org.bukkit.enchantments.Enchantment enchantment : mob.getEquipment().getItem(equipmentSlot).getItemMeta().getEnchants().keySet()) {
-                            Enchantment ench = Enchantment.fromEnchantment(enchantment);
+                        for (Enchantment enchantment : mob.getEquipment().getItem(equipmentSlot).getItemMeta().getEnchants().keySet()) {
+                            GEnchantment ench = GEnchantment.valueOf(enchantment);
                             int level = mob.getEquipment().getItem(equipmentSlot).getItemMeta().getEnchantLevel(enchantment);
                             config.set(key + ".item." + equipmentSlot.name() + ".item" + ".enchantment." + ench.name() + ".level", level);
                         }
@@ -383,23 +448,9 @@ public class ConfigHandler {
                     }
                 }
             }
-            //attribute
-            //I found a problem that in EntityCommand
-            //I set entity's base attribute value
-            //I think I should add a attribute modifier
             Map<Attribute, Double> attributeDoubleMap = new HashMap<>();
             for (Attribute attribute : Attribute.values()) {
-                attributeDoubleMap.put(attribute, 0.0);
-            }
-            for (Attribute attribute : Attribute.values()) {
-                AttributeInstance attributeInstance = mob.getAttribute(attribute);
-                if (attributeInstance != null) {
-                    if (attributeInstance.getModifiers().size() > 0) {
-                        for (AttributeModifier attributeModifier : attributeInstance.getModifiers()) {
-                            attributeDoubleMap.put(attribute, attributeDoubleMap.get(attribute) + attributeModifier.getAmount());
-                        }
-                    }
-                }
+                attributeDoubleMap.put(attribute, mob.getAttribute(attribute).getBaseValue());
             }
             for (Attribute attribute : attributeDoubleMap.keySet()) {
                 if (attributeDoubleMap.get(attribute) != 0.0) {
@@ -446,8 +497,8 @@ public class ConfigHandler {
             }
         }
         if (itemStack.getItemMeta().hasEnchants()) {
-            for (org.bukkit.enchantments.Enchantment enchantment : itemStack.getItemMeta().getEnchants().keySet()) {
-                Enchantment ench = Enchantment.fromEnchantment(enchantment);
+            for (Enchantment enchantment : itemStack.getItemMeta().getEnchants().keySet()) {
+                GEnchantment ench = GEnchantment.valueOf(enchantment);
                 int level = itemStack.getItemMeta().getEnchantLevel(enchantment);
                 config.set(key + ".enchantment." + ench.name() + ".level", level);
             }

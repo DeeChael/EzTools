@@ -7,5 +7,6 @@
   "eztools.args_3.entity.attribute.<attributeAmount>": "<属性数值>",
   "eztools.args_2.item.save.<localName>": "<本地名称>",
   "eztools.args_2.entity.save.<localName>": "<本地名称>",
-  "eztools.args_2.nbt.skull.<playerName>": "<玩家名称>"
+  "eztools.args_2.nbt.skull.<playerName>": "<玩家名称>",
+  "eztools.args_4.nbt.potion.<time>": "<药水时长>"
 }

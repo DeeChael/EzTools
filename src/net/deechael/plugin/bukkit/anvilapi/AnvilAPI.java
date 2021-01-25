@@ -31,22 +31,23 @@ public final class AnvilAPI /* extends JavaPlugin */ /* Removed by EzTools */ {
     }
 
     public DAnvil getAnvil(String title, Player player) {
+        DAnvil dAnvil = null;
         if (getNMS().equalsIgnoreCase("v1_13_R1")) {
-            return new net.deechael.plugin.bukkit.anvilapi.nms.v1_13_R1.DAnvil(title, player);
+            dAnvil = new net.deechael.plugin.bukkit.anvilapi.nms.v1_13_R1.DAnvil(title, player);
         } else if (getNMS().equalsIgnoreCase("v1_13_R2")) {
-            return new net.deechael.plugin.bukkit.anvilapi.nms.v1_13_R2.DAnvil(title, player);
+            dAnvil = new net.deechael.plugin.bukkit.anvilapi.nms.v1_13_R2.DAnvil(title, player);
         } else if (getNMS().equalsIgnoreCase("v1_14_R1")) {
-            return new net.deechael.plugin.bukkit.anvilapi.nms.v1_14_R1.DAnvil(title, player);
+            dAnvil = new net.deechael.plugin.bukkit.anvilapi.nms.v1_14_R1.DAnvil(title, player);
         } else if (getNMS().equalsIgnoreCase("v1_15_R1")) {
-            return new net.deechael.plugin.bukkit.anvilapi.nms.v1_15_R1.DAnvil(title, player);
+            dAnvil = new net.deechael.plugin.bukkit.anvilapi.nms.v1_15_R1.DAnvil(title, player);
         } else if (getNMS().equalsIgnoreCase("v1_16_R1")) {
-            return new net.deechael.plugin.bukkit.anvilapi.nms.v1_16_R1.DAnvil(title, player);
+            dAnvil = new net.deechael.plugin.bukkit.anvilapi.nms.v1_16_R1.DAnvil(title, player);
         } else if (getNMS().equalsIgnoreCase("v1_16_R2")) {
-            return new net.deechael.plugin.bukkit.anvilapi.nms.v1_16_R2.DAnvil(title, player);
+            dAnvil = new net.deechael.plugin.bukkit.anvilapi.nms.v1_16_R2.DAnvil(title, player);
         } else if (getNMS().equalsIgnoreCase("v1_16_R3")) {
-            return new net.deechael.plugin.bukkit.anvilapi.nms.v1_16_R3.DAnvil(title, player);
+            dAnvil = new net.deechael.plugin.bukkit.anvilapi.nms.v1_16_R3.DAnvil(title, player);
         }
-        return null;
+        return dAnvil;
     }
 
     public Inventory castToBukkit(DAnvil dAnvil) {

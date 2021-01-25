@@ -291,14 +291,14 @@ public class EntityCommand extends Command {
                                 Mob mob = (Mob) entity;
                                 Attribute attribute = Attribute.valueOf(StringUtils.upperCase(args[1]));
                                 if (attribute != null) {
-                                    int number = 1;
+                                    double number = 1;
                                     try {
-                                        number = Integer.valueOf(args[2]);
+                                        number = Double.valueOf(args[2]);
                                     } catch (NumberFormatException e) {
                                         s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.integer")));
                                         return true;
                                     }
-                                    mob.getAttribute(attribute).addModifier(new AttributeModifier(UUID.randomUUID(), "eztools", number, AttributeModifier.Operation.ADD_NUMBER));
+                                    mob.getAttribute(attribute).setBaseValue(number);
                                     s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("entity.attribute.success")).replace("%attribute%", args[1]).replace("%amount%", args[2]));
                                 } else {
                                     s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.wrong_usage")));

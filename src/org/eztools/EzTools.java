@@ -1,24 +1,35 @@
 package org.eztools;
 
+//GedLibrary
+import net.deechael.ged.library.configuration.JsonConfiguration;
+
+//AnvilAPI
 import net.deechael.plugin.bukkit.anvilapi.AnvilAPI;
+
+//Bukkit API
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+
+//EzTools
 import org.eztools.command.*;
 import org.eztools.listener.EntityEventListener;
 import org.eztools.listener.GuiListener;
-import org.eztools.util.JsonConfiguration;
 
+//Java
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public final class EzTools extends JavaPlugin {
@@ -33,6 +44,8 @@ public final class EzTools extends JavaPlugin {
     private static JsonConfiguration lang_command;
     private static JsonConfiguration lang_gui;
 
+    private static List<Command> registerCommands;
+
     private static Map<Player, Entity> selectedEntities;
     private static Map<Player, ItemStack> editingItem;
     private static Map<Player, Integer> editingLore;
@@ -45,9 +58,10 @@ public final class EzTools extends JavaPlugin {
         //Start enable EzTools
 
         ezTools = this;
-        guiHandler = new GuiHandler(this);
-        itemHandler = new ItemHandler(this);
+        guiHandler = new GuiHandler(      this);
+        itemHandler = new ItemHandler(    this);
         configHandler = new ConfigHandler(this);
+        registerCommands = new ArrayList<>();
         selectedEntities = new HashMap<>();
         editingItem = new HashMap<>();
         editingLore = new HashMap<>();
@@ -62,12 +76,8 @@ public final class EzTools extends JavaPlugin {
         //Saver File Check
         //If item.yml/entity.yml is not exist it will create new files
         //Your local items and entities will save in these files
-        if (!new File("plugins/EzTools/item.yml").exists()) {
-            try {
-                new File("plugins/EzTools/item.yml").createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        if (!new File("plugins/EzTools/items").exists()) {
+            new File("plugins/EzTools/items").mkdirs();
         }
         if (!new File("plugins/EzTools/entity.yml").exists()) {
             try {
@@ -85,21 +95,12 @@ public final class EzTools extends JavaPlugin {
         this.saveResource("command/en_US.json", true);
         this.saveResource("gui/en_US.json", true);
         //Load Language
-        if (new File("plugins/EzTools/message/" + this.getConfig().getString("Setting.Language") + ".json").exists()) {
-            lang_message = new JsonConfiguration(new File("plugins/EzTools/message/" + this.getConfig().getString("Setting.Language") + ".json"));
-        } else {
-            lang_message = new JsonConfiguration(new File("plugins/EzTools/message/en_US.json"));
-        }
-        if (new File("plugins/EzTools/command/" + this.getConfig().getString("Setting.Language") + ".json").exists()) {
-            lang_command = new JsonConfiguration(new File("plugins/EzTools/command/" + this.getConfig().getString("Setting.Language") + ".json"));
-        } else {
-            lang_command = new JsonConfiguration(new File("plugins/EzTools/command/en_US.json"));
-        }
-        if (new File("plugins/EzTools/gui/" + this.getConfig().getString("Setting.Language") + ".json").exists()) {
-            lang_gui = new JsonConfiguration(new File("plugins/EzTools/gui/" + this.getConfig().getString("Setting.Language") + ".json"));
-        } else {
-            lang_gui = new JsonConfiguration(new File("plugins/EzTools/gui/en_US.json"));
-        }
+          //Load Message Language
+        lang_message = new File("plugins/EzTools/message/" + this.getConfig().getString("Setting.Language") + ".json").exists() ? new JsonConfiguration(new File("plugins/EzTools/message/" + this.getConfig().getString("Setting.Language") + ".json")) : new JsonConfiguration(new File("plugins/EzTools/message/en_US.json"));
+          //Load Command Language
+        lang_command = new File("plugins/EzTools/command/" + this.getConfig().getString("Setting.Language") + ".json").exists() ? new JsonConfiguration(new File("plugins/EzTools/command/" + this.getConfig().getString("Setting.Language") + ".json")) : new JsonConfiguration(new File("plugins/EzTools/command/en_US.json"));
+          //Load GUI Language
+        lang_gui = new File(    "plugins/EzTools/gui/" + this.getConfig().getString(    "Setting.Language") + ".json").exists() ? new JsonConfiguration(new File("plugins/EzTools/gui/" + this.getConfig().getString(    "Setting.Language") + ".json")) : new JsonConfiguration(new File("plugins/EzTools/gui/en_US.json"));
         //Get CommandMap with method in CraftServer 'getCommandMap'
         final Class<?> c = Bukkit.getServer().getClass();
         for (final Method method : c.getDeclaredMethods()) {
@@ -113,13 +114,13 @@ public final class EzTools extends JavaPlugin {
         }
         //Register Events
         Bukkit.getPluginManager().registerEvents(new EntityEventListener(), this);
-        Bukkit.getPluginManager().registerEvents(new GuiListener(), this);
+        Bukkit.getPluginManager().registerEvents(new GuiListener(),         this);
         //Register Commands
-        new EntityCommand();
-        new EzToolsCommand();
-        new ItemCommand();
-        new GuiTestCommand();
-        new NbtCommand();
+        registerCommands.add(new EzToolsCommand());
+        registerCommands.add(new ItemCommand());
+        registerCommands.add(new EntityCommand());
+        registerCommands.add(new NbtCommand());
+        registerCommands.add(new PlayerCommand());
 
         //Finish enable EzTools
 
@@ -127,39 +128,31 @@ public final class EzTools extends JavaPlugin {
         this.getServer().getConsoleSender().sendMessage("§b================================");
         this.getServer().getConsoleSender().sendMessage("§aEzTools has been enabled");
         this.getServer().getConsoleSender().sendMessage("§aEzTools - More language supported!");
-        this.getServer().getConsoleSender().sendMessage("§aAuthors: SpigotMC-DeeChael, McBBS-DeeChael");
+        this.getServer().getConsoleSender().sendMessage("§aAuthors: DeeChael");
         this.getServer().getConsoleSender().sendMessage("§aMy Spigot Page: https://www.spigotmc.org/members/deechael.883670/");
         this.getServer().getConsoleSender().sendMessage("§aMy McBBS Page: https://www.mcbbs.net/?2536446");
-        this.getServer().getConsoleSender().sendMessage("§aGithub Source-code: https://github.com/DeeChael/EzTools");
+        this.getServer().getConsoleSender().sendMessage("§aGithub Source-Code: https://github.com/DeeChael/EzTools");
         this.getServer().getConsoleSender().sendMessage("§b================================");
 
         //Start AnvilAPI...
         AnvilAPI.enable();
     }
 
-    public static void reload() {
+    public void reload() {
         getEzTools().reloadConfig();
         getEzTools().saveResource("message/zh_CN.json", true);
         getEzTools().saveResource("command/zh_CN.json", true);
-        getEzTools().saveResource("gui/zh_CN.json", true);
+        getEzTools().saveResource("gui/zh_CN.json",     true);
         getEzTools().saveResource("message/en_US.json", true);
         getEzTools().saveResource("command/en_US.json", true);
-        getEzTools().saveResource("gui/en_US.json", true);
-        if (new File("plugins/EzTools/message/" + getEzTools().getConfig().getString("Setting.Language") + ".json").exists()) {
-            lang_message = new JsonConfiguration(new File("plugins/EzTools/message/" + getEzTools().getConfig().getString("Setting.Language") + ".json"));
-        } else {
-            lang_message = new JsonConfiguration(new File("plugins/EzTools/message/en_US.json"));
-        }
-        if (new File("plugins/EzTools/command/" + getEzTools().getConfig().getString("Setting.Language") + ".json").exists()) {
-            lang_command = new JsonConfiguration(new File("plugins/EzTools/command/" + getEzTools().getConfig().getString("Setting.Language") + ".json"));
-        } else {
-            lang_command = new JsonConfiguration(new File("plugins/EzTools/command/en_US.json"));
-        }
-        if (new File("plugins/EzTools/gui/" + getEzTools().getConfig().getString("Setting.Language") + ".json").exists()) {
-            lang_gui = new JsonConfiguration(new File("plugins/EzTools/gui/" + getEzTools().getConfig().getString("Setting.Language") + ".json"));
-        } else {
-            lang_gui = new JsonConfiguration(new File("plugins/EzTools/gui/en_US.json"));
-        }
+        getEzTools().saveResource("gui/en_US.json",     true);
+        //Load Language
+        //Load Message Language
+        lang_message = new File("plugins/EzTools/message/" + EzTools.getEzTools().getConfig().getString("Setting.Language") + ".json").exists() ? new JsonConfiguration(new File("plugins/EzTools/message/" + EzTools.getEzTools().getConfig().getString("Setting.Language") + ".json")) : new JsonConfiguration(new File("plugins/EzTools/message/en_US.json"));
+        //Load Command Language
+        lang_command = new File("plugins/EzTools/command/" + EzTools.getEzTools().getConfig().getString("Setting.Language") + ".json").exists() ? new JsonConfiguration(new File("plugins/EzTools/command/" + EzTools.getEzTools().getConfig().getString("Setting.Language") + ".json")) : new JsonConfiguration(new File("plugins/EzTools/command/en_US.json"));
+        //Load GUI Language
+        lang_gui = new File(    "plugins/EzTools/gui/" + EzTools.getEzTools().getConfig().getString(    "Setting.Language") + ".json").exists() ? new JsonConfiguration(new File("plugins/EzTools/gui/" + EzTools.getEzTools().getConfig().getString(    "Setting.Language") + ".json")) : new JsonConfiguration(new File("plugins/EzTools/gui/en_US.json"));
         AnvilAPI.getAnvilAPI().reload();
     }
 

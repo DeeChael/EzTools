@@ -40,12 +40,11 @@ public class EzToolsCommand extends Command {
             if (args[0].equalsIgnoreCase("info")) {
                 s.sendMessage("§a==============================");
                 s.sendMessage("§bPlugin name: §dEzTools");
-                s.sendMessage("§bAuthors: §dSpigotMC-DeeChael,");
-                s.sendMessage("§d      McBBS-DeeChael");
+                s.sendMessage("§bAuthors: §dDeeChael");
                 s.sendMessage("§bVersion: §d1.5.0");
                 s.sendMessage("§a==============================");
             } else if (args[0].equalsIgnoreCase("reload")) {
-                EzTools.reload();
+                EzTools.getEzTools().reload();
                 s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("eztools.reload")));
             } else if (args[0].equalsIgnoreCase("developer")) {
                 if (s instanceof Player) {
