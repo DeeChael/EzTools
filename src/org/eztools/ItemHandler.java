@@ -1,11 +1,11 @@
 package org.eztools;
 
-import net.deechael.ged.library.enchant.GEnchantment;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.gedstudio.library.bukkit.enchant.GEnchantment;
 
 import java.util.ArrayList;
 import java.util.List;

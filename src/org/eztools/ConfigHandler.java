@@ -1,9 +1,5 @@
 package org.eztools;
 
-//GedLibrary
-import net.deechael.ged.library.enchant.GEnchantment;
-import net.deechael.ged.library.inventory.GItem;
-
 //Bukkit API
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
@@ -20,6 +16,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+//new GedLibrary
+import org.gedstudio.library.bukkit.enchant.GEnchantment;
+import org.gedstudio.library.bukkit.inventory.GItem;
 
 //Java
 import java.io.*;

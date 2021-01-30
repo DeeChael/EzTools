@@ -1,7 +1,5 @@
 package org.eztools.command;
 
-import net.deechael.ged.library.enchant.GEnchantment;
-
 import org.apache.commons.lang.StringUtils;
 
 import org.bukkit.command.Command;
@@ -11,6 +9,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import org.eztools.EzTools;
+
+import org.gedstudio.library.bukkit.enchant.GEnchantment;
 
 import java.util.ArrayList;
 import java.util.List;

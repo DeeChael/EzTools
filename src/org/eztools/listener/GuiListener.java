@@ -1,7 +1,5 @@
 package org.eztools.listener;
 
-import net.deechael.ged.library.configuration.JsonConfiguration;
-import net.deechael.ged.library.enchant.GEnchantment;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -19,6 +17,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.eztools.EzTools;
 import org.eztools.GuiHandler;
+import org.gedstudio.library.bukkit.configuration.JsonConfiguration;
+import org.gedstudio.library.bukkit.enchant.GEnchantment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -175,7 +175,7 @@ public class GuiListener implements Listener {
                             && e.getRawSlot() != 27
                             && e.getRawSlot() != 35
                             && e.getRawSlot() != 36
-                            && e.getView().getTopInventory().getItem(e.getRawSlot()).getType().equals(Material.BEACON)
+                            && e.getView().getTopInventory().getItem(e.getRawSlot()).getType().equals(Material.IRON_NUGGET)
             ) {
                 Attribute attribute = Attribute.valueOf(e.getView().getTopInventory().getItem(e.getRawSlot()).getItemMeta().getLore().get(0));
                 ItemStack itemStack = EzTools.getEditingItem().get(e.getView().getPlayer());

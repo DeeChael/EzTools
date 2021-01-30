@@ -16,6 +16,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 //EzTools
+import org.bukkit.scheduler.BukkitRunnable;
 import org.eztools.EzTools;
 
 //Java
@@ -119,10 +120,17 @@ public class NbtCommand extends Command {
                     if (args.length == 2) {
                         if (!((Player) s).getInventory().getItemInMainHand().getType().equals(Material.AIR)) {
                             if (((Player) s).getInventory().getItemInMainHand().getType().equals(Material.PLAYER_HEAD)) {
-                                ItemStack skull = ((Player) s).getInventory().getItemInMainHand();
-                                SkullMeta meta = (SkullMeta) skull.getItemMeta();
-                                meta.setOwningPlayer(Bukkit.getOfflinePlayer(args[1]));
-                                skull.setItemMeta(meta);
+                                new BukkitRunnable() {
+                                    @Override
+                                    public void run() {
+                                        ItemStack skull = ((Player) s).getInventory().getItemInMainHand();
+                                        if (skull.getType().equals(Material.PLAYER_HEAD)) {
+                                            SkullMeta meta = (SkullMeta) skull.getItemMeta();
+                                            meta.setOwningPlayer(Bukkit.getOfflinePlayer(args[1]));
+                                            skull.setItemMeta(meta);
+                                        }
+                                    }
+                                }.runTaskAsynchronously(EzTools.getEzTools());
                             } else {
                                 s.sendMessage(EzTools.replaceColorCode(EzTools.getLanguageMessage().getString("error.hold_skull")));
                             }

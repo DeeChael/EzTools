@@ -1,11 +1,5 @@
 package org.eztools;
 
-//GedLibrary
-import net.deechael.ged.library.configuration.JsonConfiguration;
-
-//AnvilAPI
-import net.deechael.plugin.bukkit.anvilapi.AnvilAPI;
-
 //Bukkit API
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
@@ -21,6 +15,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.eztools.command.*;
 import org.eztools.listener.EntityEventListener;
 import org.eztools.listener.GuiListener;
+
+//new GedLibrary
+import org.gedstudio.library.bukkit.GedLibrary;
+import org.gedstudio.library.bukkit.chat.GChatColor;
+import org.gedstudio.library.bukkit.configuration.JsonConfiguration;
 
 //Java
 import java.io.File;
@@ -135,7 +134,7 @@ public final class EzTools extends JavaPlugin {
         this.getServer().getConsoleSender().sendMessage("§b================================");
 
         //Start AnvilAPI...
-        AnvilAPI.enable();
+        GedLibrary.enable();
     }
 
     public void reload() {
@@ -153,7 +152,6 @@ public final class EzTools extends JavaPlugin {
         lang_command = new File("plugins/EzTools/command/" + EzTools.getEzTools().getConfig().getString("Setting.Language") + ".json").exists() ? new JsonConfiguration(new File("plugins/EzTools/command/" + EzTools.getEzTools().getConfig().getString("Setting.Language") + ".json")) : new JsonConfiguration(new File("plugins/EzTools/command/en_US.json"));
         //Load GUI Language
         lang_gui = new File(    "plugins/EzTools/gui/" + EzTools.getEzTools().getConfig().getString(    "Setting.Language") + ".json").exists() ? new JsonConfiguration(new File("plugins/EzTools/gui/" + EzTools.getEzTools().getConfig().getString(    "Setting.Language") + ".json")) : new JsonConfiguration(new File("plugins/EzTools/gui/en_US.json"));
-        AnvilAPI.getAnvilAPI().reload();
     }
 
     public static JsonConfiguration getLanguageMessage() {
@@ -213,23 +211,12 @@ public final class EzTools extends JavaPlugin {
     }
 
     public static String replaceColorCode(String string) {
-        String[] keys = new String[] {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "k", "l", "m", "n", "o", "r"};
-        String newString = string;
-        for (String key : keys) {
-            newString = newString.replace("&" + key, "§" + key);
-        }
-        return newString;
+        return GChatColor.translate('&', string);
         //return string.replace("&0", "§0").replace("&1", "§1").replace("&2", "§2").replace("&3", "§3").replace("&4", "§4").replace("&5", "§5").replace("&6", "§6").replace("&7", "§7").replace("&8", "§8".replace("&9", "§9").replace("&a", "§a").replace("&b", "§b").replace("&c", "§c").replace("&d", "§d").replace("&e", "§e").replace("&f", "§f").replace("&k", "§k").replace("&l", "§l").replace("&m", "§m").replace("&n", "§n").replace("&o", "§o").replace("&r", "§r");
     }
 
     private String getNMS() {
         return Bukkit.getServer().getClass().getPackage().getName().substring(Bukkit.getServer().getClass().getPackage().getName().lastIndexOf('.') + 1);
-    }
-
-    private static void unknownMethod() {
-        System.out.println("不如死了算了。");
-        System.out.println("可是还有那么多的事还没做完。");
-        System.out.println("果然还是太理性了。");
     }
 
 }

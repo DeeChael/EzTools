@@ -1,7 +1,5 @@
 package org.eztools.command;
 
-import net.deechael.ged.library.configuration.JsonConfiguration;
-import net.deechael.ged.library.enchant.GEnchantment;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
@@ -15,6 +13,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.eztools.EzTools;
 import org.eztools.GuiHandler;
+import org.gedstudio.library.bukkit.configuration.JsonConfiguration;
+import org.gedstudio.library.bukkit.enchant.GEnchantment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -238,10 +238,17 @@ public class ItemCommand extends Command {
                                             addedInt = doub;
                                             ItemStack itemInPlayerMainHand = ((Player) s).getInventory().getItemInMainHand();
                                             ItemMeta itemMetaOfItemInPlayerMainHand = itemInPlayerMainHand.getItemMeta();
-                                            for (AttributeModifier attributeModifier : itemMetaOfItemInPlayerMainHand.getAttributeModifiers(attribute)) {
-                                                num += attributeModifier.getAmount();
+                                            assert itemMetaOfItemInPlayerMainHand != null;
+                                            if (itemMetaOfItemInPlayerMainHand.hasAttributeModifiers()) {
+                                                if (itemMetaOfItemInPlayerMainHand.getAttributeModifiers(attribute) != null) {
+                                                    if (itemMetaOfItemInPlayerMainHand.getAttributeModifiers(attribute).size() != 0) {
+                                                        for (AttributeModifier attributeModifier : itemMetaOfItemInPlayerMainHand.getAttributeModifiers(attribute)) {
+                                                            num += attributeModifier.getAmount();
+                                                        }
+                                                    }
+                                                }
+                                                itemMetaOfItemInPlayerMainHand.removeAttributeModifier(attribute);
                                             }
-                                            itemMetaOfItemInPlayerMainHand.removeAttributeModifier(attribute);
                                             AttributeModifier attributeModifier = new AttributeModifier(UUID.randomUUID(), "eztools", (doub + num), AttributeModifier.Operation.ADD_NUMBER, equipmentSlot);
                                             itemMetaOfItemInPlayerMainHand.addAttributeModifier(attribute, attributeModifier);
                                             itemInPlayerMainHand.setItemMeta(itemMetaOfItemInPlayerMainHand);

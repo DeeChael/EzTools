@@ -1,10 +1,5 @@
 package org.eztools;
 
-import net.deechael.ged.library.configuration.JsonConfiguration;
-import net.deechael.ged.library.enchant.GEnchantment;
-import net.deechael.plugin.bukkit.anvilapi.AnvilAPI;
-import net.deechael.plugin.bukkit.anvilapi.Slot;
-import net.deechael.plugin.bukkit.anvilapi.inventory.DAnvil;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -16,6 +11,14 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import org.gedstudio.library.bukkit.GedLibrary;
+import org.gedstudio.library.bukkit.configuration.JsonConfiguration;
+import org.gedstudio.library.bukkit.enchant.GEnchantment;
+import org.gedstudio.library.bukkit.inventory.GAnvil;
+import org.gedstudio.library.bukkit.inventory.GItem;
+
+import static org.gedstudio.library.bukkit.inventory.GAnvil.*;
 
 import java.util.*;
 
@@ -92,8 +95,8 @@ public class GuiHandler {
             paperMeta.setDisplayName(this.getDisplay("item.rename.input_left"));
             paper.setItemMeta(paperMeta);
 
-            DAnvil anvil = AnvilAPI.getAnvilAPI().getAnvil(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("item.rename.title")), player);
-            anvil.setItemStack(Slot.INPUT_LEFT, paper);
+            GAnvil anvil = GedLibrary.getInstance().createNewAnvil(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("item.rename.title")), GedLibrary.getInstance().getPlayer(player));
+            anvil.setItem(Slot.INPUT_LEFT, new GItem(paper));
             anvil.openInventory();
 
             if (!EzTools.getEditingItem().containsKey(player)) {
@@ -107,8 +110,8 @@ public class GuiHandler {
             paperMeta.setDisplayName(this.getDisplay("item.rename.input_left"));
             paper.setItemMeta(paperMeta);
 
-            DAnvil anvil = AnvilAPI.getAnvilAPI().getAnvil(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("item.lore_new_line.title")), player);
-            anvil.setItemStack(Slot.INPUT_LEFT, paper);
+            GAnvil anvil = GedLibrary.getInstance().createNewAnvil(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("item.lore_new_line.title")), GedLibrary.getInstance().getPlayer(player));
+            anvil.setItem(Slot.INPUT_LEFT, new GItem(paper));
             anvil.openInventory();
 
             if (!EzTools.getEditingItem().containsKey(player)) {
@@ -124,37 +127,37 @@ public class GuiHandler {
             //Main Hand
             ItemStack mainHandItem = new ItemStack(Material.DIAMOND_SWORD);
             ItemMeta mainHandItemMeta = mainHandItem.getItemMeta();
-            mainHandItemMeta.setDisplayName(EquipmentSlot.HAND.name());
+            mainHandItemMeta.setDisplayName(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("equipment_slot.name.HAND")));
             mainHandItemMeta.setLore(Arrays.asList(EquipmentSlot.HAND.name()));
             mainHandItem.setItemMeta(mainHandItemMeta);
             //Off Hand
             ItemStack offHandItem = new ItemStack(Material.SHIELD);
             ItemMeta offHandItemMeta = offHandItem.getItemMeta();
-            offHandItemMeta.setDisplayName(EquipmentSlot.OFF_HAND.name());
+            offHandItemMeta.setDisplayName(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("equipment_slot.name.OFF_HAND")));
             offHandItemMeta.setLore(Arrays.asList(EquipmentSlot.OFF_HAND.name()));
             offHandItem.setItemMeta(offHandItemMeta);
             //Helmet
             ItemStack helmetItem = new ItemStack(Material.DIAMOND_HELMET);
             ItemMeta helmetMeta = helmetItem.getItemMeta();
-            helmetMeta.setDisplayName(EquipmentSlot.HEAD.name());
+            helmetMeta.setDisplayName(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("equipment_slot.name.HEAD")));
             helmetMeta.setLore(Arrays.asList(EquipmentSlot.HEAD.name()));
             helmetItem.setItemMeta(helmetMeta);
             //Chestplate
             ItemStack chestplateItem = new ItemStack(Material.DIAMOND_CHESTPLATE);
             ItemMeta chestplateMeta = chestplateItem.getItemMeta();
-            chestplateMeta.setDisplayName(EquipmentSlot.CHEST.name());
+            chestplateMeta.setDisplayName(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("equipment_slot.name.CHEST")));
             chestplateMeta.setLore(Arrays.asList(EquipmentSlot.CHEST.name()));
             chestplateItem.setItemMeta(chestplateMeta);
             //Leggings
             ItemStack leggingsItem = new ItemStack(Material.DIAMOND_LEGGINGS);
             ItemMeta leggingsMeta = leggingsItem.getItemMeta();
-            leggingsMeta.setDisplayName(EquipmentSlot.LEGS.name());
+            leggingsMeta.setDisplayName(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("equipment_slot.name.LEGS")));
             leggingsMeta.setLore(Arrays.asList(EquipmentSlot.LEGS.name()));
             leggingsItem.setItemMeta(leggingsMeta);
             //Boots
             ItemStack bootsItem = new ItemStack(Material.DIAMOND_BOOTS);
             ItemMeta bootsMeta = bootsItem.getItemMeta();
-            bootsMeta.setDisplayName(EquipmentSlot.FEET.name());
+            bootsMeta.setDisplayName(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("equipment_slot.name.FEET")));
             bootsMeta.setLore(Arrays.asList(EquipmentSlot.FEET.name()));
             bootsItem.setItemMeta(bootsMeta);
 
@@ -178,8 +181,8 @@ public class GuiHandler {
         paperMeta.setDisplayName(itemStack.getItemMeta().getDisplayName());
         paper.setItemMeta(paperMeta);
 
-        DAnvil anvil = AnvilAPI.getAnvilAPI().getAnvil(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("item.lore_edit.title")), player);
-        anvil.setItemStack(Slot.INPUT_LEFT, paper);
+        GAnvil anvil = GedLibrary.getInstance().createNewAnvil(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("item.lore_edit.title")), GedLibrary.getInstance().getPlayer(player));
+        anvil.setItem(Slot.INPUT_LEFT, new GItem(paper));
         anvil.openInventory();
 
         EzTools.getEditingLore().put(player, i);
@@ -401,7 +404,7 @@ public class GuiHandler {
             for (int o = ((page - 1) * 28); o < (page * 28); o++) {
                 ItemStack book = new ItemStack(Material.BOOK);
                 ItemMeta bookMeta = book.getItemMeta();
-                bookMeta.setDisplayName(GEnchantment.values()[o].name());
+                bookMeta.setDisplayName(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("enchantment.name." + StringUtils.upperCase(GEnchantment.values()[o].name()))));
                 List<String> lore = new ArrayList<>();
                 lore.add(GEnchantment.values()[o].name());
                 for (String s : this.getLore("item.enchant.enchantment_item")) {
@@ -416,7 +419,7 @@ public class GuiHandler {
             for (int o = ((page - 1) * 28); o < GEnchantment.values().length; o++) {
                 ItemStack book = new ItemStack(Material.BOOK);
                 ItemMeta bookMeta = book.getItemMeta();
-                bookMeta.setDisplayName(GEnchantment.values()[o].name());
+                bookMeta.setDisplayName(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("enchantment.name." + StringUtils.upperCase(GEnchantment.values()[o].name()))));
                 List<String> lore = new ArrayList<>();
                 lore.add(GEnchantment.values()[o].name());
                 for (String s : this.getLore("item.enchant.enchantment_item")) {
@@ -537,7 +540,7 @@ public class GuiHandler {
         } else {
             lore.add("" + 0);
         }
-        bookMeta.setDisplayName(enchantment.name());
+        bookMeta.setDisplayName(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("enchantment.name." + StringUtils.upperCase(enchantment.name()))));
         bookMeta.setLore(lore);
         book.setItemMeta(bookMeta);
 
@@ -613,9 +616,9 @@ public class GuiHandler {
         inventory.setItem(53, background);
 
         for (Attribute attribute : Attribute.values()) {
-            ItemStack beacon = new ItemStack(Material.BEACON);
-            ItemMeta beaconMeta = beacon.getItemMeta();
-            beaconMeta.setDisplayName(StringUtils.lowerCase(attribute.name()));
+            ItemStack iron_nugget = new ItemStack(Material.IRON_NUGGET);
+            ItemMeta iron_nuggetMeta = iron_nugget.getItemMeta();
+            iron_nuggetMeta.setDisplayName(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("attribute.name." + StringUtils.upperCase(attribute.name()))));
             List<String> lore = new ArrayList<>();
             lore.add(attribute.name());
             lore.add(equipmentSlot.name());
@@ -634,9 +637,9 @@ public class GuiHandler {
             for (String string : this.getLore("item.attribute.attribute_item")) {
                 lore.add(string.replace("%amount%", amount + ""));
             }
-            beaconMeta.setLore(lore);
-            beacon.setItemMeta(beaconMeta);
-            inventory.addItem(beacon);
+            iron_nuggetMeta.setLore(lore);
+            iron_nugget.setItemMeta(iron_nuggetMeta);
+            inventory.addItem(iron_nugget);
         }
 
         player.openInventory(inventory);
@@ -647,14 +650,14 @@ public class GuiHandler {
     }
 
     public void editAttribute(Player player, ItemStack itemStack, Attribute attribute, EquipmentSlot equipmentSlot) {
-        DAnvil anvil = AnvilAPI.getAnvilAPI().getAnvil(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("item.attribute_edit.title")), player);
+        GAnvil anvil = GedLibrary.getInstance().createNewAnvil(EzTools.replaceColorCode(EzTools.getLanguageGui().getString("item.attribute_edit.title")), GedLibrary.getInstance().getPlayer(player));
 
         ItemStack paper = new ItemStack(Material.PAPER);
         ItemMeta paperMeta = paper.getItemMeta();
         paperMeta.setDisplayName(this.getDisplay("item.attribute_edit.input_left"));
         paper.setItemMeta(paperMeta);
 
-        anvil.setItemStack(Slot.INPUT_LEFT, paper);
+        anvil.setItem(Slot.INPUT_LEFT, new GItem(paper));
 
         anvil.openInventory();
         if (!EzTools.getEditingItem().containsKey(player)) {
