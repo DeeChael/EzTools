@@ -51,6 +51,13 @@ public final class EzT extends JavaPlugin {
         LANGUAGE.setDefault("ezt.command.ezt-item.name.success", "&aEdited the name of item to &e{MainHandDisplayName}");
         LANGUAGE.setDefault("ezt.command.ezt-item.lore.success", "&aEdited the lore of item");
         LANGUAGE.setDefault("ezt.command.ezt-item.enchant.success", "&aEdited the enchantments of item successfully");
+        LANGUAGE.setDefault("ezt.command.ezt-item.attribute.add.success", "&aAdd a attribute modifier successfully");
+        LANGUAGE.setDefault("ezt.command.ezt-item.attribute.set.success", "&aSet a attribute of item successfully");
+        LANGUAGE.setDefault("ezt.command.ezt-item.attribute.remove.success", "&aRemove a attribute of item successfully");
+        LANGUAGE.setDefault("ezt.command.ezt-item.attribute.set.success", "&aThe attribute amount is &e{amount}");
+        LANGUAGE.setDefault("ezt.command.ezt-item.unbreakable.player.success", "&aThe unbreakable status of the item stack in your main hand has been modified");
+        LANGUAGE.setDefault("ezt.command.ezt-item.unbreakable.single.success", "&aYou modified the unbreakable status of the item stack in &e{target}&a's main hand");
+        LANGUAGE.setDefault("ezt.command.ezt-item.unbreakable.multi.success", "&aYou modified the main hand item stack unbreakable status of {target}");
         LANGUAGE.save();
         try {
             Class<?> clazz = Class.forName("lib.ezt.nms." + ReflectionAPI.getServerVersion() + ".EzT");

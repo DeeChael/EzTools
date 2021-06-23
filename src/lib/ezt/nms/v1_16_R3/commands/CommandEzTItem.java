@@ -1,34 +1,15 @@
-package lib.ezt.nms.v1_17_R1.commands;
+package lib.ezt.nms.v1_16_R3.commands;
 
 import com.google.common.collect.Lists;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
-import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import com.mojang.brigadier.context.CommandContext;
-import com.mojang.brigadier.suggestion.SuggestionProvider;
-import net.minecraft.commands.CommandListenerWrapper;
-import net.minecraft.commands.ICompletionProvider;
-import net.minecraft.commands.arguments.*;
-import net.minecraft.core.IRegistry;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
-import net.minecraft.network.chat.ChatMessage;
-import net.minecraft.network.chat.IChatBaseComponent;
-import net.minecraft.server.level.EntityPlayer;
-import net.minecraft.world.entity.EnumItemSlot;
-import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.server.v1_16_R3.*;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_17_R1.enchantments.CraftEnchantment;
-import org.bukkit.craftbukkit.v1_17_R1.inventory.CraftItemStack;
-import org.bukkit.entity.Entity;
+import org.bukkit.craftbukkit.v1_16_R3.enchantments.CraftEnchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -37,42 +18,45 @@ import org.eztools.EzT;
 import org.eztools.api.color.ColorFormat;
 import org.eztools.utils.ReflectionAPI;
 
-import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
 
 public class CommandEzTItem {
 
+
     public static void register(CommandDispatcher<CommandListenerWrapper> commandDispatcher) {
         //Main command
-        LiteralArgumentBuilder<CommandListenerWrapper> command = net.minecraft.commands.CommandDispatcher
+        LiteralArgumentBuilder<CommandListenerWrapper> command = net.minecraft.server.v1_16_R3.CommandDispatcher
                 .a("ezt-item")
                 .requires((requirement) -> requirement.hasPermission(4, "ezt.command.ezt-item"));
         //Name command
-        command.then(net.minecraft.commands.CommandDispatcher
+        command.then(net.minecraft.server.v1_16_R3.CommandDispatcher
                 .a("name")
                 .requires((requirement) -> requirement.hasPermission(4, "ezt.command.ezt-item.name"))
-                .then(net.minecraft.commands.CommandDispatcher
+                .then(net.minecraft.server.v1_16_R3.CommandDispatcher
                         .a("content", ArgumentChat.a())
                         .executes((commandContext -> executeName(commandContext.getSource(), commandContext.getSource().h(), ArgumentChat.a(commandContext, "content"))))
                 )
         );
         //Lore command
-        command.then(net.minecraft.commands.CommandDispatcher
+        command.then(net.minecraft.server.v1_16_R3.CommandDispatcher
                 .a("lore")
                 .requires((requirement) -> requirement.hasPermission(4, "ezt.command.ezt-item.lore"))
-                .then(net.minecraft.commands.CommandDispatcher
+                .then(net.minecraft.server.v1_16_R3.CommandDispatcher
                         .a("content", ArgumentNBTBase.a())
                         .executes((commandContext -> executeLore(commandContext.getSource(), commandContext.getSource().h(), ArgumentNBTBase.a(commandContext, "content"))))
                 )
         );
         //Enchant command
-        command.then(net.minecraft.commands.CommandDispatcher
+        command.then(net.minecraft.server.v1_16_R3.CommandDispatcher
                 .a("enchant")
                 .requires((requirement) -> requirement.hasPermission(4, "ezt.command.ezt-item.enchant"))
-                .then(net.minecraft.commands.CommandDispatcher
+                .then(net.minecraft.server.v1_16_R3.CommandDispatcher
                         .a("enchantment", ArgumentEnchantment.a())
                         .executes((commandContext -> executeEnchant(commandContext.getSource(), commandContext.getSource().h(), ArgumentEnchantment.a(commandContext, "enchantment"), 1)))
-                        .then(net.minecraft.commands.CommandDispatcher
+                        .then(net.minecraft.server.v1_16_R3.CommandDispatcher
                                 .a("level", IntegerArgumentType.integer(0, 32767))
                                 .suggests(((commandContext, suggestionsBuilder) -> {
                                     Enchantment enchantment = ArgumentEnchantment.a(commandContext, "enchantment");
@@ -86,37 +70,37 @@ public class CommandEzTItem {
                 )
         );
         //attribute command
-        LiteralArgumentBuilder<CommandListenerWrapper> attributeCommand =  net.minecraft.commands.CommandDispatcher
+        LiteralArgumentBuilder<CommandListenerWrapper> attributeCommand =  net.minecraft.server.v1_16_R3.CommandDispatcher
                 .a("attribute")
                 .requires((requirement) -> requirement.hasPermission(4, "ezt.command.ezt-item.attribute"));
         for (Attribute attribute : Attribute.values()) {
-            LiteralArgumentBuilder<CommandListenerWrapper> subAttribute = net.minecraft.commands.CommandDispatcher
+            LiteralArgumentBuilder<CommandListenerWrapper> subAttribute = net.minecraft.server.v1_16_R3.CommandDispatcher
                     .a(attribute.name().toLowerCase());
             for (EquipmentSlot equipmentSlot : EquipmentSlot.values()) {
-                subAttribute.then(net.minecraft.commands.CommandDispatcher
+                subAttribute.then(net.minecraft.server.v1_16_R3.CommandDispatcher
                         .a(equipmentSlot.name().toLowerCase())
-                        .then(net.minecraft.commands.CommandDispatcher
+                        .then(net.minecraft.server.v1_16_R3.CommandDispatcher
                                 .a("add")
                                 .requires((requirement) -> requirement.hasPermission(4, "ezt.command.ezt-item.attribute.add"))
-                                .then(net.minecraft.commands.CommandDispatcher
+                                .then(net.minecraft.server.v1_16_R3.CommandDispatcher
                                         .a("amount", DoubleArgumentType.doubleArg())
                                         .executes((commandContext -> executeAttributeAdd(commandContext.getSource(), commandContext.getSource().h(), attribute, equipmentSlot, DoubleArgumentType.getDouble(commandContext, "amount"))))
                                 )
                         )
-                        .then(net.minecraft.commands.CommandDispatcher
+                        .then(net.minecraft.server.v1_16_R3.CommandDispatcher
                                 .a("set")
                                 .requires((requirement) -> requirement.hasPermission(4, "ezt.command.ezt-item.attribute.set"))
-                                .then(net.minecraft.commands.CommandDispatcher
+                                .then(net.minecraft.server.v1_16_R3.CommandDispatcher
                                         .a("amount", DoubleArgumentType.doubleArg())
                                         .executes((commandContext -> executeAttributeSet(commandContext.getSource(), commandContext.getSource().h(), attribute, equipmentSlot, DoubleArgumentType.getDouble(commandContext, "amount"))))
                                 )
                         )
-                        .then(net.minecraft.commands.CommandDispatcher
+                        .then(net.minecraft.server.v1_16_R3.CommandDispatcher
                                 .a("remove")
                                 .requires((requirement) -> requirement.hasPermission(4, "ezt.command.ezt-item.attribute.remove"))
                                 .executes((commandContext -> executeAttributeRemove(commandContext.getSource(), commandContext.getSource().h(), attribute, equipmentSlot)))
                         )
-                        .then(net.minecraft.commands.CommandDispatcher
+                        .then(net.minecraft.server.v1_16_R3.CommandDispatcher
                                 .a("get")
                                 .requires((requirement) -> requirement.hasPermission(4, "ezt.command.ezt-item.attribute.get"))
                                 .executes((commandContext -> executeAttributeGet(commandContext.getSource(), commandContext.getSource().h(), attribute, equipmentSlot)))
@@ -126,11 +110,11 @@ public class CommandEzTItem {
             attributeCommand.then(subAttribute);
         }
         command.then(attributeCommand);
-        command.then(net.minecraft.commands.CommandDispatcher
+        command.then(net.minecraft.server.v1_16_R3.CommandDispatcher
                 .a("unbreakable")
                 .requires((requirement) -> requirement.hasPermission(4, "ezt.command.ezt-item.unbreakable"))
                 .executes(commandContext -> executeUnbreakable(commandContext.getSource(), Lists.newArrayList(commandContext.getSource().h())))
-                .then(net.minecraft.commands.CommandDispatcher
+                .then(net.minecraft.server.v1_16_R3.CommandDispatcher
                         .a("targets", ArgumentEntity.d())
                         .executes((commandContext) -> executeUnbreakable(commandContext.getSource(), ArgumentEntity.f(commandContext, "targets")))
                 )
@@ -355,5 +339,6 @@ public class CommandEzTItem {
         }
         return i;
     }
+
 
 }
