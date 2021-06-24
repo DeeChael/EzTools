@@ -46,23 +46,23 @@ public class CommandEzT {
     private static int executeReload(CommandListenerWrapper commandListenerWrapper) {
         int i = 0;
         if (EzT.reload()) {
-            commandListenerWrapper.sendMessage(new ChatMessage(EzT.LANGUAGE.getString("ezt.command.ezt.reload.success")), false);
+            commandListenerWrapper.sendMessage(new ChatMessage(EzT.getUsingLanguage().get("ezt.command.ezt.reload.success")), false);
             i++;
         }
         return i;
     }
 
     private static int executeHelp(CommandListenerWrapper commandListenerWrapper) {
-        commandListenerWrapper.sendMessage(new ChatMessage(EzT.LANGUAGE.getString("ezt.command.line")), false);
-        commandListenerWrapper.sendMessage(new ChatMessage(EzT.LANGUAGE.getString("ezt.command.ezt.help.message")), false);
-        commandListenerWrapper.sendMessage(new ChatMessage(EzT.LANGUAGE.getString("ezt.command.line")), false);
+        commandListenerWrapper.sendMessage(new ChatMessage(EzT.getUsingLanguage().get("ezt.command.line")), false);
+        commandListenerWrapper.sendMessage(new ChatMessage(EzT.getUsingLanguage().get("ezt.command.ezt.help.message")), false);
+        commandListenerWrapper.sendMessage(new ChatMessage(EzT.getUsingLanguage().get("ezt.command.line")), false);
         return 1;
     }
 
     private static int executeInfo(CommandListenerWrapper commandListenerWrapper) {
-        commandListenerWrapper.sendMessage(new ChatMessage(EzT.LANGUAGE.getString("ezt.command.line")), false);
-        commandListenerWrapper.sendMessage(new ChatMessage(EzT.LANGUAGE.getString("ezt.command.ezt.info.message")), false);
-        commandListenerWrapper.sendMessage(new ChatMessage(EzT.LANGUAGE.getString("ezt.command.line")), false);
+        commandListenerWrapper.sendMessage(new ChatMessage(EzT.getUsingLanguage().get("ezt.command.line")), false);
+        commandListenerWrapper.sendMessage(new ChatMessage(EzT.getUsingLanguage().get("ezt.command.ezt.info.message")), false);
+        commandListenerWrapper.sendMessage(new ChatMessage(EzT.getUsingLanguage().get("ezt.command.line")), false);
         return 1;
     }
 

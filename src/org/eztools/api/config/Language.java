@@ -37,7 +37,7 @@ public class Language {
         }
     }
 
-    public String getString(String path) {
+    public String get(String path) {
         return jsonObject.has(path) && jsonObject.get(path).isJsonPrimitive() ? ColorFormat.translate(jsonObject.get(path).getAsString().replace("\\n", "\n")) : "Null";
     }
 

@@ -12,7 +12,7 @@ public class InaccessibleCommand extends Command {
 
     @Override
     public final boolean execute(CommandSender sender, String label, String[] args) {
-        sender.sendMessage(EzT.LANGUAGE.getString("ezt.loading.failed.loadLibrary"));
+        sender.sendMessage(EzT.getUsingLanguage().get("ezt.loading.failed.loadLibrary"));
         return true;
     }
 

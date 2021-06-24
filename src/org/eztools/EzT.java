@@ -7,6 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.eztools.api.command.CommandManager;
 import org.eztools.api.config.Language;
 import org.eztools.impl.CommandManagerImpl;
+import org.eztools.listener.ServerLoadListener;
 import org.eztools.utils.ReflectionAPI;
 
 import java.io.File;
@@ -21,9 +22,6 @@ public final class EzT extends JavaPlugin {
     public final static CommandMap BUKKIT_COMMAND_MAP;
 
     private final CommandManager commandManager = new CommandManagerImpl();
-
-    public final static FileConfiguration CONFIG = getConfiguration();
-    public final static Language LANGUAGE = getUsingLanguage();
 
     private static Language USING_LANGUAGE;
 
@@ -40,23 +38,27 @@ public final class EzT extends JavaPlugin {
     @Override
     public void onEnable() {
         INSTANCE = this;
+        this.getServer().getPluginManager().registerEvents(new ServerLoadListener(), this);
         if (!(new File("plugins/EzT/config.yml")).exists()) {
-            this.saveDefaultConfig();
+            try {
+                new File("plugins/EzT/config.yml").createNewFile();
+            } catch (IOException ignored) {
+            }
         }
-        reload();
+        EzT.reload();
         try {
             Class<?> clazz = Class.forName("lib.ezt.nms." + ReflectionAPI.getServerVersion() + ".EzT");
             Constructor<?> constructor = clazz.getConstructor(EzT.class);
             Object ezTLib = constructor.newInstance(this);
             clazz.getDeclaredMethod("load").invoke(ezTLib);
         } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException ignored) {
-            this.getLogger().severe(EzT.LANGUAGE.getString("ezt.loading.failed.loadLibrary"));
+            this.getLogger().severe(EzT.getUsingLanguage().get("ezt.loading.failed.loadLibrary"));
         }
         commandManager.register();
-        this.getServer().getConsoleSender().sendMessage("§b" + EzT.LANGUAGE.getString("ezt.loading.succeeded"));
+        this.getServer().getConsoleSender().sendMessage("§b" + EzT.getUsingLanguage().get("ezt.loading.succeeded"));
     }
 
-    private static Language getUsingLanguage() {
+    public static Language getUsingLanguage() {
         return USING_LANGUAGE;
     }
 

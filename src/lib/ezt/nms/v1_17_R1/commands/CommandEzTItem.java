@@ -135,7 +135,7 @@ public class CommandEzTItem {
                 if (itemMeta != null) {
                     itemMeta.setDisplayName(ColorFormat.translate(iChatBaseComponent.getText()));
                     itemStack.setItemMeta(itemMeta);
-                    commandListenerWrapper.sendMessage(new ChatMessage(EzT.LANGUAGE.getString("ezt.command.ezt-item.name.success").replace("{MainHandDisplayName}", ColorFormat.translate(iChatBaseComponent.getText()))), false);
+                    commandListenerWrapper.sendMessage(new ChatMessage(EzT.getUsingLanguage().get("ezt.command.ezt-item.name.success").replace("{MainHandDisplayName}", ColorFormat.translate(iChatBaseComponent.getText()))), false);
                     i++;
                 }
             }
@@ -159,7 +159,7 @@ public class CommandEzTItem {
                 if (itemMeta != null) {
                     itemMeta.setLore(lore);
                     itemStack.setItemMeta(itemMeta);
-                    commandListenerWrapper.sendMessage(new ChatMessage(EzT.LANGUAGE.getString("ezt.command.ezt-item.lore.success")), false);
+                    commandListenerWrapper.sendMessage(new ChatMessage(EzT.getUsingLanguage().get("ezt.command.ezt-item.lore.success")), false);
                     i++;
                 }
             }
@@ -184,7 +184,7 @@ public class CommandEzTItem {
                         itemMeta.addEnchant(enchant, level, true);
                     }
                     itemStack.setItemMeta(itemMeta);
-                    commandListenerWrapper.sendMessage(new ChatMessage(EzT.LANGUAGE.getString("ezt.command.ezt-item.enchant.success")), false);
+                    commandListenerWrapper.sendMessage(new ChatMessage(EzT.getUsingLanguage().get("ezt.command.ezt-item.enchant.success")), false);
                     i++;
                 }
             }
@@ -208,7 +208,7 @@ public class CommandEzTItem {
                         AttributeModifier attributeModifier = new AttributeModifier(UUID.randomUUID(), "ezt", amount, AttributeModifier.Operation.ADD_NUMBER, slot);
                         itemMeta.addAttributeModifier(attribute, attributeModifier);
                         itemStack.setItemMeta(itemMeta);
-                        commandListenerWrapper.sendMessage(new ChatMessage(EzT.LANGUAGE.getString("ezt.command.ezt-item.attribute.set.success")), false);
+                        commandListenerWrapper.sendMessage(new ChatMessage(EzT.getUsingLanguage().get("ezt.command.ezt-item.attribute.set.success")), false);
                         i++;
                     }
                 }
@@ -247,7 +247,7 @@ public class CommandEzTItem {
                         AttributeModifier attributeModifier = new AttributeModifier(UUID.randomUUID(), "ezt", original + amount, AttributeModifier.Operation.ADD_NUMBER, slot);
                         itemMeta.addAttributeModifier(attribute, attributeModifier);
                         itemStack.setItemMeta(itemMeta);
-                        commandListenerWrapper.sendMessage(new ChatMessage(EzT.LANGUAGE.getString("ezt.command.ezt-item.attribute.set.success")), false);
+                        commandListenerWrapper.sendMessage(new ChatMessage(EzT.getUsingLanguage().get("ezt.command.ezt-item.attribute.set.success")), false);
                         i++;
                     }
                 }
@@ -274,7 +274,7 @@ public class CommandEzTItem {
                         }
                     }
                 }
-                commandListenerWrapper.sendMessage(new ChatMessage(EzT.LANGUAGE.getString("ezt.command.ezt-item.attribute.set.success")), false);
+                commandListenerWrapper.sendMessage(new ChatMessage(EzT.getUsingLanguage().get("ezt.command.ezt-item.attribute.set.success")), false);
                 i++;
             }
         }
@@ -303,7 +303,7 @@ public class CommandEzTItem {
                         }
                     }
                 }
-                commandListenerWrapper.sendMessage(new ChatMessage(EzT.LANGUAGE.getString("ezt.command.ezt-item.attribute.set.success").replace("{amount}", String.valueOf(amount))), false);
+                commandListenerWrapper.sendMessage(new ChatMessage(EzT.getUsingLanguage().get("ezt.command.ezt-item.attribute.set.success").replace("{amount}", String.valueOf(amount))), false);
                 i++;
             }
         }
@@ -330,16 +330,16 @@ public class CommandEzTItem {
             }
         }
         if (i == 1) {
-            list.get(0).getBukkitEntity().sendMessage(EzT.LANGUAGE.getString("ezt.command.ezt-item.unbreakable.player.success"));
-            commandListenerWrapper.sendMessage(new ChatMessage(EzT.LANGUAGE.getString("ezt.command.ezt-item.unbreakable.single.success").replace("{target}", list.get(0).displayName)), false);
+            list.get(0).getBukkitEntity().sendMessage(EzT.getUsingLanguage().get("ezt.command.ezt-item.unbreakable.player.success"));
+            commandListenerWrapper.sendMessage(new ChatMessage(EzT.getUsingLanguage().get("ezt.command.ezt-item.unbreakable.single.success").replace("{target}", list.get(0).displayName)), false);
         } else if (i > 1) {
             StringBuilder stringBuilder = new StringBuilder();
             for (EntityPlayer entityPlayer : entityPlayers) {
                 stringBuilder.append(entityPlayer.displayName).append(", ");
-                entityPlayer.getBukkitEntity().sendMessage(EzT.LANGUAGE.getString("ezt.command.ezt-item.unbreakable.player.success"));
+                entityPlayer.getBukkitEntity().sendMessage(EzT.getUsingLanguage().get("ezt.command.ezt-item.unbreakable.player.success"));
             }
             String target = stringBuilder.substring(0, stringBuilder.length() - 2);
-            commandListenerWrapper.sendMessage(new ChatMessage(EzT.LANGUAGE.getString("ezt.command.ezt-item.unbreakable.multi.success").replace("{target}", target)), false);
+            commandListenerWrapper.sendMessage(new ChatMessage(EzT.getUsingLanguage().get("ezt.command.ezt-item.unbreakable.multi.success").replace("{target}", target)), false);
         }
         return i;
     }
