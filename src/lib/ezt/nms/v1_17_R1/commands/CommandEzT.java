@@ -4,9 +4,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import net.minecraft.commands.CommandListenerWrapper;
-import net.minecraft.commands.arguments.ArgumentChat;
 import net.minecraft.network.chat.ChatMessage;
-import net.minecraft.network.chat.IChatBaseComponent;
 import org.eztools.EzT;
 
 public class CommandEzT {
@@ -15,43 +13,62 @@ public class CommandEzT {
         LiteralCommandNode<CommandListenerWrapper> literalCommandNode = commandDispatcher.register(
                 net.minecraft.commands.CommandDispatcher
                         .a("ezt")
-                        .requires((requirement) -> {
-                            return requirement.hasPermission(4, "ezt.command.ezt");
-                        })
+                        .requires((requirement) -> requirement.hasPermission(4, "ezt.command.ezt"))
                         .then(
                                 net.minecraft.commands.CommandDispatcher
-                                        .a("subcmd", StringArgumentType.string())
-                                        .suggests((commandContext, suggestionsBuilder) -> suggestionsBuilder.suggest("help").suggest("info").suggest("source-code").buildFuture())
-                                        .executes((commandContext -> execute(commandContext.getSource(), StringArgumentType.getString(commandContext, "subcmd"))))
+                                        .a("reload")
+                                        .requires(requirement -> requirement.hasPermission(4, "ezt.command.ezt.reload"))
+                                        .executes((commandContext -> executeReload(commandContext.getSource())))
+                        )
+                        .then(
+                                net.minecraft.commands.CommandDispatcher
+                                        .a("help")
+                                        .requires(requirement -> requirement.hasPermission(4, "ezt.command.ezt.help"))
+                                        .executes((commandContext -> executeHelp(commandContext.getSource())))
+                        )
+                        .then(
+                                net.minecraft.commands.CommandDispatcher
+                                        .a("info")
+                                        .requires(requirement -> requirement.hasPermission(4, "ezt.command.ezt.info"))
+                                        .executes((commandContext -> executeInfo(commandContext.getSource())))
+                        )
+                        .then(
+                                net.minecraft.commands.CommandDispatcher
+                                        .a("source-code")
+                                        .requires(requirement -> requirement.hasPermission(4, "ezt.command.ezt.sc"))
+                                        .executes((commandContext -> executeSourceCode(commandContext.getSource())))
                         )
         );
         commandDispatcher.register(net.minecraft.commands.CommandDispatcher.a("eztools").redirect(literalCommandNode));
         commandDispatcher.register(net.minecraft.commands.CommandDispatcher.a("eztool").redirect(literalCommandNode));
     }
 
-    private static int execute(CommandListenerWrapper commandListenerWrapper, String type) {
+    private static int executeReload(CommandListenerWrapper commandListenerWrapper) {
         int i = 0;
-        if (type != null) {
-            switch (type) {
-                case "help" -> {
-                    commandListenerWrapper.sendMessage(new ChatMessage(EzT.LANGUAGE.getString("ezt.command.line")), false);
-                    commandListenerWrapper.sendMessage(new ChatMessage(EzT.LANGUAGE.getString("ezt.command.ezt.help.message")), false);
-                    commandListenerWrapper.sendMessage(new ChatMessage(EzT.LANGUAGE.getString("ezt.command.line")), false);
-                    i++;
-                }
-                case "info" -> {
-                    commandListenerWrapper.sendMessage(new ChatMessage(EzT.LANGUAGE.getString("ezt.command.line")), false);
-                    commandListenerWrapper.sendMessage(new ChatMessage(EzT.LANGUAGE.getString("ezt.command.ezt.info.message")), false);
-                    commandListenerWrapper.sendMessage(new ChatMessage(EzT.LANGUAGE.getString("ezt.command.line")), false);
-                    i++;
-                }
-                case "source-code" -> {
-                    commandListenerWrapper.sendMessage(new ChatMessage("https://github.com/DeeChael/EzTools"), false);
-                    i++;
-                }
-            }
+        if (EzT.reload()) {
+            commandListenerWrapper.sendMessage(new ChatMessage(EzT.LANGUAGE.getString("ezt.command.ezt.reload.success")), false);
+            i++;
         }
         return i;
+    }
+
+    private static int executeHelp(CommandListenerWrapper commandListenerWrapper) {
+        commandListenerWrapper.sendMessage(new ChatMessage(EzT.LANGUAGE.getString("ezt.command.line")), false);
+        commandListenerWrapper.sendMessage(new ChatMessage(EzT.LANGUAGE.getString("ezt.command.ezt.help.message")), false);
+        commandListenerWrapper.sendMessage(new ChatMessage(EzT.LANGUAGE.getString("ezt.command.line")), false);
+        return 1;
+    }
+
+    private static int executeInfo(CommandListenerWrapper commandListenerWrapper) {
+        commandListenerWrapper.sendMessage(new ChatMessage(EzT.LANGUAGE.getString("ezt.command.line")), false);
+        commandListenerWrapper.sendMessage(new ChatMessage(EzT.LANGUAGE.getString("ezt.command.ezt.info.message")), false);
+        commandListenerWrapper.sendMessage(new ChatMessage(EzT.LANGUAGE.getString("ezt.command.line")), false);
+        return 1;
+    }
+
+    private static int executeSourceCode(CommandListenerWrapper commandListenerWrapper) {
+        commandListenerWrapper.sendMessage(new ChatMessage("https://github.com/DeeChael/EzTools"), false);
+        return 1;
     }
 
 }

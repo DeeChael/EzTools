@@ -2,12 +2,15 @@ package org.eztools;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.eztools.api.command.CommandManager;
 import org.eztools.api.config.Language;
 import org.eztools.impl.CommandManagerImpl;
 import org.eztools.utils.ReflectionAPI;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
@@ -17,9 +20,12 @@ public final class EzT extends JavaPlugin {
 
     public final static CommandMap BUKKIT_COMMAND_MAP;
 
-    private CommandManager commandManager = new CommandManagerImpl();
+    private final CommandManager commandManager = new CommandManagerImpl();
 
-    public static Language LANGUAGE;
+    public final static FileConfiguration CONFIG = getConfiguration();
+    public final static Language LANGUAGE = getUsingLanguage();
+
+    private static Language USING_LANGUAGE;
 
     static {
         CommandMap commandMap = null;
@@ -34,31 +40,10 @@ public final class EzT extends JavaPlugin {
     @Override
     public void onEnable() {
         INSTANCE = this;
-        LANGUAGE = new Language(this, "en_us");
-        //Plugin loading message
-        LANGUAGE.setDefault("ezt.loading.failed.loadLibrary", "Could not find the library class! Failed to load EzTools!");
-        LANGUAGE.setDefault("ezt.loading.succeeded", "EzTools Enabled");
-        //Plugin Command message
-        //Command - EzT
-        LANGUAGE.setDefault("ezt.command.line", "&b==========================");
-        LANGUAGE.setDefault("ezt.command.ezt.help.message", "§a/item - The command to edit item stacks\n" +
-                "§a/entity - The command to edit entities except player\n" +
-                "§a/player - The command to edit players\n" +
-                "§a/nbt - The command to edit some special nbt\n" +
-                "§a/ezgui - The command to open EzTools GUI to edit items or entities");
-        LANGUAGE.setDefault("ezt.command.ezt.info.message", "&aEzTools developed by DeeChael(DiC)");
-        //Command - EzT-Item
-        LANGUAGE.setDefault("ezt.command.ezt-item.name.success", "&aEdited the name of item to &e{MainHandDisplayName}");
-        LANGUAGE.setDefault("ezt.command.ezt-item.lore.success", "&aEdited the lore of item");
-        LANGUAGE.setDefault("ezt.command.ezt-item.enchant.success", "&aEdited the enchantments of item successfully");
-        LANGUAGE.setDefault("ezt.command.ezt-item.attribute.add.success", "&aAdd a attribute modifier successfully");
-        LANGUAGE.setDefault("ezt.command.ezt-item.attribute.set.success", "&aSet a attribute of item successfully");
-        LANGUAGE.setDefault("ezt.command.ezt-item.attribute.remove.success", "&aRemove a attribute of item successfully");
-        LANGUAGE.setDefault("ezt.command.ezt-item.attribute.set.success", "&aThe attribute amount is &e{amount}");
-        LANGUAGE.setDefault("ezt.command.ezt-item.unbreakable.player.success", "&aThe unbreakable status of the item stack in your main hand has been modified");
-        LANGUAGE.setDefault("ezt.command.ezt-item.unbreakable.single.success", "&aYou modified the unbreakable status of the item stack in &e{target}&a's main hand");
-        LANGUAGE.setDefault("ezt.command.ezt-item.unbreakable.multi.success", "&aYou modified the main hand item stack unbreakable status of {target}");
-        LANGUAGE.save();
+        if (!(new File("plugins/EzT/config.yml")).exists()) {
+            this.saveDefaultConfig();
+        }
+        reload();
         try {
             Class<?> clazz = Class.forName("lib.ezt.nms." + ReflectionAPI.getServerVersion() + ".EzT");
             Constructor<?> constructor = clazz.getConstructor(EzT.class);
@@ -71,8 +56,60 @@ public final class EzT extends JavaPlugin {
         this.getServer().getConsoleSender().sendMessage("§b" + EzT.LANGUAGE.getString("ezt.loading.succeeded"));
     }
 
+    private static Language getUsingLanguage() {
+        return USING_LANGUAGE;
+    }
+
+    private static FileConfiguration getConfiguration() {
+        return getInstance().getConfig();
+    }
+
     public static EzT getInstance() {
         return INSTANCE;
+    }
+
+    public static boolean reload() {
+        try {
+            getInstance().reloadConfig();
+            if (!getConfiguration().contains("setting.language")) {
+                getConfiguration().addDefault("setting.language", "en_us");
+                getInstance().saveConfig();
+                getInstance().reloadConfig();
+            }
+            loadLanguage();
+            return true;
+        } catch (IOException ignored) {
+        }
+        return false;
+    }
+
+    private static void loadLanguage() throws IOException {
+        USING_LANGUAGE = new Language(getInstance(), getConfiguration().getString("setting.language", "en_us"));
+        //Plugin loading message
+        USING_LANGUAGE.setDefault("ezt.loading.failed.loadLibrary", "Could not find the library class! Failed to load EzTools!");
+        USING_LANGUAGE.setDefault("ezt.loading.succeeded", "EzTools Enabled");
+        //Plugin Command message
+        //Command - EzT
+        USING_LANGUAGE.setDefault("ezt.command.line", "&b==========================");
+        USING_LANGUAGE.setDefault("ezt.command.ezt.help.message", "§a/ezt-item - The command to edit item stacks\n" +
+                "§a/ezt-entity - The command to edit entities except player\n" +
+                "§a/ezt-player - The command to edit players\n" +
+                "§a/ezt-nbt - The command to edit some special nbt\n" +
+                "§a/ezt-gui - The command to open EzTools GUI to edit items or entities");
+        USING_LANGUAGE.setDefault("ezt.command.ezt.info.message", "&aEzTools developed by DeeChael(DiC)");
+        USING_LANGUAGE.setDefault("ezt.command.ezt.reload.success", "&aReloaded EzTools configuration files successfully");
+        //Command - EzT-Item
+        USING_LANGUAGE.setDefault("ezt.command.ezt-item.name.success", "&aEdited the name of item to &e{MainHandDisplayName}");
+        USING_LANGUAGE.setDefault("ezt.command.ezt-item.lore.success", "&aEdited the lore of item");
+        USING_LANGUAGE.setDefault("ezt.command.ezt-item.enchant.success", "&aEdited the enchantments of item successfully");
+        USING_LANGUAGE.setDefault("ezt.command.ezt-item.attribute.add.success", "&aAdd a attribute modifier successfully");
+        USING_LANGUAGE.setDefault("ezt.command.ezt-item.attribute.set.success", "&aSet a attribute of item successfully");
+        USING_LANGUAGE.setDefault("ezt.command.ezt-item.attribute.remove.success", "&aRemove a attribute of item successfully");
+        USING_LANGUAGE.setDefault("ezt.command.ezt-item.attribute.set.success", "&aThe attribute amount is &e{amount}");
+        USING_LANGUAGE.setDefault("ezt.command.ezt-item.unbreakable.player.success", "&aThe unbreakable status of the item stack in your main hand has been modified");
+        USING_LANGUAGE.setDefault("ezt.command.ezt-item.unbreakable.single.success", "&aYou modified the unbreakable status of the item stack in &e{target}&a's main hand");
+        USING_LANGUAGE.setDefault("ezt.command.ezt-item.unbreakable.multi.success", "&aYou modified the main hand item stack unbreakable status of {target}");
+        USING_LANGUAGE.save();
     }
 
 }

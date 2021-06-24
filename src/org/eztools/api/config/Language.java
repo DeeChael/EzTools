@@ -14,7 +14,7 @@ public class Language {
     private final File file;
     private JsonObject jsonObject = new JsonObject();
 
-    public Language(Plugin plugin, String language) {
+    public Language(Plugin plugin, String language) throws IOException {
         File folder = new File("language/" + plugin.getName());
         if (!folder.exists()) {
             folder.mkdirs();
@@ -26,13 +26,10 @@ public class Language {
         file = new File("language/" + plugin.getName() + "/" + language + ".json");
         if (!file.exists()) {
             firstOpenAndFileNotExist = true;
-            try {
-                file.createNewFile();
-                FileWriter fileWriter = new FileWriter(file);
-                fileWriter.write("{}");
-                fileWriter.close();
-            } catch (IOException ignored) {
-            }
+            file.createNewFile();
+            FileWriter fileWriter = new FileWriter(file);
+            fileWriter.write("{}");
+            fileWriter.close();
         }
         try {
             jsonObject = new JsonParser().parse(new FileReader(file)).getAsJsonObject();
