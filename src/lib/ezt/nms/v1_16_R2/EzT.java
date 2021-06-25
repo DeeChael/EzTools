@@ -27,6 +27,9 @@ public class EzT {
             com.mojang.brigadier.CommandDispatcher<CommandListenerWrapper> mojang = (com.mojang.brigadier.CommandDispatcher<CommandListenerWrapper>) field.get(commandDispatcher);
             f.setAccessible(true);
             f.set(ezT, new CommandManager_v1_16_R2(mojang));
+            Field tfTol = ezTClass.getDeclaredField("transferTool");
+            tfTol.setAccessible(true);
+            tfTol.set(ezT, new TransferTool_v1_16_R2());
         } catch (NoSuchFieldException | IllegalAccessException ignored) {
         }
     }

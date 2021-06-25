@@ -23,10 +23,13 @@ public class EzT {
         assert field != null;
         field.setAccessible(true);
         try {
-            Field f = ezTClass.getDeclaredField("commandManager");
+            Field cmdMgr = ezTClass.getDeclaredField("commandManager");
             com.mojang.brigadier.CommandDispatcher<CommandListenerWrapper> mojang = (com.mojang.brigadier.CommandDispatcher<CommandListenerWrapper>) field.get(commandDispatcher);
-            f.setAccessible(true);
-            f.set(ezT, new CommandManager_v1_17_R1(mojang));
+            cmdMgr.setAccessible(true);
+            cmdMgr.set(ezT, new CommandManager_v1_17_R1(mojang));
+            Field tfTol = ezTClass.getDeclaredField("transferTool");
+            tfTol.setAccessible(true);
+            tfTol.set(ezT, new TransferTool_v1_17_R1());
         } catch (NoSuchFieldException | IllegalAccessException ignored) {
         }
     }

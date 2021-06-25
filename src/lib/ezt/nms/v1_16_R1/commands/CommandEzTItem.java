@@ -199,13 +199,27 @@ public class CommandEzTItem {
                             amount = amount / 10;
                         }
                     }
+                    double original = 0.0;
                     if (itemMeta.hasAttributeModifiers()) {
-                        AttributeModifier attributeModifier = new AttributeModifier(UUID.randomUUID(), "ezt", amount, AttributeModifier.Operation.ADD_NUMBER, slot);
-                        itemMeta.addAttributeModifier(attribute, attributeModifier);
-                        itemStack.setItemMeta(itemMeta);
-                        commandListenerWrapper.sendMessage(new ChatMessage(EzT.getUsingLanguage().get("ezt.command.ezt-item.attribute.set.success")), false);
-                        i++;
+                        Collection<AttributeModifier> collection = itemMeta.getAttributeModifiers(attribute);
+                        if (collection != null) {
+                            if (collection.size() > 0) {
+                                for (AttributeModifier attributeModifier : collection) {
+                                    if (attributeModifier.getSlot() == slot) {
+                                        if (attributeModifier.getOperation() == AttributeModifier.Operation.ADD_NUMBER || attributeModifier.getOperation() == AttributeModifier.Operation.ADD_SCALAR) {
+                                            original += attributeModifier.getAmount();
+                                        }
+                                        itemMeta.removeAttributeModifier(attribute, attributeModifier);
+                                    }
+                                }
+                            }
+                        }
                     }
+                    AttributeModifier attributeModifier = new AttributeModifier(UUID.randomUUID(), "ezt", original + amount, AttributeModifier.Operation.ADD_NUMBER, slot);
+                    itemMeta.addAttributeModifier(attribute, attributeModifier);
+                    itemStack.setItemMeta(itemMeta);
+                    commandListenerWrapper.sendMessage(new ChatMessage(EzT.getUsingLanguage().get("ezt.command.ezt-item.attribute.add.success")), false);
+                    i++;
                 }
             }
         }
@@ -224,27 +238,23 @@ public class CommandEzTItem {
                             amount = amount / 10;
                         }
                     }
-                    double original = 0.0;
                     if (itemMeta.hasAttributeModifiers()) {
                         Collection<AttributeModifier> collection = itemMeta.getAttributeModifiers(attribute);
                         if (collection != null) {
                             if (collection.size() > 0) {
                                 for (AttributeModifier attributeModifier : collection) {
                                     if (attributeModifier.getSlot() == slot) {
-                                        if (attributeModifier.getOperation() == AttributeModifier.Operation.ADD_NUMBER || attributeModifier.getOperation() == AttributeModifier.Operation.ADD_SCALAR) {
-                                            original += attributeModifier.getAmount();
-                                        }
                                         itemMeta.removeAttributeModifier(attribute, attributeModifier);
                                     }
                                 }
                             }
                         }
-                        AttributeModifier attributeModifier = new AttributeModifier(UUID.randomUUID(), "ezt", original + amount, AttributeModifier.Operation.ADD_NUMBER, slot);
-                        itemMeta.addAttributeModifier(attribute, attributeModifier);
-                        itemStack.setItemMeta(itemMeta);
-                        commandListenerWrapper.sendMessage(new ChatMessage(EzT.getUsingLanguage().get("ezt.command.ezt-item.attribute.set.success")), false);
-                        i++;
                     }
+                    AttributeModifier attributeModifier = new AttributeModifier(UUID.randomUUID(), "ezt", amount, AttributeModifier.Operation.ADD_NUMBER, slot);
+                    itemMeta.addAttributeModifier(attribute, attributeModifier);
+                    itemStack.setItemMeta(itemMeta);
+                    commandListenerWrapper.sendMessage(new ChatMessage(EzT.getUsingLanguage().get("ezt.command.ezt-item.attribute.set.success")), false);
+                    i++;
                 }
             }
         }
@@ -266,10 +276,11 @@ public class CommandEzTItem {
                                     itemMeta.removeAttributeModifier(attribute, attributeModifier);
                                 }
                             }
+                            itemStack.setItemMeta(itemMeta);
                         }
                     }
                 }
-                commandListenerWrapper.sendMessage(new ChatMessage(EzT.getUsingLanguage().get("ezt.command.ezt-item.attribute.set.success")), false);
+                commandListenerWrapper.sendMessage(new ChatMessage(EzT.getUsingLanguage().get("ezt.command.ezt-item.attribute.remove.success")), false);
                 i++;
             }
         }
@@ -295,10 +306,11 @@ public class CommandEzTItem {
                                     itemMeta.removeAttributeModifier(attribute, attributeModifier);
                                 }
                             }
+                            itemStack.setItemMeta(itemMeta);
                         }
                     }
                 }
-                commandListenerWrapper.sendMessage(new ChatMessage(EzT.getUsingLanguage().get("ezt.command.ezt-item.attribute.set.success").replace("{amount}", String.valueOf(amount))), false);
+                commandListenerWrapper.sendMessage(new ChatMessage(EzT.getUsingLanguage().get("ezt.command.ezt-item.attribute.get.success").replace("{amount}", String.valueOf(amount))), false);
                 i++;
             }
         }

@@ -6,7 +6,9 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.eztools.api.command.CommandManager;
 import org.eztools.api.config.Language;
+import org.eztools.api.item.TransferTool;
 import org.eztools.impl.CommandManagerImpl;
+import org.eztools.impl.TransferToolImpl;
 import org.eztools.listener.ServerLoadListener;
 import org.eztools.utils.ReflectionAPI;
 
@@ -23,6 +25,8 @@ public final class EzT extends JavaPlugin {
 
     private final CommandManager commandManager = new CommandManagerImpl();
 
+    private final TransferTool transferTool = new TransferToolImpl();
+
     private static Language USING_LANGUAGE;
 
     static {
@@ -35,6 +39,9 @@ public final class EzT extends JavaPlugin {
         BUKKIT_COMMAND_MAP = commandMap;
     }
 
+    /*
+     *  I'm too lazy to code nms with reflection
+     */
     @Override
     public void onEnable() {
         INSTANCE = this;
@@ -62,12 +69,20 @@ public final class EzT extends JavaPlugin {
         return USING_LANGUAGE;
     }
 
-    private static FileConfiguration getConfiguration() {
+    public static FileConfiguration getConfiguration() {
         return getInstance().getConfig();
     }
 
     public static EzT getInstance() {
         return INSTANCE;
+    }
+
+    public static TransferTool getTransferTool() {
+        return getInstance().transferTool();
+    }
+
+    private TransferTool transferTool() {
+        return transferTool;
     }
 
     public static boolean reload() {
@@ -107,7 +122,7 @@ public final class EzT extends JavaPlugin {
         USING_LANGUAGE.setDefault("ezt.command.ezt-item.attribute.add.success", "&aAdd a attribute modifier successfully");
         USING_LANGUAGE.setDefault("ezt.command.ezt-item.attribute.set.success", "&aSet a attribute of item successfully");
         USING_LANGUAGE.setDefault("ezt.command.ezt-item.attribute.remove.success", "&aRemove a attribute of item successfully");
-        USING_LANGUAGE.setDefault("ezt.command.ezt-item.attribute.set.success", "&aThe attribute amount is &e{amount}");
+        USING_LANGUAGE.setDefault("ezt.command.ezt-item.attribute.get.success", "&aThe attribute amount is &e{amount}");
         USING_LANGUAGE.setDefault("ezt.command.ezt-item.unbreakable.player.success", "&aThe unbreakable status of the item stack in your main hand has been modified");
         USING_LANGUAGE.setDefault("ezt.command.ezt-item.unbreakable.single.success", "&aYou modified the unbreakable status of the item stack in &e{target}&a's main hand");
         USING_LANGUAGE.setDefault("ezt.command.ezt-item.unbreakable.multi.success", "&aYou modified the main hand item stack unbreakable status of {target}");
