@@ -6,10 +6,15 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.eztools.api.command.CommandManager;
 import org.eztools.api.config.Language;
+import org.eztools.api.item.ItemSaver;
 import org.eztools.api.item.TransferTool;
+import org.eztools.api.storage.Storage;
 import org.eztools.impl.CommandManagerImpl;
+import org.eztools.impl.ItemSaverImpl;
 import org.eztools.impl.TransferToolImpl;
 import org.eztools.listener.ServerLoadListener;
+import org.eztools.storage.JsonStorage;
+import org.eztools.storage.YamlStorage;
 import org.eztools.utils.ReflectionAPI;
 
 import java.io.File;
@@ -29,6 +34,10 @@ public final class EzT extends JavaPlugin {
 
     private static Language USING_LANGUAGE;
 
+    private static Storage ITEM_STORAGE;
+
+    private static ItemSaver itemSaver;
+
     static {
         CommandMap commandMap = null;
         final Class<?> craftServerClass = Bukkit.getServer().getClass();
@@ -46,12 +55,6 @@ public final class EzT extends JavaPlugin {
     public void onEnable() {
         INSTANCE = this;
         this.getServer().getPluginManager().registerEvents(new ServerLoadListener(), this);
-        if (!(new File("plugins/EzT/config.yml")).exists()) {
-            try {
-                new File("plugins/EzT/config.yml").createNewFile();
-            } catch (IOException ignored) {
-            }
-        }
         EzT.reload();
         try {
             Class<?> clazz = Class.forName("lib.ezt.nms." + ReflectionAPI.getServerVersion() + ".EzT");
@@ -73,6 +76,14 @@ public final class EzT extends JavaPlugin {
         return getInstance().getConfig();
     }
 
+    public static ItemSaver getItemSaver() {
+        return itemSaver;
+    }
+
+    public static Storage getItemStorage() {
+        return ITEM_STORAGE;
+    }
+
     public static EzT getInstance() {
         return INSTANCE;
     }
@@ -87,12 +98,23 @@ public final class EzT extends JavaPlugin {
 
     public static boolean reload() {
         try {
-            getInstance().reloadConfig();
-            if (!getConfiguration().contains("setting.language")) {
-                getConfiguration().addDefault("setting.language", "en_us");
-                getInstance().saveConfig();
-                getInstance().reloadConfig();
+            if (!(new File("plugins/EzT/config.yml")).exists()) {
+                new File("plugins/EzT/config.yml").createNewFile();
             }
+            getInstance().reloadConfig();
+            getConfiguration().set("plugin_tips", "language supports zh_cn and en_us, storage support yaml, json, sqlite and mysql!");
+            getConfiguration().addDefault("setting.language", "en_us");
+            getConfiguration().addDefault("setting.storage", "yaml");
+            getInstance().saveConfig();
+            getInstance().reloadConfig();
+            switch (getConfiguration().getString("setting.storage", "yaml")) {
+                case "json":
+                    ITEM_STORAGE = new JsonStorage(new File("plugins/EzT/storage/items.json"));
+                case "yaml":
+                default:
+                    ITEM_STORAGE = new YamlStorage(new File("plugins/EzT/storage/items.yaml"));
+            }
+            itemSaver = new ItemSaverImpl(ITEM_STORAGE);
             loadLanguage();
             return true;
         } catch (IOException ignored) {
