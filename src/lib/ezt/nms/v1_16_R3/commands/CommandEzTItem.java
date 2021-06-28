@@ -23,7 +23,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-public class CommandEzTItem {
+public final class CommandEzTItem {
 
 
     public static void register(CommandDispatcher<CommandListenerWrapper> commandDispatcher) {

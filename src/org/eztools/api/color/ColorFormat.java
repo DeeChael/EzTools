@@ -3,7 +3,7 @@ package org.eztools.api.color;
 import net.md_5.bungee.api.ChatColor;
 import org.eztools.utils.ReflectionAPI;
 
-public class ColorFormat {
+public final class ColorFormat {
 
     public static String translate(String textToTranslate) {
         String text = textToTranslate;

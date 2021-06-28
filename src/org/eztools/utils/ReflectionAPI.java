@@ -7,7 +7,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-public class ReflectionAPI {
+public final class ReflectionAPI {
 
     public static Constructor<?> getConstructor(Class<?> clazz, Class<?>... arguments) {
         try {

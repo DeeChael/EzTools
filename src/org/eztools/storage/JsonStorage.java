@@ -11,21 +11,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public final class JsonStorage implements Storage {
+public final class JsonStorage extends FileStorage {
 
-    private final File file;
     private JsonObject jsonObject;
 
     public JsonStorage(File file) {
-        this.file = file;
-        if (!(file.exists() || file.isFile())) {
-            file.getParentFile().mkdirs();
+        super(file);
+        if (isFirstTime()) {
             try {
-                file.createNewFile();
                 FileWriter fileWriter = new FileWriter(file);
                 fileWriter.write("{}");
                 fileWriter.close();
-            } catch (IOException ignored) {
+            } catch (IOException e) {
             }
         }
         try {
@@ -45,7 +42,7 @@ public final class JsonStorage implements Storage {
         if (jsonObject.has(key) && jsonObject.get(key).isJsonPrimitive()) {
             String string = jsonObject.remove(key).getAsString();
             try {
-                FileWriter fileWriter = new FileWriter(file);
+                FileWriter fileWriter = new FileWriter(getFile());
                 fileWriter.write(new Gson().toJson(this.jsonObject));
                 fileWriter.close();
                 return string;
@@ -60,7 +57,7 @@ public final class JsonStorage implements Storage {
     public void removeAll() {
         this.jsonObject = new JsonObject();
         try {
-            FileWriter fileWriter = new FileWriter(file);
+            FileWriter fileWriter = new FileWriter(getFile());
             fileWriter.write(new Gson().toJson(this.jsonObject));
             fileWriter.close();
         } catch (IOException ignored) {
@@ -79,7 +76,7 @@ public final class JsonStorage implements Storage {
     public void set(String key, String value) {
         this.jsonObject.addProperty(key, value);
         try {
-            FileWriter fileWriter = new FileWriter(file);
+            FileWriter fileWriter = new FileWriter(getFile());
             fileWriter.write(new Gson().toJson(this.jsonObject));
             fileWriter.close();
         } catch (IOException ignored) {

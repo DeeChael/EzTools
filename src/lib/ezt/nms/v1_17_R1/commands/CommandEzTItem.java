@@ -28,7 +28,7 @@ import org.eztools.utils.ReflectionAPI;
 
 import java.util.*;
 
-public class CommandEzTItem {
+public final class CommandEzTItem {
 
     public static void register(com.mojang.brigadier.CommandDispatcher<CommandListenerWrapper> commandDispatcher) {
         //Main command

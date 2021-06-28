@@ -6,7 +6,7 @@ import net.minecraft.commands.CommandListenerWrapper;
 import net.minecraft.network.chat.ChatMessage;
 import org.eztools.EzT;
 
-public class CommandEzT {
+public final class CommandEzT {
 
     public static void register(com.mojang.brigadier.CommandDispatcher<CommandListenerWrapper> commandDispatcher) {
         LiteralCommandNode<CommandListenerWrapper> literalCommandNode = commandDispatcher.register(

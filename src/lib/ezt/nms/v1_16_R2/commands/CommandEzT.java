@@ -6,7 +6,7 @@ import net.minecraft.server.v1_16_R2.CommandDispatcher;
 import net.minecraft.server.v1_16_R2.CommandListenerWrapper;
 import org.eztools.EzT;
 
-public class CommandEzT {
+public final class CommandEzT {
 
     public static void register(com.mojang.brigadier.CommandDispatcher<CommandListenerWrapper> commandDispatcher) {
         LiteralCommandNode<CommandListenerWrapper> literalCommandNode = commandDispatcher.register(

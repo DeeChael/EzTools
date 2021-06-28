@@ -7,7 +7,7 @@ import org.eztools.utils.ReflectionAPI;
 
 import java.lang.reflect.Field;
 
-public class EzT {
+public final class EzT {
 
     private final org.eztools.EzT ezT;
 

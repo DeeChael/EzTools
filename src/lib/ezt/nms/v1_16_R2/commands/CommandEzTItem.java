@@ -22,7 +22,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-public class CommandEzTItem {
+public final class CommandEzTItem {
 
 
     public static void register(com.mojang.brigadier.CommandDispatcher<CommandListenerWrapper> commandDispatcher) {

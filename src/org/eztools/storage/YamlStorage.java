@@ -9,22 +9,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class YamlStorage implements Storage {
-
-    private final File file;
+public final class YamlStorage extends FileStorage {
 
     private FileConfiguration fileConfiguration;
 
     public YamlStorage(File file) {
-        this.file = file;
-        if (!(file.exists() || file.isFile())) {
-            file.getParentFile().mkdirs();
-            try {
-                file.createNewFile();
-            } catch (IOException ignored) {
-            }
-        }
-        this.fileConfiguration = YamlConfiguration.loadConfiguration(file);
+        super(file);
+        this.fileConfiguration = YamlConfiguration.loadConfiguration(getFile());
     }
 
     @Override
@@ -38,7 +29,7 @@ public final class YamlStorage implements Storage {
             String value = fileConfiguration.getString(key.replace(".", "_"));
             fileConfiguration.set(key.replace(".", "_"), null);
             try {
-                fileConfiguration.save(file);
+                fileConfiguration.save(getFile());
                 return value;
             } catch (IOException ignored) {
             }
@@ -50,7 +41,7 @@ public final class YamlStorage implements Storage {
     public void removeAll() {
         fileConfiguration = new YamlConfiguration();
         try {
-            fileConfiguration.save(file);
+            fileConfiguration.save(getFile());
         } catch (IOException ignored) {
         }
     }
@@ -67,7 +58,7 @@ public final class YamlStorage implements Storage {
     public void set(String key, String value) {
         this.fileConfiguration.set(key.replace(".", "_"), value);
         try {
-            fileConfiguration.save(file);
+            fileConfiguration.save(getFile());
         } catch (IOException ignored) {
         }
     }

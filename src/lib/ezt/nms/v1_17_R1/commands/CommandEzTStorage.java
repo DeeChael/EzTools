@@ -7,7 +7,7 @@ import net.minecraft.server.level.EntityPlayer;
 
 import java.util.Collection;
 
-public class CommandEzTStorage {
+public final class CommandEzTStorage {
 
     public static void register(com.mojang.brigadier.CommandDispatcher<CommandListenerWrapper> commandDispatcher) {
         LiteralArgumentBuilder<CommandListenerWrapper> command = CommandDispatcher

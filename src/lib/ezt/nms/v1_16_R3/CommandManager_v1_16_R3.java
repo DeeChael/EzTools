@@ -6,7 +6,7 @@ import lib.ezt.nms.v1_16_R3.commands.CommandEzTItem;
 import net.minecraft.server.v1_16_R3.CommandListenerWrapper;
 import org.eztools.api.command.CommandManager;
 
-public class CommandManager_v1_16_R3 implements CommandManager {
+public final class CommandManager_v1_16_R3 implements CommandManager {
 
     private final CommandDispatcher<CommandListenerWrapper> commandDispatcher;
 
