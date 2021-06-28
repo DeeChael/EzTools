@@ -18,6 +18,7 @@ public final class YamlStorage implements Storage {
     public YamlStorage(File file) {
         this.file = file;
         if (!(file.exists() || file.isFile())) {
+            file.getParentFile().mkdirs();
             try {
                 file.createNewFile();
             } catch (IOException ignored) {
@@ -38,6 +39,7 @@ public final class YamlStorage implements Storage {
             fileConfiguration.set(key.replace(".", "_"), null);
             try {
                 fileConfiguration.save(file);
+                return value;
             } catch (IOException ignored) {
             }
         }

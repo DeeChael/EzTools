@@ -1,6 +1,6 @@
 <h1>EzT (Original EzTools)</h1>
 <h2>A minecraft server plugin that can eazily edit item, entity and more!</h2>
-
+(This Project requires Hikari API to connect to mysql database)
 <h3>Infomation</h3>
 
 Thanks for using EzTools

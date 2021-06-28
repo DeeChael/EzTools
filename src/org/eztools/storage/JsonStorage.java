@@ -19,6 +19,7 @@ public final class JsonStorage implements Storage {
     public JsonStorage(File file) {
         this.file = file;
         if (!(file.exists() || file.isFile())) {
+            file.getParentFile().mkdirs();
             try {
                 file.createNewFile();
                 FileWriter fileWriter = new FileWriter(file);

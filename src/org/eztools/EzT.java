@@ -14,6 +14,7 @@ import org.eztools.impl.ItemSaverImpl;
 import org.eztools.impl.TransferToolImpl;
 import org.eztools.listener.ServerLoadListener;
 import org.eztools.storage.JsonStorage;
+import org.eztools.storage.MysqlStorage;
 import org.eztools.storage.YamlStorage;
 import org.eztools.utils.ReflectionAPI;
 
@@ -21,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.sql.SQLException;
 
 public final class EzT extends JavaPlugin {
 
@@ -68,6 +70,16 @@ public final class EzT extends JavaPlugin {
         this.getServer().getConsoleSender().sendMessage("§b" + EzT.getUsingLanguage().get("ezt.loading.succeeded"));
     }
 
+    @Override
+    public void onDisable() {
+        if (ITEM_STORAGE instanceof MysqlStorage) {
+            try {
+                ((MysqlStorage) ITEM_STORAGE).close();
+            } catch (SQLException ignored) {
+            }
+        }
+    }
+
     public static Language getUsingLanguage() {
         return USING_LANGUAGE;
     }
@@ -103,8 +115,9 @@ public final class EzT extends JavaPlugin {
             }
             getInstance().reloadConfig();
             getConfiguration().set("plugin_tips", "language supports zh_cn and en_us, storage support yaml, json, sqlite and mysql!");
-            getConfiguration().addDefault("setting.language", "en_us");
-            getConfiguration().addDefault("setting.storage", "yaml");
+
+            if (!getConfiguration().contains("setting.language")) getConfiguration().set("setting.language", "en_us");
+            if (!getConfiguration().contains("setting.storage")) getConfiguration().set("setting.storage", "yaml");
             getInstance().saveConfig();
             getInstance().reloadConfig();
             switch (getConfiguration().getString("setting.storage", "yaml")) {

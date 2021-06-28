@@ -3,6 +3,7 @@ package lib.ezt.nms.v1_17_R1;
 import com.mojang.brigadier.CommandDispatcher;
 import lib.ezt.nms.v1_17_R1.commands.CommandEzT;
 import lib.ezt.nms.v1_17_R1.commands.CommandEzTItem;
+import lib.ezt.nms.v1_17_R1.commands.CommandEzTStorage;
 import net.minecraft.commands.CommandListenerWrapper;
 import org.eztools.api.command.CommandManager;
 
@@ -18,6 +19,7 @@ public class CommandManager_v1_17_R1 implements CommandManager {
     public void register() {
         CommandEzT.register(this.commandDispatcher);
         CommandEzTItem.register(this.commandDispatcher);
+        CommandEzTStorage.register(this.commandDispatcher);
     }
 
 }
